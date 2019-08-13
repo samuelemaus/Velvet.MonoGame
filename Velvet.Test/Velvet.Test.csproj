@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A7DFB55E-7876-46E7-91CF-AF365ABEF9F0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Velvet</RootNamespace>
+    <AssemblyName>Velvet.Test</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MonoGamePlatform>DesktopGL</MonoGamePlatform>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE;LINUX</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Game1.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\Math.cs" />
+    <Compile Include="Scripts\Rendering\Gradient.cs" />
+    <Compile Include="Scripts\Rendering\Images\BasicImage.cs" />
+    <Compile Include="Scripts\Rendering\Images\Image2D.cs" />
+    <Compile Include="Scripts\Rendering\Images\RectImage.cs" />
+    <Compile Include="Scripts\Rendering\Images\TextImage.cs" />
+    <Compile Include="Scripts\Rendering\Positioning\IAnchorableObject.cs" />
+    <Compile Include="Scripts\Rendering\RenderingEnums.cs" />
+    <Compile Include="Scripts\Rendering\RenderingExtensions.cs" />
+    <Compile Include="Scripts\Test\TestData\TestEquipment.cs" />
+    <Compile Include="Scripts\Test\TestData\TestPerson.cs" />
+    <Compile Include="Scripts\Test\TestUI\TestMenu.cs" />
+    <Compile Include="Scripts\UI\Menus\MenuObjects\Button.cs" />
+    <Compile Include="Scripts\UI\Menus\MenuObjects\MenuText.cs" />
+    <Compile Include="Scripts\UI\Menus\MenuObjects\ObjectSelectedEventArgs.cs" />
+    <Compile Include="Scripts\UI\Menus\MenuObjects\ProgressBar.cs" />
+    <Compile Include="Scripts\UI\Menus\MenuObjects\Timer.cs" />
+    <Compile Include="Scripts\UI\Menus\MenuObjects\ToggleButton.cs" />
+    <Compile Include="Scripts\UI\Menus\MenuObjects\ScrollBar.cs" />
+    <Compile Include="Scripts\UI\Menus\MenuObjects\Slider.cs" />
+    <Compile Include="Scripts\UI\Menus\UI Elements\LabeledValue.cs" />
+    <Compile Include="Scripts\UI\Menus\UI Elements\MenuHeading.cs" />
+    <Compile Include="Scripts\UI\Menus\UI Elements\UIElement.cs" />
+    <Compile Include="Scripts\UI\Menus\Windows\WindowImages\WindowBorder.cs" />
+    <Compile Include="Scripts\UI\UIData.cs" />
+    <Compile Include="Scripts\UI\UIEnums.cs" />
+    <Compile Include="Scripts\UI\UIExtensions.cs" />
+    <Compile Include="Scripts\UI\UIRenderer.cs" />
+    <Compile Include="Scripts\Rendering\Positioning\PositionAnchor.cs" />
+    <Compile Include="Scripts\Rendering\Positioning\ReferencePoint.cs" />
+    <Compile Include="Scripts\Rendering\Positioning\ReferenceRect.cs" />
+    <Compile Include="Scripts\UI\GameData.cs" />
+    <Compile Include="Scripts\UI\Menus\Menu.cs" />
+    <Compile Include="Scripts\UI\Menus\MenuObjects\MenuObject.cs" />
+    <Compile Include="Scripts\UI\Menus\Windows\Window.cs" />
+    <Compile Include="Scripts\UI\Menus\Windows\WindowComponent.cs" />
+    <Compile Include="Scripts\UI\UIController.cs" />
+    <Compile Include="Scripts\UI\UserInterface.cs" />
+    <Compile Include="Scripts\ValueRange.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Icon.ico" />
+    <EmbeddedResource Include="Icon.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="Content\Content.mgcb" />
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\SDL2.dll">
+      <Link>x86\SDL2.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\SDL2.dll">
+      <Link>x64\SDL2.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\soft_oal.dll">
+      <Link>x86\soft_oal.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\soft_oal.dll">
+      <Link>x64\soft_oal.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\libSDL2-2.0.so.0">
+      <Link>x86\libSDL2-2.0.so.0</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\libSDL2-2.0.so.0">
+      <Link>x64\libSDL2-2.0.so.0</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x86\libopenal.so.1">
+      <Link>x86\libopenal.so.1</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\x64\libopenal.so.1">
+      <Link>x64\libopenal.so.1</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\libSDL2-2.0.0.dylib">
+      <Link>libSDL2-2.0.0.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\libopenal.1.dylib">
+      <Link>libopenal.1.dylib</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll.config">
+      <Link>MonoGame.Framework.dll.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="app.config" />
+    <None Include="app.manifest" />
+    <None Include="Content\Fonts\Consolas.spritefont" />
+    <None Include="Content\Fonts\Fipps-Regular.ttf" />
+    <None Include="Content\Fonts\Fipps.spritefont" />
+    <None Include="Content\Fonts\Heading1.spritefont" />
+    <None Include="Content\Fonts\Heading1.TTF" />
+    <None Include="Content\Fonts\Monaco.spritefont" />
+    <None Include="Content\Fonts\monaco.ttf" />
+    <None Include="Content\Fonts\PrimaryMessage - Copy.otf" />
+    <None Include="Content\Fonts\PrimaryMessage.spritefont" />
+    <None Include="Content\Fonts\PrimaryMessage.ttf" />
+    <None Include="Content\Fonts\SpecialMessage.spritefont" />
+    <None Include="Content\Fonts\SpecialMessage.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\UI\Dialog\" />
+    <Folder Include="Scripts\UI\Menus\Windows\MenuWindows\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Fonts\SecondaryMessage.fx" />
+    <Content Include="Content\Images\EmptyRect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Velvet.UI\Velvet.UI.csproj">
+      <Project>{ac6685cf-bbd2-468f-ae65-20c4f0fb9b71}</Project>
+      <Name>Velvet.UI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

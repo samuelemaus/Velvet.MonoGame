@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velvet.Test", "Velvet.Test\Velvet.Test.csproj", "{A7DFB55E-7876-46E7-91CF-AF365ABEF9F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velvet.UI", "Velvet.UI\Velvet.UI.csproj", "{AC6685CF-BBD2-468F-AE65-20C4F0FB9B71}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7DFB55E-7876-46E7-91CF-AF365ABEF9F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7DFB55E-7876-46E7-91CF-AF365ABEF9F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7DFB55E-7876-46E7-91CF-AF365ABEF9F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7DFB55E-7876-46E7-91CF-AF365ABEF9F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC6685CF-BBD2-468F-AE65-20C4F0FB9B71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC6685CF-BBD2-468F-AE65-20C4F0FB9B71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC6685CF-BBD2-468F-AE65-20C4F0FB9B71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC6685CF-BBD2-468F-AE65-20C4F0FB9B71}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {21E98471-C598-4239-A296-0B1858993ED5}
+	EndGlobalSection
+EndGlobal
