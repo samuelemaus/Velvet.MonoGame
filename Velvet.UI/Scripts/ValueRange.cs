@@ -46,7 +46,7 @@ namespace Velvet
 
         }
 
-        public static float EnforceValueRange(float _value, float minValue, float maxValue)
+        public static float Enforce(float _value, float minValue, float maxValue)
         {
             if (_value < minValue)
             {
@@ -62,9 +62,8 @@ namespace Velvet
             {
                 return _value;
             }
-
         }
-        public static float EnforceValueRange(float _value, ValueRange valueRange)
+        public static float Enforce(float _value, ValueRange valueRange)
         {
             if (_value < valueRange.MinimumValue)
             {
@@ -81,6 +80,42 @@ namespace Velvet
                 return _value;
             }
 
+        }
+
+        public static int Enforce(int _value, ValueRange valueRange)
+        {
+            if (_value < valueRange.MinimumValue)
+            {
+                return (int)valueRange.MinimumValue;
+            }
+
+            if (_value > valueRange.MaximumValue)
+            {
+                return (int)valueRange.MaximumValue;
+            }
+
+            else
+            {
+                return (int)_value;
+            }
+        }
+
+        public static int Enforce(int _value, int minValue, int maxValue)
+        {
+            if (_value < minValue)
+            {
+                return minValue;
+            }
+
+            if (_value > maxValue)
+            {
+                return maxValue;
+            }
+
+            else
+            {
+                return _value;
+            }
         }
 
 
