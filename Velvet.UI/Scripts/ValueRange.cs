@@ -46,6 +46,43 @@ namespace Velvet
 
         }
 
+        public static float EnforceValueRange(float _value, float minValue, float maxValue)
+        {
+            if (_value < minValue)
+            {
+                return minValue;
+            }
+
+            if (_value > maxValue)
+            {
+                return maxValue;
+            }
+
+            else
+            {
+                return _value;
+            }
+
+        }
+        public static float EnforceValueRange(float _value, ValueRange valueRange)
+        {
+            if (_value < valueRange.MinimumValue)
+            {
+                return valueRange.MinimumValue;
+            }
+
+            if (_value > valueRange.MaximumValue)
+            {
+                return valueRange.MaximumValue;
+            }
+
+            else
+            {
+                return _value;
+            }
+
+        }
+
 
 
     }
