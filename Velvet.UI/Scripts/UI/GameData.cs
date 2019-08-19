@@ -18,7 +18,7 @@ namespace Velvet
     /// <summary>
     /// Base Class for all Game Data; necessary for anything which needs to interact with UI.
     /// </summary>
-    public abstract class GameData
+    public abstract class GameData : IBindingSource
     {
         #region//Property Data
         private PropertyInfo IdentifyProperty(string propertyName)
@@ -58,7 +58,7 @@ namespace Velvet
             PropertyChanged?.Invoke(this, _value, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+        public bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
         {
             if (EqualityComparer<T>.Default.Equals(field, value))
             {
@@ -94,10 +94,10 @@ namespace Velvet
         {
             bool value = false;
 
-            bool isUIData = _sender is UIData;
+            bool isUIData = _sender is UIViewObject;
 
 
-            UIData sender = _sender as UIData;
+            UIViewObject sender = _sender as UIViewObject;
 
             if (SenderValidated(sender))
             {
@@ -117,7 +117,7 @@ namespace Velvet
 
             return value;
         }
-        private bool SenderValidated(UIData sender)
+        private bool SenderValidated(UIViewObject sender)
         {
             bool value = false;
 
@@ -131,14 +131,14 @@ namespace Velvet
 
             return value;
         }
-        private bool SubscriptionValidated(UIData sender)
+        private bool SubscriptionValidated(UIViewObject sender)
         {
             bool value = false;
 
             //SendValuePropertyChangedEventHandler e = typeof(UIData).GetField(nameof(UIData.SourceValueUpdateSent)).GetValue(sender) as SendValuePropertyChangedEventHandler;
 
 
-            if (typeof(UIData).GetField(nameof(UIData.SourceValueUpdateSent), BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).GetValue(sender) is SendValuePropertyChangedEventHandler e)
+            if (typeof(UIViewObject).GetField(nameof(UIViewObject.SourceValueUpdateSent), BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).GetValue(sender) is SendValuePropertyChangedEventHandler e)
             {
                 Delegate[] subscribers = e.GetInvocationList();
 
@@ -154,7 +154,7 @@ namespace Velvet
 
             return value;
         }
-        private List<UIData> ValidatedUIBindings { get; set; } = new List<UIData>();
+        private List<UIViewObject> ValidatedUIBindings { get; set; } = new List<UIViewObject>();
         #endregion
 
         //__Sample Property__//

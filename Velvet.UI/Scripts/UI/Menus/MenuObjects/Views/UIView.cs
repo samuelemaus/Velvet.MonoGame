@@ -13,12 +13,11 @@ using System.Reflection;
 
 namespace Velvet
 {
-    public abstract class UIData
+    public abstract class UIViewObject
     {
 
         public GameData Data { get; protected set; }
-        public virtual object DisplayedValue { get; protected set; }
-
+        public virtual dynamic DisplayedValue { get; protected set; }
         protected virtual Type propertyType { get;  set; }
         public string LocalPropertyName { get; protected set; }
         public bool BindingActive { get; protected set; }

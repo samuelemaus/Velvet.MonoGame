@@ -10,7 +10,7 @@ using System.ComponentModel;
 
 namespace Velvet
 {
-    public abstract class MenuObject : UIData, IAnchorableObject
+    public abstract class MenuObject : UIViewObject, IAnchorableObject
     {
 
         #region//Content
@@ -27,8 +27,6 @@ namespace Velvet
                 DisplayedValue = _value;
 
                 UpdateImage(_value);
-
-                
             }
         }
 
