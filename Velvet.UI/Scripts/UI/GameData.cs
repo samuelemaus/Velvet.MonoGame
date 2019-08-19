@@ -157,8 +157,6 @@ namespace Velvet
         private List<UIData> ValidatedUIBindings { get; set; } = new List<UIData>();
         #endregion
 
-
-
         //__Sample Property__//
 
         //private string name;
@@ -169,6 +167,13 @@ namespace Velvet
         //}
 
         #endregion
+
+        #region//Data Validation
+
+
+
+        #endregion
+
     }
 
 }

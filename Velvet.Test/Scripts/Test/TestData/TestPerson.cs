@@ -21,7 +21,7 @@ namespace Velvet
             {
                 //int newValue = (int)ValueRange.EnforceValueRange(value, HPRange);
 
-                SetField(ref hp, (int)ValueRange.EnforceValueRange(value, HPRange));
+                SetField(ref hp, (int)ValueRange.Enforce(value, HPRange));
             }
         }
 

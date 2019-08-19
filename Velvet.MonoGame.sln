@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velvet.Test", "Velvet.Test\Velvet.Test.csproj", "{A7DFB55E-7876-46E7-91CF-AF365ABEF9F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velvet.UI", "Velvet.UI\Velvet.UI.csproj", "{AC6685CF-BBD2-468F-AE65-20C4F0FB9B71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Velvet.UI", "Velvet.UI\Velvet.UI.csproj", "{AC6685CF-BBD2-468F-AE65-20C4F0FB9B71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velvet.GameSystems", "Velvet.GameSystems\Velvet.GameSystems.csproj", "{3E972935-D7DB-4CDE-BE5C-7FBC019328D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{AC6685CF-BBD2-468F-AE65-20C4F0FB9B71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC6685CF-BBD2-468F-AE65-20C4F0FB9B71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC6685CF-BBD2-468F-AE65-20C4F0FB9B71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E972935-D7DB-4CDE-BE5C-7FBC019328D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E972935-D7DB-4CDE-BE5C-7FBC019328D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E972935-D7DB-4CDE-BE5C-7FBC019328D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E972935-D7DB-4CDE-BE5C-7FBC019328D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

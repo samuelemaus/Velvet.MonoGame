@@ -50,7 +50,7 @@ namespace Velvet
             set
             {
                 //float returnValue = ValueRange.EnforceValueRange(value, TimeRange);
-                SetField(ref currentValue, ValueRange.EnforceValueRange(value, TimeRange));
+                SetField(ref currentValue, ValueRange.Enforce(value, TimeRange));
                 TimeSpan = TimeSpan.FromSeconds(currentValue);
 
             }
