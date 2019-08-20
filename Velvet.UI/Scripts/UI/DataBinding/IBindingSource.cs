@@ -7,13 +7,15 @@ using System.Reflection;
 
 namespace Velvet.UI
 {
+    public delegate void SendValuePropertyChangedEventHandler(object sender, object _value, PropertyChangedEventArgs e);
+
     public interface IBindingSource
     {
         PropertyInfo[] GetProperties();
         PropertyInfo IdentifyProperty(string propertyName);
 
         event SendValuePropertyChangedEventHandler PropertyChanged;
-        void OnPropertyUpdatedExternally(object sender, object _value, PropertyChangedEventArgs e);
+        void OnPropertySetByControl(object sender, object _value, PropertyChangedEventArgs e);
 
 
 

@@ -22,11 +22,11 @@ namespace Velvet.UI
 
 
     //Text
-    public enum InfoDensity { Default, Cozy, Spacious }
+    public enum InfoDensity { Default, Cozy, Spacious, SetByValue }
 
     public enum TextAlignment { Left, Center, Right }
 
-    public enum TextCase { Default, AllUpper, AllLower }
+    public enum TextCase { Default, AllUpper, AllLower, TitleCase }
 
     public enum HighlightType { TextColor, SolidRect, LineRect }
 

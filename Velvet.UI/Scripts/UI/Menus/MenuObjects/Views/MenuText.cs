@@ -81,9 +81,9 @@ namespace Velvet.UI
         /// <param name="color"></param>
         /// <param name="format"></param>
         /// <param name="iFormattable"></param>
-        public MenuText(GameData data, object property, string propertyName, Vector2 position, float fontScale, Color color, string format = null, IFormattable iFormattable = null)
+        public MenuText(IBindingSource source, object property, string propertyName, Vector2 position, float fontScale, Color color, string format = null, IFormattable iFormattable = null)
         {
-            this.BindTo(data, property, propertyName);
+            this.BindTo(source, property, propertyName);
 
             PropertyType = property.GetType();
 

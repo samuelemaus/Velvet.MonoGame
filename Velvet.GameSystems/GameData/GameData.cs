@@ -10,12 +10,13 @@ using Microsoft.Xna.Framework.Input;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Reflection;
+using Velvet.UI;
 
-namespace Velvet.UI
+namespace Velvet.GameSystems
 {
     //SetField method derived from top answer found here: https://stackoverflow.com/questions/1315621/implementing-inotifypropertychanged-does-a-better-way-exist
 
-    public delegate void SendValuePropertyChangedEventHandler(object sender, object _value, PropertyChangedEventArgs e);
+    
     /// <summary>
     /// 
     /// </summary>
@@ -78,7 +79,7 @@ namespace Velvet.UI
         #endregion
 
         #region//Receiving PropertyChanges from Data
-        public void OnPropertyUpdatedExternally(object sender, object _value, PropertyChangedEventArgs e)
+        public void OnPropertySetByControl(object sender, object _value, PropertyChangedEventArgs e)
         {
             if (PropertyUpdateValidated(sender))
             {

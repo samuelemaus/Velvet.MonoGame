@@ -93,9 +93,9 @@ namespace Velvet.UI
 
         }
 
-        public ToggleButton(GameData data, object property, string propertyName)
+        public ToggleButton(IBindingSource source, object property, string propertyName)
         {
-            this.BindTo(data, property, propertyName);
+            this.BindTo(source, property, propertyName);
 
             ObjectSelected = Toggle;
             

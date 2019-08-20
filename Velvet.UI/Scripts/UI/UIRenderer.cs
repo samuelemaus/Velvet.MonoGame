@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Velvet.UI
 {
+
     public class UIRenderer
     {
 

@@ -14,6 +14,9 @@ namespace Velvet.UI
     {
 
         #region //Vector2
+
+        
+
         public static Vector2 GetRectDifferential(Rectangle source, Rectangle xtarget, Rectangle ytarget, RectRelativity xrel, RectRelativity yrel, ReferencePoint refPoint, int Offset)
         {
             int sourceXRef = source.Width;
@@ -196,7 +199,7 @@ namespace Velvet.UI
 
             return new Vector2(x, y);
         }
-        
+
         //public static Vector2 ScreenCenter()
         //{
 
@@ -204,9 +207,10 @@ namespace Velvet.UI
 
         //public static Vector2 SetPositionBy<T>
 
-        
+
         #endregion
 
+        #region//Color
         public static Color GetInterpolatedColor(Color color1, Color color2, float color2Percentage)
         {
             Color final;
@@ -237,6 +241,9 @@ namespace Velvet.UI
 
         }
 
+
+
+        #endregion
 
         public static void AnchorTo(this RectImage img, Image2D targImg, RectRelativity rel, ReferencePoint refPoint, int offset)
         {

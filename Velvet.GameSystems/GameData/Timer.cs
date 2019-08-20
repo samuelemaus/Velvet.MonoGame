@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Velvet.UI;
 
-namespace Velvet.UI
+
+namespace Velvet.GameSystems
 {
 
     public delegate void TimeThresholdEventHandler(object sender, object _value, EventArgs e);
