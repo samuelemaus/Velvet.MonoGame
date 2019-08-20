@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 
-namespace Velvet
+namespace Velvet.UI
 {
     public class ProgressBar : MenuObject
     {
@@ -89,15 +89,15 @@ namespace Velvet
 
         }
 
-        public ProgressBar(GameData data, object property, string propertyName, ReferenceRect target, List<Color> colorRange, ValueRange valueRange, ProgressBarFillType fillType = ProgressBarFillType.Default, ProgressBarFillColorBehavior colorBehavior = ProgressBarFillColorBehavior.Static)
+        public ProgressBar(IBindingSource source, object property, string propertyName, ReferenceRect target, List<Color> colorRange, ValueRange valueRange, ProgressBarFillType fillType = ProgressBarFillType.Default, ProgressBarFillColorBehavior colorBehavior = ProgressBarFillColorBehavior.Static)
         {
-            Data = data;
+            SourceData = source;
 
             DisplayedValue = property;
 
             LocalPropertyName = propertyName;
 
-            this.BindTo(Data, DisplayedValue, LocalPropertyName);
+            this.BindTo(SourceData, DisplayedValue, LocalPropertyName);
 
             TargetRect = target;
 
@@ -136,7 +136,7 @@ namespace Velvet
 
         public float CurrentValue
         {
-            get => (float)DisplayedValue;
+            get => DisplayedValue;
         }
 
         protected ValueRange ValueRange;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 
-namespace Velvet
+namespace Velvet.UI
 {
     /// <summary>
     /// Wrapper class for Rectangle struct to be used as a Reference-Type.

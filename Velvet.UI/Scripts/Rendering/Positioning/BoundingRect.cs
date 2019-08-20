@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework;
 
-namespace Velvet
+namespace Velvet.UI
 {
-    public interface ITwoWayBindingSource : IBindingSource
+    public struct BoundingRect
     {
-
-
     }
 }

@@ -5,16 +5,20 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Reflection;
 
-namespace Velvet
+namespace Velvet.UI
 {
     public interface IBindingTarget
     {
-        IBindingSource SourceData { get; set; }
-        bool BindingActive { get; set; }
+        IBindingSource SourceData { get;  }
+        string LocalPropertyName { get; }
+        bool BindingActive { get; }
         void PropertyChanged(object sender, object _value, PropertyChangedEventArgs e);
-        void ActivateBinding();
+        //void ActivateBinding();
         void BindTo(IBindingSource source, object property, string propertyName);
-        dynamic DisplayedValue { get; set; }
+        dynamic DisplayedValue { get; }
+
+
+
 
     }
 }

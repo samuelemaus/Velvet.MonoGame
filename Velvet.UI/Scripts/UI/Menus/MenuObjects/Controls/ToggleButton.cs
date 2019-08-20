@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 
-namespace Velvet
+namespace Velvet.UI
 {
     public class ToggleButton : MenuObject
     {
@@ -78,7 +78,7 @@ namespace Velvet
         {
             bool sendValue = !ButtonOn();
 
-            SendValueUpdateToDataSource(sendValue);
+            //SendValueUpdateToDataSource(sendValue);
 
         }
 

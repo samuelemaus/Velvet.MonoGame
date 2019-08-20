@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Velvet.UI
+namespace Velvet.UI.UI
 {
     public class Logger
     {

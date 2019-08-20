@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.ComponentModel;
+using Velvet.UI;
 
 namespace Velvet
 {
@@ -56,8 +57,6 @@ namespace Velvet
 
 
         #endregion
-
-
         #region//Test UIData
         public ToggleButton GlassesToggle;
 
@@ -68,7 +67,6 @@ namespace Velvet
         public ProgressBar TimerProgressBar;
 
         #endregion
-
         #region//Test Images
 
         RectImage RectImageTest;

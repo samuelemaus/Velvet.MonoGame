@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace Velvet.UI
 {
-    public class Gradient
+    public interface IUpdate
     {
-
-
+        void Update(GameTime gameTime);
     }
 }

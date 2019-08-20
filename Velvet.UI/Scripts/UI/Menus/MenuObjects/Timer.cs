@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Velvet
+namespace Velvet.UI
 {
 
     public delegate void TimeThresholdEventHandler(object sender, object _value, EventArgs e);

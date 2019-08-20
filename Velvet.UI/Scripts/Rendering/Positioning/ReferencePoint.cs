@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 
-namespace Velvet
+namespace Velvet.UI
 {
     public struct ReferencePoint
     {

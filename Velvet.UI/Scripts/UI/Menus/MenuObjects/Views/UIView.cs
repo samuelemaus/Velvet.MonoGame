@@ -11,22 +11,22 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Reflection;
 
-namespace Velvet
+namespace Velvet.UI
 {
-    public abstract class UIViewObject
+    public abstract class UIView : IBindingTarget
     {
 
-        public GameData Data { get; protected set; }
+        public IBindingSource SourceData { get; protected set; }
         public virtual dynamic DisplayedValue { get; protected set; }
-        protected virtual Type propertyType { get;  set; }
+        protected virtual Type PropertyType { get;  set; }
         public string LocalPropertyName { get; protected set; }
         public bool BindingActive { get; protected set; }
 
-        protected abstract void PropertyChanged(object sender, object _value, PropertyChangedEventArgs e);
+        public abstract void PropertyChanged(object sender, object _value, PropertyChangedEventArgs e);
 
-        protected void BindTo(GameData data, object property, string propertyName)
+        public void BindTo(IBindingSource source, object property, string propertyName)
         {
-            Data = data;
+            SourceData = source;
             DisplayedValue = property;
             LocalPropertyName = propertyName;
 
@@ -36,22 +36,15 @@ namespace Velvet
 
         protected void ActivateBinding()
         {
-            Data.PropertyChanged += this.PropertyChanged;
+            SourceData.PropertyChanged += this.PropertyChanged;
 
-            this.SourceValueUpdateSent += Data.OnPropertyUpdatedExternally;
+            //this.SourceValueUpdateSent += SourceData.OnPropertyUpdatedExternally;
 
             BindingActive = true;
 
         }
 
-        protected void SendValueUpdateToDataSource(object _value)
-        {
-            SourceValueUpdateSent?.Invoke(this, _value, new PropertyChangedEventArgs(LocalPropertyName));
-        }
-
-
-
-        public event SendValuePropertyChangedEventHandler SourceValueUpdateSent;
+       
 
 
 

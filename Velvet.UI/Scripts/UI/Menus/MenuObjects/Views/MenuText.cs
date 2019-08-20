@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 
-namespace Velvet
+namespace Velvet.UI
 {
     public class MenuText : MenuObject
     {
@@ -85,7 +85,7 @@ namespace Velvet
         {
             this.BindTo(data, property, propertyName);
 
-            propertyType = property.GetType();
+            PropertyType = property.GetType();
 
             Format = format;
 

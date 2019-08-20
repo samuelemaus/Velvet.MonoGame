@@ -8,11 +8,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System.ComponentModel;
 
-namespace Velvet
+namespace Velvet.UI
 {
-    public abstract class MenuObject : UIViewObject, IAnchorableObject
+    public abstract class MenuObject : UIView, IAnchorableObject
     {
-
         #region//Content
         public virtual Image2D Image { get; set; }
 
@@ -20,7 +19,7 @@ namespace Velvet
         #endregion
 
         #region//PropertyChange Handling
-        protected override void PropertyChanged(object sender, object _value, PropertyChangedEventArgs e)
+        public override void PropertyChanged(object sender, object _value, PropertyChangedEventArgs e)
         {
             if (LocalPropertyName == e.PropertyName)
             {

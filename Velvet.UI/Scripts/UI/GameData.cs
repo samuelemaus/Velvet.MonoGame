@@ -11,17 +11,18 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Reflection;
 
-namespace Velvet
+namespace Velvet.UI
 {
-    public delegate void SendValuePropertyChangedEventHandler(object sender, object _value, PropertyChangedEventArgs e);
+    //SetField method derived from top answer found here: https://stackoverflow.com/questions/1315621/implementing-inotifypropertychanged-does-a-better-way-exist
 
+    public delegate void SendValuePropertyChangedEventHandler(object sender, object _value, PropertyChangedEventArgs e);
     /// <summary>
-    /// Base Class for all Game Data; necessary for anything which needs to interact with UI.
+    /// 
     /// </summary>
     public abstract class GameData : IBindingSource
     {
         #region//Property Data
-        private PropertyInfo IdentifyProperty(string propertyName)
+        public PropertyInfo IdentifyProperty(string propertyName)
         {
             PropertyInfo property = null;
 
@@ -36,7 +37,6 @@ namespace Velvet
 
             return property;
         }
-
         public PropertyInfo[] GetProperties()
         {
             Type t = this.GetType();
@@ -53,12 +53,13 @@ namespace Velvet
         #region//Sending Property Changes to Data
         public event SendValuePropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged(object _value, [CallerMemberName] string propertyName = "")
+        protected virtual void OnPropertyChanged(object _value, [CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, _value, new PropertyChangedEventArgs(propertyName));
         }
 
-        public bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+
+        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
         {
             if (EqualityComparer<T>.Default.Equals(field, value))
             {
@@ -90,14 +91,15 @@ namespace Velvet
             }
 
         }
+
         private bool PropertyUpdateValidated(object _sender)
         {
             bool value = false;
 
-            bool isUIData = _sender is UIViewObject;
+            bool isUIData = _sender is ITwoWayBindingTarget;
 
 
-            UIViewObject sender = _sender as UIViewObject;
+            ITwoWayBindingTarget sender = _sender as ITwoWayBindingTarget;
 
             if (SenderValidated(sender))
             {
@@ -117,11 +119,11 @@ namespace Velvet
 
             return value;
         }
-        private bool SenderValidated(UIViewObject sender)
+        private bool SenderValidated(ITwoWayBindingTarget sender)
         {
             bool value = false;
 
-            foreach(var data in ValidatedUIBindings)
+            foreach(var data in ValidatedBindings)
             {
                 if (data == sender)
                 {
@@ -131,14 +133,14 @@ namespace Velvet
 
             return value;
         }
-        private bool SubscriptionValidated(UIViewObject sender)
+        private bool SubscriptionValidated(ITwoWayBindingTarget sender)
         {
             bool value = false;
 
             //SendValuePropertyChangedEventHandler e = typeof(UIData).GetField(nameof(UIData.SourceValueUpdateSent)).GetValue(sender) as SendValuePropertyChangedEventHandler;
 
 
-            if (typeof(UIViewObject).GetField(nameof(UIViewObject.SourceValueUpdateSent), BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).GetValue(sender) is SendValuePropertyChangedEventHandler e)
+            if (typeof(ITwoWayBindingTarget).GetField(nameof(ITwoWayBindingTarget.SourceValueUpdateSent), BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).GetValue(sender) is SendValuePropertyChangedEventHandler e)
             {
                 Delegate[] subscribers = e.GetInvocationList();
 
@@ -154,7 +156,7 @@ namespace Velvet
 
             return value;
         }
-        private List<UIViewObject> ValidatedUIBindings { get; set; } = new List<UIViewObject>();
+        private List<ITwoWayBindingTarget> ValidatedBindings { get; set; } = new List<ITwoWayBindingTarget>();
         #endregion
 
         //__Sample Property__//
@@ -168,11 +170,7 @@ namespace Velvet
 
         #endregion
 
-        #region//Data Validation
 
-
-
-        #endregion
 
     }
 
