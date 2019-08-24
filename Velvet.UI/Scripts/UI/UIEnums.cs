@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Velvet.UI
 {
-    public enum Order { Ascending, Descending}
+    
 
     
 

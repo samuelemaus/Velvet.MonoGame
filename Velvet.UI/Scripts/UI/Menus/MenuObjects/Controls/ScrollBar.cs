@@ -10,12 +10,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Velvet.UI
 {
-    public class ScrollBar : MenuObject
+    public class ScrollBar
     {
-        protected override void UpdateImage(object _value)
-        {
-
-        }
+        
 
     }
 }

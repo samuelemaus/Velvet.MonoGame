@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Velvet.UI;
+using Velvet;
+using Velvet.Rendering;
 
 namespace Velvet.GameSystems
 {

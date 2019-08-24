@@ -1,99 +1,100 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Input;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using Microsoft.Xna.Framework.Graphics;
+//using Microsoft.Xna.Framework;
+//using Microsoft.Xna.Framework.Content;
+//using Microsoft.Xna.Framework.Input;
+//using Velvet.Rendering;
 
-namespace Velvet.UI
-{
+//namespace Velvet.UI
+//{
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public class Slider : MenuObject
-    {
+//    /// <summary>
+//    /// 
+//    /// </summary>
+//    public class Slider
+//    {
 
-        #region//Base
-        protected override void UpdateImage(object _value)
-        {
+//        #region//Base
+//        protected override void UpdateImage(object _value)
+//        {
 
-        }
-        #endregion
+//        }
+//        #endregion
 
-        #region//Content
+//        #region//Content
 
-        #region//Images
+//        #region//Images
 
-        public Image2D Indicator;
-        public Image2D BackgroundLine;
-        public Image2D[] IntervalImages;
+//        public Image2D Indicator;
+//        public Image2D BackgroundLine;
+//        public Image2D[] IntervalImages;
 
-        private void InitializeImages()
-        {
-            IntervalImages = new Image2D[NumIntervals];
-        }
+//        private void InitializeImages()
+//        {
+//            IntervalImages = new Image2D[NumIntervals];
+//        }
 
-        #endregion
+//        #endregion
 
-        public ValueRange ValueRange;
-        public Orientation Orientation { get; set; }
+//        public ValueRange ValueRange;
+//        public Orientation Orientation { get; set; }
 
-        public SliderIntervalDivision ValueGradient { get; set; }
+//        public SliderIntervalDivision ValueGradient { get; set; }
 
-        private int numIntervals;
-        public int NumIntervals
-        {
-            get
-            {
-                return numIntervals;
-            }
+//        private int numIntervals;
+//        public int NumIntervals
+//        {
+//            get
+//            {
+//                return numIntervals;
+//            }
 
-            set
-            {
-                if (ValueGradient == SliderIntervalDivision.FullRange)
-                {
-                    numIntervals = (int)ValueRange.MaximumValue;
-                }
+//            set
+//            {
+//                if (ValueGradient == SliderIntervalDivision.FullRange)
+//                {
+//                    numIntervals = (int)ValueRange.MaximumValue;
+//                }
 
 
-            }
+//            }
 
-        }
+//        }
 
-        private Vector2[] intervalPositions;
+//        private Vector2[] intervalPositions;
 
-        private void Initialize()
-        {
-            intervalPositions = new Vector2[NumIntervals];
+//        private void Initialize()
+//        {
+//            intervalPositions = new Vector2[NumIntervals];
 
-            InitializeImages();
+//            InitializeImages();
 
-        }
+//        }
         
 
 
 
-        #endregion
+//        #endregion
 
-        #region//Sliding Mechanics
+//        #region//Sliding Mechanics
 
-        //Settings
+//        //Settings
 
-        /// <summary>
-        /// When using Mouse controls, the distance (in pixels) the Indicator has to be to the next IntervalNotch to snap. E.g., with a value of 4, the Indicator will snap to the nearest IntervalNotch when within 4 pixels of its center.
-        /// </summary>
-        public float SnapSensitivity { get; set; }
-        public bool MoveIndicatorWithMouse { get; set; }
-
-
+//        /// <summary>
+//        /// When using Mouse controls, the distance (in pixels) the Indicator has to be to the next IntervalNotch to snap. E.g., with a value of 4, the Indicator will snap to the nearest IntervalNotch when within 4 pixels of its center.
+//        /// </summary>
+//        public float SnapSensitivity { get; set; }
+//        public bool MoveIndicatorWithMouse { get; set; }
 
 
-        #endregion
 
 
-    }
-}
+//        #endregion
+
+
+//    }
+//}

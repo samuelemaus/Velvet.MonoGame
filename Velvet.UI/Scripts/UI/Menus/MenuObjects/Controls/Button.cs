@@ -7,17 +7,15 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using Velvet.Rendering;
 
 namespace Velvet.UI
 {
-    public class Button : MenuObject
+    public class Button
     {
-        protected override void UpdateImage(object _value)
-        {
+       
 
-        }
-
-        public override Image2D Image { get; set; } = new BasicImage();
+        
 
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System.ComponentModel;
+using Velvet.Rendering;
 
 namespace Velvet.UI
 {
@@ -68,7 +69,7 @@ namespace Velvet.UI
 
         public virtual void LoadContent()
         {
-            Image.LoadContent();
+            //Image.LoadContent();
         }
 
         public virtual void Update(GameTime gameTime)

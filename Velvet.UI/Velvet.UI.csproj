@@ -7,6 +7,7 @@
   <ItemGroup>
     <Folder Include="Scripts\UI\Dialog\" />
     <Folder Include="Scripts\UI\Menus\MenuThemes\" />
+    <Folder Include="Scripts\UI\Menus\UI Elements\" />
     <Folder Include="Scripts\UI\Menus\Windows\MenuWindows\" />
     <Folder Include="UI Assets\" />
   </ItemGroup>
@@ -17,7 +18,10 @@
 
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\MSBuild\MonoGame\v3.0\Tools\MonoGame.Framework.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\MSBuild\MonoGame\v3.0\Tools\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Velvet">
+      <HintPath>..\Velvet\bin\Debug\netstandard2.0\Velvet.dll</HintPath>
     </Reference>
   </ItemGroup>
 

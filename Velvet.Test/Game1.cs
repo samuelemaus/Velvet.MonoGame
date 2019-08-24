@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Velvet.UI;
+using Velvet.GameSystems;
+using Velvet.Rendering;
 
 namespace Velvet
 {
@@ -16,12 +18,13 @@ namespace Velvet
 
         public static UserInterface UI;
 
+        
+
         public TestMenu TestMenu;
 
         
         public Game1()
         {
-
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";

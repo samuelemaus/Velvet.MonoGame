@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Reflection;
-using Velvet.UI;
+using Velvet;
 
 namespace Velvet.GameSystems
 {

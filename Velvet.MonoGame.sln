@@ -10,10 +10,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velvet.Test", "Velvet.Test\
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Velvet.UI", "Velvet.UI\Velvet.UI.csproj", "{AC6685CF-BBD2-468F-AE65-20C4F0FB9B71}"
+	ProjectSection(ProjectDependencies) = postProject
+		{27BB17A7-5735-4A4E-AA68-01E5EE52DFCD} = {27BB17A7-5735-4A4E-AA68-01E5EE52DFCD}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Velvet.GameSystems", "Velvet.GameSystems\Velvet.GameSystems.csproj", "{3E972935-D7DB-4CDE-BE5C-7FBC019328D1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{27BB17A7-5735-4A4E-AA68-01E5EE52DFCD} = {27BB17A7-5735-4A4E-AA68-01E5EE52DFCD}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velvet", "Velvet\Velvet.csproj", "{27BB17A7-5735-4A4E-AA68-01E5EE52DFCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Velvet", "Velvet\Velvet.csproj", "{27BB17A7-5735-4A4E-AA68-01E5EE52DFCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velvet.DataIO", "Velvet.DataIO\Velvet.DataIO.csproj", "{8342FCD3-A206-43CF-991B-F104B956969B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velvet.TestConsole", "Velvet.TestConsole\Velvet.TestConsole.csproj", "{A7543056-F531-413E-AC2F-04DEAE07B4A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +47,14 @@ Global
 		{27BB17A7-5735-4A4E-AA68-01E5EE52DFCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27BB17A7-5735-4A4E-AA68-01E5EE52DFCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27BB17A7-5735-4A4E-AA68-01E5EE52DFCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8342FCD3-A206-43CF-991B-F104B956969B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8342FCD3-A206-43CF-991B-F104B956969B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8342FCD3-A206-43CF-991B-F104B956969B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8342FCD3-A206-43CF-991B-F104B956969B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7543056-F531-413E-AC2F-04DEAE07B4A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7543056-F531-413E-AC2F-04DEAE07B4A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7543056-F531-413E-AC2F-04DEAE07B4A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7543056-F531-413E-AC2F-04DEAE07B4A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
