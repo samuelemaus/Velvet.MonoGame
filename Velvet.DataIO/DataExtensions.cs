@@ -13,25 +13,12 @@ namespace Velvet.DataIO
     public static class DataExtensions
     {
         public static ConsoleLogger Logger = new ConsoleLogger();
-        public static PropertyInfo[] GetProperties<T>(this T obj) where T : class
-        {
-            Type type = obj.GetType();
-
-            return type.GetProperties();
-
-        }
-        public static FieldInfo[] GetFields<T>(this T obj) where T : class
-        {
-            Type type = obj.GetType();
-
-            return type.GetFields();
-        }
-        public static MemberInfo[] GetMemberInfos<T>(this T obj) where T : class
+        public static MemberInfo[] GetBasicMemberInfos(this Type type)
         {
             List<MemberInfo> returnList = new List<MemberInfo>();
 
-            returnList.AddRange(obj.GetProperties());
-            returnList.AddRange(obj.GetFields());
+            returnList.AddRange(type.GetProperties());
+            returnList.AddRange(type.GetFields());
 
             return returnList.ToArray();
 
@@ -55,56 +42,72 @@ namespace Velvet.DataIO
                     );
             }
         }
-        public static Type[] GetVariableTypes<T>(this T obj) where T : class
+        public static DataInfoIndex<T> ToDataInfoIndex<T>(this Type type) where T : class
         {
-            //Type type = obj.GetType();
+            return new DataInfoIndex<T>(type);
+        }
+        public static MemberInfo GetMemberInfoByArguments(this Type type, string memberName, Type memberType)
+        {
+            MemberInfo value = default;
 
-            List<Type> types = new List<Type>();
-
-            foreach (var propType in obj.GetProperties())
+            foreach(var info in type.GetBasicMemberInfos())
             {
-                types.Add(propType.PropertyType);
+                if(memberName == info.Name && memberType == info.GetUnderlyingType())
+                {
+                    return info;
+                }
             }
 
-            foreach(var fieldType in obj.GetFields())
+            return value;
+        }
+        public static void SetMemberValue(this MemberInfo info, object target, object value)
+        {
+            MemberTypes type = info.MemberType;
+
+
+
+            if(type == MemberTypes.Property)
             {
-                types.Add(fieldType.FieldType);
+                PropertyInfo prop = info as PropertyInfo;
+
+                try
+                {
+                    if (value != null && value != "")
+                    {
+                        prop.SetValue(target, value);
+                    }
+                    else
+                    {
+                        prop.GetValue(target);
+                    }
+
+                   
+                }
+
+                catch(Exception)
+                {
+                    prop.GetValue(target);
+                }
+
+
+
             }
 
+            else if(type == MemberTypes.Field)
+            {
+                FieldInfo field = info as FieldInfo;
+
+                try
+                {
+                    field.SetValue(target, value);
+                }
+
+                catch (Exception)
+                {
+                    field.GetValue(target);
+                }
+            }
             
-            return types.ToArray();
-
-
-        }
-
-        public static Dictionary<Type, string> GetDataIndex(this MemberInfo[] infos)
-        {
-            Dictionary<Type, string> returnDict = new Dictionary<Type, string>();
-
-            for (int i = 0; i < infos.Length; i++)
-            {
-                Type t = infos[i].GetUnderlyingType();
-                string s = infos[i].Name;
-
-                returnDict.Add(t, s);
-
-            }
-
-            return returnDict;
-        }
-
-        public static DataInfoIndex<T> ToDataInfoIndex<T>(this T obj) where T : class
-        {
-            return new DataInfoIndex<T>(obj);
-        }
-
-        public static DataInfoIndex<T> ToDataInfoIndex<T>(this RawFileData data) where T : class
-        {
-            T obj = default;
-
-
-
-            return new DataInfoIndex<T>(obj);
         }
 
         public static bool IsNullable<T>(this T obj)
@@ -130,69 +133,41 @@ namespace Velvet.DataIO
             
         }
 
-        public static bool IsParseableFromString(this Type type)
+        public static TypeParser GetParserByType(this Type type)
         {
-            bool value = false;
+            TypeParser value = default;
 
-            return value;
-        }
-
-        public static T TryParseFromString<T>(this T obj, string text)
-        {
-            Type type = obj.GetType();
-
-            T value = default;
-
-            if (type.IsParseableFromString())
+            foreach (var parser in TypeParser.Parsers)
             {
+                if (type == parser.Type)
+                {
+                    value = parser;
 
+                    return value;
+                }
+            }
 
+            bool checkForParent = value == default;
+
+            if (checkForParent)
+            {
+                foreach (var parser in TypeParser.Parsers)
+                {
+                    if (type.BaseType == parser.Type)
+                    {
+                        value = parser;
+                    }
+                }
             }
 
 
             return value;
-            
         }
 
-        //public static bool DataContains(this RawFileData data, KeyValuePair<string, Type> entry)
-        //{
-
-        //}
-        
-        
-        #region//Parse From String Methods
-
-        public static Vector2 ParseToVector2(this string text)
-        {
-            Vector2 value = default;
-
-            Regex regex = new Regex(Vector2ParseFormat);
-
-            float x = 0;
-            float y = 0;
-
-            var matches = regex.Matches(text);
-
-            if(matches != null && matches.Count >= 2)
-            {
-                string xMatch = matches[0].Value;
-                string yMatch = matches[1].Value;
-
-                x = float.Parse(xMatch);
-                y = float.Parse(yMatch);
-
-                value = new Vector2(x, y);
-            }
 
 
-
-            return value;
-
-        }
-
-        private static string Vector2ParseFormat = @"[-+]?[0-9]*\.?[0-9]+";
-
-        #endregion
 
     }
+
+
 }

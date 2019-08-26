@@ -9,44 +9,30 @@ namespace Velvet.DataIO
     public class DataManager
     {
         public ILogger Logger = new ConsoleLogger();
-
         public DataReader Reader { get; set; } = new DataReader();
         public DataConverter Converter { get; set; } = new DataConverter();
 
-        //public T Load<T>(string path) where T : class
-        //{
-
-        //}
-
-        public void Load(string path)
+        public T[] LoadObjects<T>(string path) where T : class, new()
         {
-            bool initialValidated = Reader.DataValidated_Initial(path);
+            var data = Reader.GetRawFileData(path);
 
-            if (initialValidated)
-            {
-                string[] formatted = Reader.GetFormattedData(path);
-                Logger.Log(formatted.Length.ToString());
-                
-            }
+            return Converter.CreateObjectsFromData<T>(data);
+
         }
-
-        public void RLoad(string path)
+        public T Load<T>(string path, int lineIndex) where T : class, new()
         {
-            bool initialValidated = Reader.DataValidated_Initial(path);
+            var data = Reader.GetRawFileData(path);
 
-            if (initialValidated)
-            {
-                RawFileData data = Reader.GetRawFileData(path);
-                //Logger.Log(data.ToString());
-
-                
-            }
+            return Converter.CreateObjectFromData<T>(data, lineIndex);
 
         }
 
+        #region//Setings
         public static string DefaultDirectory = "Content";
 
         private static string FullDirectoryPath = Path.GetFullPath(@"..\..\..\" + DefaultDirectory + @"\");
+        #endregion
+
 
         public static string GetFullPath(string entry)
         {

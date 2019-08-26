@@ -11,45 +11,16 @@ namespace Velvet.DataIO
     {
         public ILogger Logger;
 
-        public string[] GetFormattedData(string path)
-        {
-            List<string> returnList = new List<string>();
-
-            Parser.Logger = Logger;
-
-            Logger.Log(nameof(DataValidated_Initial) + ": Succeeded.");
-
-            string extension = GetFileExtension(path);
-
-            foreach(var p in DataManager.ImplementedProtocols)
-            {
-                if(extension == p.FileExtension)
-                {
-                    Parser.Protocol = p;
-                }
-            } 
-
-            List<string> unformatted = LoadUnformattedData(DataManager.GetFullPath(path));
-
-            //Logger.Log("Unformatted Data: ");
-            Logger.Log("UF Count: " + unformatted.Count.ToString());
-
-            foreach (var d in unformatted)
-            {
-                string[] formatted = Parser.GetParsedContent(d);
-               
-                returnList.AddRange(formatted);
-
-            }
-
-            Logger.Log(returnList);
-            return returnList.ToArray();
-
-        }
+        FileParser Parser = new FileParser();
 
         public RawFileData GetRawFileData(string path)
         {
             RawFileData returnData = RawFileData.Empty;
+
+            if (!DataValidated_Initial(path))
+            {
+                return returnData;
+            }
 
             int numFields = 0;
             int numItems = 0;
@@ -70,7 +41,7 @@ namespace Velvet.DataIO
 
             List<string> unformatted = LoadUnformattedData(DataManager.GetFullPath(path));
 
-            numItems = unformatted.Count;
+            numItems = unformatted.Count - 1;
 
             headings = Parser.GetParsedContent(unformatted[0]);
 
@@ -80,7 +51,7 @@ namespace Velvet.DataIO
 
             for (int i = 0; i < numItems; i++)
             {
-                entries[i] = Parser.GetParsedContent(unformatted[i]);
+                entries[i] = Parser.GetParsedContent(unformatted[i + 1]);
             }
 
             returnData = new RawFileData(headings, entries, numFields);
@@ -101,7 +72,7 @@ namespace Velvet.DataIO
             return searchList;
         }
 
-        Parser Parser = new Parser();
+ 
 
 
         #region//Validation

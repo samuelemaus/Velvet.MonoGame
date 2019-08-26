@@ -5,29 +5,21 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Linq;
 using System.IO;
-
+using System.Runtime.InteropServices;
 
 namespace Velvet.DataIO
 {
     public class DataConverter
     {
-        public RawFileData RawData { get; set; }
-
-        TypeConverter Converter { get; set; } = new TypeConverter();
-
-        public bool ValidatedAsType<T>(T obj, RawFileData data) where T : class
+        public bool ValidatedAsType<T>(RawFileData data) where T : class
         {
+            Type t = typeof(T);
+
             bool typeValidated = false;
 
-            string[] objMemberNames = obj.ToDataInfoIndex().Index.Keys.AsEnumerable().ToArray();
-            
+            string[] objMemberNames = t.ToDataInfoIndex<T>().Index.Keys.AsEnumerable().ToArray();
 
-
-
-            //RawData Info
             string[] rawDataTypeNames = data.FieldHeadings;
-
-
 
             for (int i = 0; i < objMemberNames.Length; i++)
             {
@@ -51,110 +43,81 @@ namespace Velvet.DataIO
             return typeValidated;
 
         }
-
-        int GetLongerArray(string[] array1, string[] array2)
+        public bool ValuesCompatibleWithMemberTypes<T>(RawFileData data, int lineIndex) where T : class
         {
-            int length1 = array1.Length;
-            int length2 = array2.Length;
+            T obj = default;
 
-            int value = 0;
-
-            if(length1 >= length2)
-            {
-                value = length1;
-            }
-
-            else
-            {
-                value = length2;
-            }
-
-            return value;
-        }
-
-        public bool CanSafelyConvert;
-
-        //protected DataInfoIndex<T> ExtractToDataInfoIndex<T>(T obj, RawFileData data) where T : class
-        //{
-        //    Type[] targetTypes = obj.GetVariableTypes();
-
-
-
-        //}
-
-        public bool ValuesCompatibleWithMemberTypes<T>(T obj, RawFileData data, int lineIndex) where T : class
-        {
             bool value = false;
 
-            var objIndex = obj.ToDataInfoIndex();
+            //var objIndex = default;
 
-            for (int i = 0; i < data.NumMembers; i++)
-            {
-                Type targetType = null;
+            //for (int i = 0; i < data.NumMembers; i++)
+            //{
+            //    Type targetType = null;
 
-                foreach(var entry in objIndex.Index)
-                {
-                    if(entry.Key == data.Entries[lineIndex][i])
-                    {
-                        targetType = entry.Value;
-                    }
+            //    foreach(var entry in objIndex.Index)
+            //    {
+            //        if(entry.Key == data.Entries[lineIndex][i])
+            //        {
+            //            targetType = entry.Value;
+            //        }
 
-                }
+            //    }
 
-
-
-            }
+            //}
 
             return value;
 
 
         }
 
-        public  T[] LoadObjects<T>(T obj, RawFileData data) where T : class
+
+        public T[] CreateObjectsFromData<T>(RawFileData data) where T : class, new()
         {
             int objectsCount = data.Entries.Length;
 
             T[] objects = new T[objectsCount];
 
-            DataInfoIndex<T> objDataIndex = obj.ToDataInfoIndex();
-
-            if (ValidatedAsType(obj, data))
+            for (int i = 0; i < objects.Length; i++)
             {
-                Type[] targetTypes = GetTypeMap<T>(objDataIndex, data);
+                objects[i] = CreateObjectFromData<T>(data, i);
 
-                for (int i = 0; i < objects.Length; i++)
-                {
-                    T newObject = default;
-
-                    string[] valuesString = data.Entries[i];
-
-                    for (int j = 0; j < data.NumMembers; j++)
-                    {
-                        Type targetType = targetTypes[j];
-
-                        string typeValueString = valuesString[j];
-
-                        object value = targetType.TryParseFromString(typeValueString);
-
-                        ITypeDescriptorContext context;
-
-                        
-                        
-
-                    }
-
-
-                    objects[i] = newObject;
-
-                }
             }
 
 
             return objects;
 
         }
-      
-        private Type[] GetTypeMap<T>(DataInfoIndex<T> index, RawFileData data) where T : class
+        
+        public T CreateObjectFromData<T>(RawFileData data, int lineIndex) where T : class, new()
+        {
+            T value = new T();
+
+            Type t = typeof(T);
+
+            var dataIndex = t.ToDataInfoIndex<T>();
+
+            Type[] typeMap = GetObjectTypeMap(dataIndex, data);
+
+            object[] parameters = new object[data.NumMembers];
+
+            for (int i = 0; i < parameters.Length; i++)
+            {
+
+                string valueText = data.Entries[lineIndex][i];
+
+                parameters[i] = CreateFromTypeParser(typeMap[i], valueText, typeMap[i]);
+
+                MemberInfo info = t.GetMemberInfoByArguments(data.FieldHeadings[i], typeMap[i]);
+
+                info.SetMemberValue(value, parameters[i]);
+
+            }
+
+
+            return value;
+        }
+        private Type[] GetObjectTypeMap<T>(DataInfoIndex<T> index, RawFileData data) where T : class
         {
             Type[] types = new Type[data.NumMembers];
 
@@ -172,5 +135,19 @@ namespace Velvet.DataIO
 
             return types;
         }
+        protected object CreateFromTypeParser(Type type, string text, object args = null)
+        {
+            var parser = type.GetParserByType();
+            try
+            {
+                return parser.InvokeParser(text, args);
+            }
+
+            catch (Exception)
+            {
+                return default;
+            }
+        }
+
     }
 }

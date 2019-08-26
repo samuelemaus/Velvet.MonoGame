@@ -20,9 +20,32 @@ namespace Velvet.DataIO
             Index = GetDataIndex(obj);
         }
 
-        private static Dictionary<string, Type> GetDataIndex<T> (T obj) where T : class
+        public DataInfoIndex(Type type)
         {
-            MemberInfo[] infos = obj.GetMemberInfos();
+            Index = GetDataIndex(type);
+        }
+
+        private static Dictionary<string, Type> GetDataIndex (T obj)
+        {
+            MemberInfo[] infos = obj.GetType().GetBasicMemberInfos();
+
+            Dictionary<string, Type> returnDict = new Dictionary<string, Type>();
+
+            for (int i = 0; i < infos.Length; i++)
+            {
+                Type t = infos[i].GetUnderlyingType();
+                string s = infos[i].Name;
+
+                returnDict.Add(s, t);
+
+            }
+
+            return returnDict;
+        }
+
+        private static Dictionary<string, Type> GetDataIndex (Type type)
+        {
+            MemberInfo[] infos = type.GetBasicMemberInfos();
 
             Dictionary<string, Type> returnDict = new Dictionary<string, Type>();
 

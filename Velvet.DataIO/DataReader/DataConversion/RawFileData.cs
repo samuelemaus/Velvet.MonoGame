@@ -19,11 +19,6 @@ namespace Velvet.DataIO
             NumMembers = numFields;
         }
 
-        //public RawFileData(string[] lines, int numFields)
-        //{
-        //    Lines = lines;
-        //    NumFields = numFields;
-        //}
 
         private static RawFileData empty = new RawFileData(new string[0], new string[0][], 0);
 

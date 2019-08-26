@@ -8,10 +8,10 @@ namespace Velvet.TestConsole
 {
     public class TestPerson
     {
-        public string Name { get; set; }
-        public string HairColor { get; set; }
-        public string EyeColor { get; set; }
-        public int Age { get; set; }
+        public string Name { get; set; } = "Wiener";
+        public string HairColor { get; set; } = "Purple";
+        public string EyeColor { get; set; } = "Gray";
+        public int Age { get; set; } = 100;
         public Vector2 Position { get; set; }
 
 

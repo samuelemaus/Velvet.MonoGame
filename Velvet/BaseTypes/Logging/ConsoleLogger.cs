@@ -14,15 +14,16 @@ namespace Velvet
 
         public int MaxLogCapacity => 0;
 
+
         public void Log(string message)
         {
+
             if (LoggerActive)
             {
                 Console.WriteLine(message);
             }
             
         }
-
         public void Log(IEnumerable<string> messages)
         {
             foreach(var m in messages)
@@ -30,12 +31,19 @@ namespace Velvet
                 Log(m);
             }
         }
-
         public void Log(object message)
         {
-            Log(message.ToString());
-        }
+            if(message != null)
+            {
+                Log(message.ToString());
+            }
 
+            else
+            {
+                Log("Null object");
+            }
+
+        }
         public void Log(IEnumerable<object> messages)
         {
             foreach(var m in messages)
