@@ -26,13 +26,9 @@ namespace Velvet.TestConsole
         static void Main(string[] args)
         {
 
-
             DataManager Manager = new DataManager();
             Manager.Logger.LoggerActive = true;
             Manager.Reader.Logger = Manager.Logger;
-
-            
-            
 
             TestPerson[] testPeople = Manager.LoadObjects<TestPerson>("TestData.csv");
 

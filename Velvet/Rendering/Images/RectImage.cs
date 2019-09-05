@@ -1,220 +1,82 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using Microsoft.Xna.Framework.Graphics;
-//using Microsoft.Xna.Framework;
-//using Microsoft.Xna.Framework.Content;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
-//namespace Velvet.Rendering
-//{
-//    /// <summary>
-//    /// An Image that fills the space of a desginated Target Rectangle.  Can be filled with  Texture, but defaults to a single pixel that can be colored.
-//    /// </summary>
-//    public class RectImage : Image2D
-//    {
-//        public RectImage()
-//        {
-//            TargetRect = new ReferenceRect();
-//            DrawOrigin = ReferencePoint.TopLeft;
-//        }
+namespace Velvet
+{
+    /// <summary>
+    /// An Image that fills the space of a desginated Target Rectangle.  Can be filled with  Texture, but defaults to a single pixel that can be colored.
+    /// </summary>
+    public class RectImage : Image, IDrawableTexture
+    {
+        #region//Constructors
+        public RectImage()
+        {
 
-//        public RectImage(ReferenceRect rect)
-//        {
-//            InitializeToDefaults();
-//            DrawOrigin = ReferencePoint.TopLeft;
+        }
 
-//            TargetRect = rect;
+        public RectImage(BoundingRect target)
+        {
+            InitialTargetRect = target;
+        }
 
-//        }
+        public RectImage(Rectangle target)
+        {
+            InitialTargetRect = new BoundingRect(target);
+        }
 
+        #endregion
 
-//        #region//Dimensions
-//        public ReferenceRect TargetRect;
+        #region//Content
 
-//        protected override void InitializeDimensions()
-//        {
-//            Dimensions.X = Texture.Width;
-//            Dimensions.Y = Texture.Height;
+        protected BoundingRect InitialTargetRect;
 
-//            if (SourceRect == Rectangle.Empty)
-//            {
-//                SourceRect = new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y);
-//            }
+        public ReferencePoint OriginReferencePoint { get; protected set; } = ReferencePoint.Centered;
 
-//            Position = TargetRect.Content.Location.ToVector2();
 
-//            InitializeOrigin();
+        #endregion
 
-//            CurrentRect = TargetRect;
+        #region//IDrawableTexture
 
+        public static Texture2D DefaultRectImageTexture;
+        public Texture2D Texture { get; protected set; } = DefaultRectImageTexture;
 
-//        }
-//        protected override void InitializeContent(IRenderer2D renderer2D)
-//        {
-//            base.InitializeContent(renderer2D);
+        public static string DefaultPath = "Images/EmptyRect";
+        public string FilePath { get; set; } = DefaultPath;
+        #endregion
 
-//            if (FilePath != null)
-//            {
-//                Texture = content.Load<Texture2D>(FilePath);
-//            }
+        protected override DrawDelegate DrawMethod { get; set; }
 
-//            else
-//            {
-//                Texture = content.Load<Texture2D>("Images/EmptyRect");
-//            }
-//        }
-//        protected override void InitializeOrigin()
-//        {
-//            float x = 0;
-//            float y = 0;
 
-//            switch (DrawOrigin.X)
-//            {
-//                case XReference.Center:
+        public void SetTexture(Texture2D texture)
+        {
+            Texture = texture;
+        }
 
-//                    x = TargetRect.Content.Width / 2;
+        protected override void InitializeDimensions()
+        {
+            SetDimensions(InitialTargetRect.Dimensions);
+        }
 
-//                    break;
+        protected override void SetOrigin()
+        {
+            Origin = InitialTargetRect.GetOrigin(OriginReferencePoint);
+        }
 
-//                case XReference.Left:
+        #region//XNA Methods
 
-//                    x = 0;
+        protected void DrawRect(SpriteBatch spriteBatch)
+        {
+            
+        }
 
-//                    break;
 
-//                case XReference.Right:
 
-//                    x = TargetRect.Content.Width;
-
-//                    break;
-//            }
-
-//            switch (DrawOrigin.Y)
-//            {
-//                case YReference.Center:
-
-//                    y = TargetRect.Content.Height / 2;
-
-//                    break;
-
-//                case YReference.Top:
-
-//                    y = 0;
-
-//                    break;
-
-//                case YReference.Bottom:
-
-//                    y = TargetRect.Content.Height;
-
-//                    break;
-//            }
-
-//            Origin = new Vector2(x, y);
-
-//        }
-//        protected override void SetOrigin()
-//        {
-//            float x = 0;
-//            float y = 0;
-
-//            switch (DrawOrigin.X)
-//            {
-//                case XReference.Center:
-
-//                    x = TargetRect.Content.Width / 2;
-
-//                    break;
-
-//                case XReference.Left:
-
-//                    x = 0;
-
-//                    break;
-
-//                case XReference.Right:
-
-//                    x = TargetRect.Content.Width;
-
-//                    break;
-//            }
-
-//            switch (DrawOrigin.Y)
-//            {
-//                case YReference.Center:
-
-//                    y = TargetRect.Content.Height / 2;
-
-//                    break;
-
-//                case YReference.Top:
-
-//                    y = 0;
-
-//                    break;
-
-//                case YReference.Bottom:
-
-//                    y = TargetRect.Content.Height;
-
-//                    break;
-//            }
-
-//            Origin.X = x;
-//            Origin.Y = y;
-//        }
-//        protected override void UpdateDimensions()
-//        {
-//            Dimensions.X = System.Math.Abs(Texture.Width * Scale.X);
-//            Dimensions.Y = System.Math.Abs(Texture.Width * Scale.Y);
-
-
-//            //SetOrigin();
-
-//            SetPositionToAnchor();
-//        }
-//        protected override void SetPositionToAnchor()
-//        {
-//            if (TargetRect.IsAnchored && TargetRect.Anchor != null)
-//            {
-//                if (TargetRect.Anchor.ReferencePoint.BindType == BindType.FullyBound)
-//                {
-//                    Position = TargetRect.Anchor.PositionDifferential;
-//                }
-
-//                else if (TargetRect.Anchor.ReferencePoint.BindType == BindType.X_Unbound)
-//                {
-//                    Position.Y = TargetRect.Anchor.PositionDifferential.Y;
-//                }
-
-//                else if (TargetRect.Anchor.ReferencePoint.BindType == BindType.Y_Unbound)
-//                {
-//                    Position.X = TargetRect.Anchor.PositionDifferential.X;
-//                }
-
-//                else if (TargetRect.Anchor.ReferencePoint.BindType == BindType.Unbound)
-//                {
-//                    TargetRect.IsAnchored = false;
-//                }
-
-//            }
-
-//            else
-//            {
-//                Position = TargetRect.Content.Location.ToVector2();
-//            }
-//        }
-//        #endregion
-
-//        #region//XNA Methods
-
-//        public override void Draw(SpriteBatch spriteBatch)
-//        {
-//            spriteBatch.Draw(Texture, Position, TargetRect.Content, Color * Alpha, Rotation, Origin, Scale, SpriteEffects.None, 0);
-//        }
-
-//        #endregion
-//    }
-//}
+        #endregion
+    }
+}

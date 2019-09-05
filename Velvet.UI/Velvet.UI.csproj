@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Scripts\UI\Dialog\" />
-    <Folder Include="Scripts\UI\Menus\MenuThemes\" />
-    <Folder Include="Scripts\UI\Menus\UI Elements\" />
-    <Folder Include="Scripts\UI\Menus\Windows\MenuWindows\" />
-    <Folder Include="UI Assets\" />
+    <Folder Include="Dialog\" />
+    <Folder Include="Menus\MenuObjects\Controls\ComplexControls\" />
+    <Folder Include="Menus\MenuThemes\" />
+    <Folder Include="Menus\UI Elements\" />
+    <Folder Include="Menus\Windows\MenuWindows\" />
+    <Folder Include="UI Assets\Images\" />
+    <Folder Include="UI Assets\Audio\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -11,6 +11,8 @@ namespace Velvet.DataIO
 {
     public class DataConverter
     {
+
+
         public bool ValidatedAsType<T>(RawFileData data) where T : class
         {
             Type t = typeof(T);
@@ -45,7 +47,7 @@ namespace Velvet.DataIO
         }
         public bool ValuesCompatibleWithMemberTypes<T>(RawFileData data, int lineIndex) where T : class
         {
-            T obj = default;
+           
 
             bool value = false;
 
@@ -71,7 +73,7 @@ namespace Velvet.DataIO
 
         }
 
-
+        #region//Data-to-Objects Conversion
         public T[] CreateObjectsFromData<T>(RawFileData data) where T : class, new()
         {
             int objectsCount = data.Entries.Length;
@@ -88,7 +90,6 @@ namespace Velvet.DataIO
             return objects;
 
         }
-        
         public T CreateObjectFromData<T>(RawFileData data, int lineIndex) where T : class, new()
         {
             T value = new T();
@@ -148,6 +149,16 @@ namespace Velvet.DataIO
                 return default;
             }
         }
+        #endregion
+
+
+        #region//Objects-to-Data Conversion
+
+
+
+
+        #endregion
+
 
     }
 }

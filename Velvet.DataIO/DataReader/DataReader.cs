@@ -12,7 +12,6 @@ namespace Velvet.DataIO
         public ILogger Logger;
 
         FileParser Parser = new FileParser();
-
         public RawFileData GetRawFileData(string path)
         {
             RawFileData returnData = RawFileData.Empty;
@@ -29,7 +28,7 @@ namespace Velvet.DataIO
 
             string extension = GetFileExtension(path);
 
-            foreach (var p in DataManager.ImplementedProtocols)
+            foreach (var p in DataManager.ImplementedFileTypeProtocols)
             {
                 if (extension == p.FileExtension)
                 {
@@ -59,20 +58,22 @@ namespace Velvet.DataIO
             return returnData;
 
         }
-
         List<string> LoadUnformattedData(string path)
         {
-            var reader = new StreamReader(File.OpenRead(path));
             List<string> searchList = new List<string>();
-            while (!reader.EndOfStream)
+            using (var reader = new StreamReader(File.OpenRead(path)))
             {
-                var line = reader.ReadLine();
-                searchList.Add(line);
+                
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    searchList.Add(line);
+                }
             }
+
             return searchList;
         }
 
- 
 
 
         #region//Validation
@@ -123,7 +124,7 @@ namespace Velvet.DataIO
 
             bool value = DataManager.FileExtensions().Contains(extension);
 
-            Logger.Log(nameof(IsSupportedFileExtension) + ": " + value);
+            //Logger.Log(nameof(IsSupportedFileExtension) + ": " + value);
 
             //if(value == false)
             //{
@@ -141,7 +142,7 @@ namespace Velvet.DataIO
         {
             bool value = false;
 
-            foreach(var protocol in DataManager.ImplementedProtocols)
+            foreach(var protocol in DataManager.ImplementedFileTypeProtocols)
             {
                 if (extension == protocol.FileExtension)
                 {

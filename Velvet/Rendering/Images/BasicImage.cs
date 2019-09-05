@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
-namespace Velvet.Rendering
+namespace Velvet
 {
 
 
@@ -99,19 +99,19 @@ namespace Velvet.Rendering
 
         protected override void InitializeDimensions()
         {
-            Dimensions.X = Texture.Width;
-            Dimensions.Y = Texture.Height;
+            //Dimensions.X = Texture.Width;
+            //Dimensions.Y = Texture.Height;
 
-            if (SourceRect == Rectangle.Empty)
-            {
-                SourceRect = new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y);
-            }
+            //if (SourceRect == Rectangle.Empty)
+            //{
+            //    SourceRect = new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y);
+            //}
 
-            //Origin = new Vector2(SourceRect.Width / 2, SourceRect.Height / 2);
+            ////Origin = new Vector2(SourceRect.Width / 2, SourceRect.Height / 2);
 
-            InitializeOrigin();
+            //InitializeOrigin();
 
-            CurrentRect = new ReferenceRect(SourceRect);
+            //CurrentRect = new ReferenceRect(SourceRect);
 
 
         }
@@ -121,8 +121,8 @@ namespace Velvet.Rendering
         protected override void UpdateDimensions()
         {
 
-            Dimensions.X = System.Math.Abs(Texture.Width * Scale.X);
-            Dimensions.Y = System.Math.Abs(Texture.Height * Scale.Y);
+            //Dimensions.X = System.Math.Abs(Texture.Width * Scale.X);
+            //Dimensions.Y = System.Math.Abs(Texture.Height * Scale.Y);
 
             //SetOrigin();
 
@@ -130,10 +130,10 @@ namespace Velvet.Rendering
 
             
 
-            CurrentRect.Content.X = (int)(Position.X - (Origin.X * Scale.X));
-            CurrentRect.Content.Y = (int)(Position.Y - (Origin.Y * Scale.Y));
-            CurrentRect.Content.Width = (int)Dimensions.X;
-            CurrentRect.Content.Height = (int)Dimensions.Y;
+            //CurrentRect.Content.X = (int)(Position.X - (Origin.X * Scale.X));
+            //CurrentRect.Content.Y = (int)(Position.Y - (Origin.Y * Scale.Y));
+            //CurrentRect.Content.Width = (int)Dimensions.X;
+            //CurrentRect.Content.Height = (int)Dimensions.Y;
 
             SetPositionToAnchor();
 

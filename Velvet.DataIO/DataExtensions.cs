@@ -72,7 +72,7 @@ namespace Velvet.DataIO
 
                 try
                 {
-                    if (value != null && value != "")
+                    if (value != null && (string)value != "")
                     {
                         prop.SetValue(target, value);
                     }
@@ -109,7 +109,6 @@ namespace Velvet.DataIO
             }
             
         }
-
         public static bool IsNullable<T>(this T obj)
         {
             if (obj == null)

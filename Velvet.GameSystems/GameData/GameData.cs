@@ -97,10 +97,10 @@ namespace Velvet.GameSystems
         {
             bool value = false;
 
-            bool isUIData = _sender is ITwoWayBindingTarget;
+            bool isUIData = _sender is IControlValueSender;
 
 
-            ITwoWayBindingTarget sender = _sender as ITwoWayBindingTarget;
+            IControlValueSender sender = _sender as IControlValueSender;
 
             if (SenderValidated(sender))
             {
@@ -120,7 +120,7 @@ namespace Velvet.GameSystems
 
             return value;
         }
-        private bool SenderValidated(ITwoWayBindingTarget sender)
+        private bool SenderValidated(IControlValueSender sender)
         {
             bool value = false;
 
@@ -134,14 +134,14 @@ namespace Velvet.GameSystems
 
             return value;
         }
-        private bool SubscriptionValidated(ITwoWayBindingTarget sender)
+        private bool SubscriptionValidated(IControlValueSender sender)
         {
             bool value = false;
 
             //SendValuePropertyChangedEventHandler e = typeof(UIData).GetField(nameof(UIData.SourceValueUpdateSent)).GetValue(sender) as SendValuePropertyChangedEventHandler;
 
 
-            if (typeof(ITwoWayBindingTarget).GetField(nameof(ITwoWayBindingTarget.SourceValueUpdateSent), BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).GetValue(sender) is SendValuePropertyChangedEventHandler e)
+            if (typeof(IControlValueSender).GetField(nameof(IControlValueSender.SourceValueUpdateSent), BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic).GetValue(sender) is SendValuePropertyChangedEventHandler e)
             {
                 Delegate[] subscribers = e.GetInvocationList();
 
@@ -157,7 +157,7 @@ namespace Velvet.GameSystems
 
             return value;
         }
-        private List<ITwoWayBindingTarget> ValidatedBindings { get; set; } = new List<ITwoWayBindingTarget>();
+        private List<IControlValueSender> ValidatedBindings { get; set; } = new List<IControlValueSender>();
         #endregion
 
         //__Sample Property__//

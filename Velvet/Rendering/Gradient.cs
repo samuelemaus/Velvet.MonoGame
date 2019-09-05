@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Velvet.Rendering
+namespace Velvet
 {
     public class Gradient
     {

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velvet.Test", "Velvet.Test\Velvet.Test.csproj", "{A7DFB55E-7876-46E7-91CF-AF365ABEF9F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velvet.TestGame", "Velvet.Test\Velvet.TestGame.csproj", "{A7DFB55E-7876-46E7-91CF-AF365ABEF9F0}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3E972935-D7DB-4CDE-BE5C-7FBC019328D1} = {3E972935-D7DB-4CDE-BE5C-7FBC019328D1}
 		{27BB17A7-5735-4A4E-AA68-01E5EE52DFCD} = {27BB17A7-5735-4A4E-AA68-01E5EE52DFCD}
@@ -21,9 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Velvet.GameSystems", "Velve
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Velvet", "Velvet\Velvet.csproj", "{27BB17A7-5735-4A4E-AA68-01E5EE52DFCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velvet.DataIO", "Velvet.DataIO\Velvet.DataIO.csproj", "{8342FCD3-A206-43CF-991B-F104B956969B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Velvet.DataIO", "Velvet.DataIO\Velvet.DataIO.csproj", "{8342FCD3-A206-43CF-991B-F104B956969B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velvet.TestConsole", "Velvet.TestConsole\Velvet.TestConsole.csproj", "{A7543056-F531-413E-AC2F-04DEAE07B4A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Velvet.TestConsole", "Velvet.TestConsole\Velvet.TestConsole.csproj", "{A7543056-F531-413E-AC2F-04DEAE07B4A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

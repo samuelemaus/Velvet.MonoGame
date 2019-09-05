@@ -7,26 +7,26 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
-namespace Velvet.Rendering
+namespace Velvet
 {
     public abstract class Image2D  : IDrawableObject
     {
        
         #region //Content
         public object ParentObject { get; }
-        public float Alpha { get; set; }
+        public float Alpha { get; set; } = 1f;
+        public float LayerDepth { get; set; }
         public string FilePath { get; protected set; }
 
         public Texture2D Texture { get; protected set; }
         public Color Color { get; protected set; }
 
-
         public Vector2 Position { get; protected set; }
         public Vector2 InitialPosition { get; }
         public Vector2 Scale { get; protected set; }
         public Rectangle SourceRect;
-
-        public Rectangle BoundingRect { get; protected set; }
+        public Dimensions2D Dimensions { get; protected set; }
+        public BoundingRect BoundingRect { get; protected set; }
 
         public PositionAnchor Anchor;
 
@@ -38,11 +38,13 @@ namespace Velvet.Rendering
         public float Rotation { get; set; }
 
         protected ContentManager content;
-        public Vector2 Dimensions;
+        
 
         public ReferenceRect CurrentRect { get; set; }
 
         public int Speed { get; set; }
+
+        Vector2 IDrawableObject.Origin => throw new NotImplementedException();
 
         public bool IsActive = true;
 
@@ -53,8 +55,7 @@ namespace Velvet.Rendering
         #region//Dimensions
         protected void InitializeToDefaults()
         {
-
-
+           
             Scale = Vector2.One;
             Alpha = 1.0f;
 
@@ -194,7 +195,27 @@ namespace Velvet.Rendering
             this.Scale = scale;
         }
 
+        public void SetDimensions(Dimensions2D value)
+        {
+
+        }
+
         public void Move(Vector2 position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateBoundingRect()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetWidth(float value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetHeight(float value)
         {
             throw new NotImplementedException();
         }

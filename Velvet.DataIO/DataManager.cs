@@ -3,11 +3,25 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Diagnostics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Velvet.DataIO
 {
     public class DataManager
     {
+
+        public DataManager()
+        {
+            
+        }
+
+        public DataManager (string defaultDirectory = "Content")
+        {
+            
+        }
+
         public ILogger Logger = new ConsoleLogger();
         public DataReader Reader { get; set; } = new DataReader();
         public DataConverter Converter { get; set; } = new DataConverter();
@@ -22,7 +36,6 @@ namespace Velvet.DataIO
         public T Load<T>(string path, int lineIndex) where T : class, new()
         {
             var data = Reader.GetRawFileData(path);
-
             return Converter.CreateObjectFromData<T>(data, lineIndex);
 
         }
@@ -30,12 +43,15 @@ namespace Velvet.DataIO
         #region//Setings
         public static string DefaultDirectory = "Content";
 
-        private static string FullDirectoryPath = Path.GetFullPath(@"..\..\..\" + DefaultDirectory + @"\");
+        private static string DirectoryMod = @"..\..\..\..\";
+
+        private static string FullDirectoryPath = Path.GetFullPath(DirectoryMod + DefaultDirectory + @"\");
         #endregion
 
 
         public static string GetFullPath(string entry)
         {
+            
             return FullDirectoryPath + entry;
         }
 
@@ -43,7 +59,7 @@ namespace Velvet.DataIO
         {
             List<string> returnList = new List<string>();
 
-            foreach(var p in ImplementedProtocols)
+            foreach(var p in ImplementedFileTypeProtocols)
             {
                 returnList.Add(p.FileExtension);
             }
@@ -51,11 +67,9 @@ namespace Velvet.DataIO
             return returnList;
         }
 
-        public static readonly List<IFileTypeProtocol> ImplementedProtocols = new List<IFileTypeProtocol>()
+        public static List<IFileTypeProtocol> ImplementedFileTypeProtocols { get; } = new List<IFileTypeProtocol>()
         {
-
             new CSVProtocol()
-
         };
 
 

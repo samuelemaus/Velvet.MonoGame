@@ -8,7 +8,7 @@ namespace Velvet.DataIO
 {
 
     /// <summary>
-    /// A basic data structure containing a dictionary of all of the MemberInfo of an object.
+    /// A basic data structure containing a dictionary of all of the declared MemberInfos of an object.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public struct DataInfoIndex<T> where T : class

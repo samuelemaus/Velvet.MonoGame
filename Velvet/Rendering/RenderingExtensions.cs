@@ -8,13 +8,100 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Velvet.Rendering
+namespace Velvet
 {
+    public delegate void DrawDelegate(SpriteBatch spriteBatch);
+
     public static class RenderingExtensions
     {
 
+        #region//SpriteBatch
+
+        public static void DrawRect(this SpriteBatch spriteBatch, RectImage rectImage)
+        {
+               
+        }
+
+        #endregion
+
+        #region//String
+        public static string GetCasedText(this string text, TextCase textCase)
+        {
+            string value = text;
+
+            if(textCase == TextCase.Default)
+            {
+                return value;
+            }
+
+            else if(textCase == TextCase.AllUpper)
+            {
+                return value.ToUpper();
+            }
+
+            else if(textCase == TextCase.AllLower)
+            {
+                return value.ToLower();
+            }
+
+            else if(textCase == TextCase.TitleCase)
+            {
+                return value.ToTitleCase();   
+            }
+
+            return value;
+        }
+        private static IEnumerable<char> CharsToTitleCase(string s)
+        {
+            bool newWord = true;
+            foreach (char c in s)
+            {
+                if (newWord) { yield return Char.ToUpper(c); newWord = false; }
+                else yield return Char.ToLower(c);
+                if (c == ' ') newWord = true;
+            }
+        }
+        public static string ToTitleCase(this string txt)
+        {
+            return new string(CharsToTitleCase(txt).ToArray());
+        }
+        #endregion
+
         #region //Vector2
 
+        public static Vector2 GetOrigin(this BoundingRect rect, ReferencePoint refPoint)
+        {
+            Vector2 value = default;
+
+            var dict = OriginReferencePairs(rect);
+
+            if(dict.TryGetValue(refPoint,out value))
+            {
+                return value;
+            }
+
+
+
+            return value;
+        }
+
+        
+        private static Dictionary<ReferencePoint, Vector2> OriginReferencePairs(BoundingRect rect)
+        {
+            Dictionary<ReferencePoint, Vector2> returnDict = default;
+
+            returnDict.Add(ReferencePoint.Centered, new Vector2(rect.Dimensions.HorizontalCenter,rect.Dimensions.VerticalCenter));
+            returnDict.Add(ReferencePoint.TopCentered, new Vector2(rect.Dimensions.HorizontalCenter, 0));
+            returnDict.Add(ReferencePoint.BottomCentered, new Vector2(rect.Dimensions.HorizontalCenter, rect.Dimensions.Height));
+            returnDict.Add(ReferencePoint.LeftCentered, new Vector2(0, rect.Dimensions.VerticalCenter));
+            returnDict.Add(ReferencePoint.RightCentered, new Vector2(rect.Dimensions.Width, rect.Dimensions.VerticalCenter));
+            returnDict.Add(ReferencePoint.TopLeft, Vector2.Zero);
+            returnDict.Add(ReferencePoint.TopRight, new Vector2(rect.Dimensions.Width, 0));
+            returnDict.Add(ReferencePoint.BottomLeft, new Vector2(0, rect.Dimensions.Height));
+            returnDict.Add(ReferencePoint.BottomRight, new Vector2(rect.Dimensions.Width, rect.Dimensions.Height));
+
+            return returnDict;
+        }
         
 
         public static Vector2 GetRectDifferential(Rectangle source, Rectangle xtarget, Rectangle ytarget, RectRelativity xrel, RectRelativity yrel, ReferencePoint refPoint, int Offset)
@@ -244,6 +331,8 @@ namespace Velvet.Rendering
 
 
         #endregion
+
+
 
         //public static void AnchorTo(this RectImage img, Image2D targImg, RectRelativity rel, ReferencePoint refPoint, int offset)
         //{

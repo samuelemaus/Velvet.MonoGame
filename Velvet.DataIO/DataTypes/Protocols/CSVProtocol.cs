@@ -11,8 +11,6 @@ namespace Velvet.DataIO
 
         public Regex ParseExpression { get; } = new Regex("(?<=^|,)(\"(?:[^\"]|\"\")*\"|[^,]*)");
 
-        string b = "(?<=^|,)(\"(?:[^\"]|\"\")*\"|[^,]*)";
-
         public string[] GetParsedContent(string content)
         {
 

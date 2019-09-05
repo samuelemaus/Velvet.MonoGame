@@ -4,7 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Velvet.UI;
 using Velvet.GameSystems;
-using Velvet.Rendering;
+
+using Velvet.DataIO;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace Velvet
 {
@@ -15,11 +19,12 @@ namespace Velvet
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        //DataManager DataManager = new DataManager();
+
+        string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         public static UserInterface UI;
-
-        
-
+        public TestEquipment[] Equipments;
         public TestMenu TestMenu;
 
         
@@ -49,11 +54,6 @@ namespace Velvet
 
             UI = new UserInterface();
 
-            
-
-
-
-
             base.Initialize();
         }
 
@@ -72,6 +72,16 @@ namespace Velvet
 
             TestMenu.LoadContent();
 
+            //DataManager.
+
+            //Equipments = DataManager.LoadObjects<TestEquipment>("Equipment.csv");
+
+            //List<string> Names = new List<string>();
+
+            //foreach(var eq in Equipments)
+            //{
+            //    Names.Add(eq.EquipmentName);
+            //}
 
             // TODO: use this.Content to load your game content here
         }
@@ -96,7 +106,7 @@ namespace Velvet
                 Exit();
 
             TestMenu.Update(gameTime);
-            // TODO: Add your update logic here
+            
 
             base.Update(gameTime);
         }
