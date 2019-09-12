@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Velvet;
 
 namespace Velvet.UI
 {
@@ -17,11 +17,13 @@ namespace Velvet.UI
 
         public TextButtonView(string buttonText)
         {
+
             
 
-
-
+            
         }
+
+        
 
         public override IDrawableObject Image => ImageComposite;
 

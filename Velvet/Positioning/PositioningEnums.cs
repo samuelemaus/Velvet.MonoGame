@@ -16,4 +16,9 @@ namespace Velvet
     public enum RectRelativity { Outside, Inside }
 
     public enum Orientation { Vertical, Horizontal }
+
+    public enum PositionDependencyType { Default, Anchor}
+    public enum PositionCoordinateOverride { FullOverride, XOverride, YOverride}
+
+
 }

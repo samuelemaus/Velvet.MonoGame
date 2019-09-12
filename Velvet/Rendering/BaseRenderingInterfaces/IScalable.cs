@@ -8,7 +8,7 @@ namespace Velvet
     public interface IScalable
     {
         Vector2 Scale { get; }
-        void SetScale(Vector2 scale);
+        
 
     }
 }

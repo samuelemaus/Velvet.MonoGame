@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace Velvet.GameSystems.GameEvent_Systems
+namespace Velvet.GameSystems
 {
     public class GameEventController
     {

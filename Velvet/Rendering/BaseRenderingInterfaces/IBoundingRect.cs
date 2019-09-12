@@ -8,8 +8,8 @@ namespace Velvet
     public interface IBoundingRect : IMovable
     {
         BoundingRect BoundingRect { get; }
+        Vector2 Origin { get; set; }
 
-        void UpdateBoundingRect();
 
     }
 }

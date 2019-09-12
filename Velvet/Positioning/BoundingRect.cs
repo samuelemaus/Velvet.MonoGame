@@ -74,11 +74,11 @@ namespace Velvet
         /// <summary>
         /// The Y coordinate of the Top side of this <see cref="BoundingRect"/>
         /// </summary>
-        public float Top => Position.Y + (Dimensions.Height / 2);
+        public float Top => Position.Y - (Dimensions.Height / 2);
         /// <summary>
         /// The Y coordinate of the Bottom side of this <see cref="BoundingRect"/>
         /// </summary>
-        public float Bottom => Position.Y - (Dimensions.Height / 2);
+        public float Bottom => Position.Y + (Dimensions.Height / 2);
 
         //Corners
 
@@ -273,6 +273,10 @@ namespace Velvet
             return rect;
         }
 
+        public Rectangle ToRectangle()
+        {
+            return new Rectangle((int)Left, (int)Top, (int)Dimensions.Width, (int)Dimensions.Height);
+        }
 
         #endregion
 

@@ -13,11 +13,14 @@ namespace Velvet
     {
 
 
-        private ReferencePoint(XReference x, YReference y)
+        public ReferencePoint(XReference x, YReference y)
         {
             X = x;
             Y = y;
+
         }
+
+
 
         public XReference X { get; set; }
         public YReference Y { get; set; }
@@ -68,6 +71,23 @@ namespace Velvet
         public static ReferencePoint UnboundRight = new ReferencePoint(XReference.Right, YReference.Unbound);
         public static ReferencePoint UnboundTop = new ReferencePoint(XReference.Unbound, YReference.Top);
         public static ReferencePoint UnboundBottom = new ReferencePoint(XReference.Unbound, YReference.Bottom);
+
+        private static List<ReferencePoint> referencePoints = new List<ReferencePoint>()
+        {
+            Centered,
+            LeftCentered,
+            RightCentered,
+            TopCentered,
+            BottomCentered,
+            TopLeft,
+            TopRight,
+            BottomLeft,
+            BottomRight,
+            UnboundLeft,
+            UnboundRight,
+            UnboundTop,
+            UnboundBottom
+        };
 
         //Fully Unbound
         public static ReferencePoint UnboundReference = new ReferencePoint(XReference.Unbound, YReference.Unbound);

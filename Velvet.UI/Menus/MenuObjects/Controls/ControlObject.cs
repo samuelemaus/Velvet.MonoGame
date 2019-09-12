@@ -28,24 +28,16 @@ namespace Velvet.UI
 
         #region//IBoundingRect
         public BoundingRect BoundingRect { get; protected set; }
-        public Vector2 Position { get; protected set; }
+        public Vector2 Position { get; set; }
+        public Vector2 Origin { get; set; }
 
-        public virtual void Move(Vector2 position)
-        {
-            View.Image.Move(position);
-            Position += position;
-            
-        }
-        public virtual void SetPosition(Vector2 position)
-        {
-            View.Image.SetPosition(position);
-            Position = position;
-        }
-
+        public PositionDependency PositionDependency { get; set; }
 
         protected virtual void InitializeView(IViewObject view)
         {
-            view.Image.SetPosition(this.Position);
+            view.Image.PositionDependency = new MovablePositionDependency(this);
+
+            
         }
 
         #endregion

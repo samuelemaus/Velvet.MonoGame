@@ -94,7 +94,7 @@
 //            Image = new TextImage(FormattedValue(property,Format))
 //            {
 //                Position = position,
-//                Font = UserInterface.Renderer.DefaultFont,
+//                Font = UIController.Renderer.DefaultFont,
 //                Scale = new Vector2(fontScale, fontScale),
 //                Color = color
 //            };

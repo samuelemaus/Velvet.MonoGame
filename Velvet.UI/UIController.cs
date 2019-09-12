@@ -10,44 +10,61 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Velvet.UI
 {
-    public class UIController
+    public static class UIController
     {
-
         #region//Content
-        public Menu CurrentMenu { get; private set; }
+        public static ContentManager Content { get; private set; }
+        public static UIRenderer Renderer { get; private set; }
 
-        #endregion
+        private static Menu currentMenu;
+        public static Menu CurrentMenu { get { return currentMenu; }
+            set
+            {
+                currentMenu = value;
 
-        public UIController()
-        {
+                
 
-        }
-
-        #region//XNA Methods
-
-        public void LoadContent(Menu menu)
-        {
-
-        }
-
-        public void UnloadContent()
-        {
-
-        }
-
-        public void Update(GameTime gameTime)
-        {
-
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-
+            }
         }
 
         #endregion
+
+        #region//Public Methods
+        public static void Initialize(ContentManager content, Viewport viewport, RenderTarget2D renderTarget, Menu defaultMenu)
+        {
+            Content = content;
+
+            UIResources.LoadContent(Content);
+
+            Renderer = new UIRenderer();
+            Renderer.LoadContent(viewport, content, renderTarget);
+
+
+            
+
+            CurrentMenu = defaultMenu;
+
+            if(CurrentMenu != null)
+            {
+                CurrentMenu.LoadContent();
+            }
+
+        }
+        public static void Update(GameTime gameTime)
+        {
+            CurrentMenu.Update(gameTime);
+        }
+        public static void Draw(SpriteBatch spriteBatch)
+        {
+            CurrentMenu.Draw(spriteBatch);
+        }
+        #endregion
+
+
+
 
 
 
     }
+
 }

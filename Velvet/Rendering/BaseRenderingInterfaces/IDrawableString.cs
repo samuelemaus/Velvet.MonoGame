@@ -13,8 +13,8 @@ namespace Velvet
         TextCase TextCase { get; }
         void SetText(string text);
         SpriteFont Font { get; }
-        
 
+        IDrawableString Instantiate(string text);
 
 
     }

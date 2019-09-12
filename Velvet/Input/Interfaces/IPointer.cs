@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Velvet.Input
 {
-    public interface IPointer : IMovable
+    public interface IPointer : ITargetingSource
     {
 
 

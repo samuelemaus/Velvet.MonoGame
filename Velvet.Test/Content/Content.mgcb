@@ -13,12 +13,59 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin ../../Velvet.UI/UI Assets/Images/Windows/Borders/Border1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Velvet.UI/UI Assets/Images/Windows/Borders/Border1.png;Images/Windows/Borders/Border1.png
+
 #begin Fonts/Consolas.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Consolas.spritefont
+
+#begin Fonts/Fipps.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Fipps.spritefont
+
+#begin Fonts/Heading1.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Heading1.spritefont
+
+#begin Fonts/Monaco.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Monaco.spritefont
+
+#begin Fonts/PrimaryMessage.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/PrimaryMessage.spritefont
+
+#begin Fonts/SpecialMessage.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/SpecialMessage.spritefont
 
 #begin Images/EmptyRect.png
 /importer:TextureImporter
@@ -31,4 +78,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/EmptyRect.png
+
+#begin Images/Windows/Backgrounds/Earthbound Wallpaper.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Windows/Backgrounds/Earthbound Wallpaper.png;Images/Windows/Backgrounds/EarthboundWallpaper.png
 

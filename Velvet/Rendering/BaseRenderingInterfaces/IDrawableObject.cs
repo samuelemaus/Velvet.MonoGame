@@ -10,10 +10,8 @@ namespace Velvet
     public interface IDrawableObject : IDimensions2D, IBoundingRect, IColorable, IRotatable, ITransparent, IScalable, IUpdate
     {
         //Properties
-        SpriteEffects SpriteEffect { get; }
-        float LayerDepth { get; }
-
-        Vector2 Origin { get; }
+        SpriteEffects SpriteEffect { get; set;  }
+        float LayerDepth { get; set;  }
 
         //Methods
         void Draw(SpriteBatch spriteBatch);

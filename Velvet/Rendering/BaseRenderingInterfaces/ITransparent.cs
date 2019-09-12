@@ -7,7 +7,6 @@ namespace Velvet
     public interface ITransparent
     {
         float Alpha { get; }
-        void SetAlpha(float alpha);
 
     }
 }

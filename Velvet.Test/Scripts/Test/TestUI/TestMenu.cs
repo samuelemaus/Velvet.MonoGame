@@ -10,8 +10,8 @@ using Microsoft.Xna.Framework.Input;
 using System.ComponentModel;
 using Velvet.UI;
 using Velvet.GameSystems;
-
 using Velvet.DataIO;
+using Velvet.Input;
 
 namespace Velvet
 {
@@ -69,10 +69,37 @@ namespace Velvet
 
         #endregion
         #region//Test Images
-
-        public TextImage TextImage1 = new TextImage("Blue sticky gloves",UserInterface.Renderer.DefaultFont);
+        
 
         public TextImage[] EqpTextImages;
+
+        public BasicImage Background;
+
+        public RectImage Rect;
+
+        public BasicImage Border;
+
+        public RectImage BorderAsRect;
+
+
+        string ScaledMouseState => InputHandler.GetMousePosition().ToString();
+        string ExtMouseState => InputHandler.CurrentMouseState.Position.ToString();
+        bool LeftBtnDown => InputHandler.BtnDown(MouseButtons.Left);
+
+        Color TrueColor = Color.MediumSeaGreen, FalseColor = Color.Firebrick;
+
+        Color BoolColor(bool value)
+        {
+            if (value)
+            {
+                return TrueColor;
+            }
+
+            else
+            {
+                return FalseColor;
+            }
+        }
 
         #endregion
 
@@ -89,31 +116,39 @@ namespace Velvet
             }
         }
 
-        public override void ActivateMenuControls()
+        public override void ActivateMenuControls(GameTime gameTime)
         {
-            float speed = 35f;
+            Rect.MoveY(InputHandler.ScrollWheelMovementVertical * .24f);
+
+            float speed = 10f;
 
             if (InputHandler.KeyPressed(Keys.Q))
             {
-                SetNewAlignment(TextAlignment.Left);
+                if (Rect.PositionDependency != null)
+                {
+                    Rect.PositionDependency.CoordinateOverride = PositionCoordinateOverride.XOverride;
+                }
             }
 
 
             if (InputHandler.KeyPressed(Keys.W))
             {
-                SetNewAlignment(TextAlignment.Center);
+                if (Rect.PositionDependency != null)
+                {
+                    Rect.PositionDependency.CoordinateOverride = PositionCoordinateOverride.YOverride;
+                }
             }
 
 
             if (InputHandler.KeyPressed(Keys.E))
             {
-                SetNewAlignment(TextAlignment.Right);
+                Rect.AnchorTo(EqpTextImages[0], ReferencePoint.Centered, RectRelativity.Outside);
             }
 
 
-            if (InputHandler.KeyDown(Keys.C))
+            if (InputHandler.KeyPressed(Keys.C))
             {
-                TextImage1.Move(new Vector2(4,10));
+                EqpTextImages[1].AnchorToCurrentDifferential(InputHandler.GetMousePosition);
             }
 
             if (InputHandler.KeyDown(Keys.L))
@@ -152,18 +187,23 @@ namespace Velvet
                 }
             }
 
-            if (InputHandler.KeyPressed(Keys.B))
+            if (InputHandler.KeyPressed(Keys.LeftShift))
             {
-                UpdateImages = !UpdateImages;
+                EqpTextImages[0].SetDependency(InputHandler.GetMousePosition);
             }
         }
 
-        
-
         public override void LoadContent()
         {
-            TextImage1.SetPosition(new Vector2(500, 500));
-            TextImage1.SetColor(Color.HotPink);
+            Background = new BasicImage("Images/Windows/Backgrounds/EarthboundWallpaper");
+
+            Rect = new RectImage(new BoundingRect(300, 300, 200, 400));
+
+            Border = new BasicImage("Images/Windows/Borders/Border1");
+
+            BorderAsRect = new RectImage(new BoundingRect(140, 140, 100, 150));
+
+            Rect.Color = Color.DodgerBlue;
 
             Equipments = DataManager.LoadObjects<TestEquipment>("Equipment.csv");
 
@@ -171,12 +211,24 @@ namespace Velvet
 
             for (int i = 0; i < Equipments.Length; i++)
             {
-                EqpTextImages[i] = new TextImage(Equipments[i].EquipmentName, UserInterface.Renderer.DefaultFont);
-                EqpTextImages[i].SetPosition(new Vector2(20, (i * 20)));
-                EqpTextImages[i].SetColor(Color.Aqua);
+                EqpTextImages[i] = new TextImage(Equipments[i].EquipmentName, UIController.Renderer.DefaultFont);
+                //EqpTextImages[i].Scale = new Vector2(2f);
+                EqpTextImages[i].Position = new Vector2(20, (i * 20));
+                EqpTextImages[i].Color = Color.Aqua;
             }
 
+            UIController.Renderer.LoadImageContent(Border);
+            Border.Position = new Vector2(700, 900);
+            Border.Color = Color.White;
 
+
+            UIController.Renderer.LoadImageContent(Background);
+            Background.Position = new Vector2(960, 540) / 2;
+            Background.Color = Color.DimGray;
+            Background.Scale = new Vector2(0.5f);
+
+            UIController.Renderer.LoadImageContentFromPath(BorderAsRect, "Images/Windows/Borders/Border1");
+            BorderAsRect.Color = Color.HotPink;
         }
 
         public override void UnloadContent()
@@ -184,10 +236,12 @@ namespace Velvet
 
         }
 
+        
+
         public override void Update(GameTime gameTime)
         {
             InputHandler.Update(gameTime);
-            ActivateMenuControls();
+            ActivateMenuControls(gameTime);
 
             if (UpdateImages)
             {
@@ -197,21 +251,45 @@ namespace Velvet
                 }
             }
 
+
+
         }
+
+        bool RectHeld => RectContainsMouse && InputHandler.BtnDown(MouseButtons.Left);
 
         bool UpdateImages = true;
 
+        public string MouseInfo => Mouse.GetState().Position.ToVector2().ToString();
+
+        public bool RectContainsMouse => Rect.BoundingRect.Contains(Mouse.GetState().Position);
+
+        void HoldImage(IMovable movable)
+        {
+            if (InputHandler.BtnDown(MouseButtons.Left))
+            {
+                movable.Position = (Mouse.GetState().Position.ToVector2());
+            }
+        }
+
+        bool Hold;
+
+
         public override void Draw(SpriteBatch spriteBatch)
         {
-            TextImage1.Draw(spriteBatch);
+            Background.Draw(spriteBatch);
+            
+            Rect.Draw(spriteBatch);
 
             foreach(var img in EqpTextImages)
             {
                 img.Draw(spriteBatch);
             }
 
-            spriteBatch.DrawString(UserInterface.Renderer.DefaultFont, EqpTextImages[0].Alignment.ToString(), new Vector2(5, 700), Color.White);
-            
+            Border.Draw(spriteBatch);
+            BorderAsRect.Draw(spriteBatch);
+
+            spriteBatch.DrawString(UIController.Renderer.DefaultFont, ScaledMouseState, new Vector2(10, 500), Color.Black);
+            spriteBatch.DrawString(UIController.Renderer.DefaultFont, ExtMouseState, new Vector2(10, 520), Color.Pink);
 
         }
 

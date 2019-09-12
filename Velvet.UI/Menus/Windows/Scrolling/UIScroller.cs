@@ -27,7 +27,7 @@ namespace Velvet.UI
 
             foreach(var obj in MovableObjects)
             {
-                obj.Move(moveVector);
+                obj.Position += moveVector;
             }
         }
         public void ContinuousScroll(Direction direction, float speed)

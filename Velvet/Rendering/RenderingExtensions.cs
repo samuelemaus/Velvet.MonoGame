@@ -69,39 +69,7 @@ namespace Velvet
 
         #region //Vector2
 
-        public static Vector2 GetOrigin(this BoundingRect rect, ReferencePoint refPoint)
-        {
-            Vector2 value = default;
-
-            var dict = OriginReferencePairs(rect);
-
-            if(dict.TryGetValue(refPoint,out value))
-            {
-                return value;
-            }
-
-
-
-            return value;
-        }
-
-        
-        private static Dictionary<ReferencePoint, Vector2> OriginReferencePairs(BoundingRect rect)
-        {
-            Dictionary<ReferencePoint, Vector2> returnDict = default;
-
-            returnDict.Add(ReferencePoint.Centered, new Vector2(rect.Dimensions.HorizontalCenter,rect.Dimensions.VerticalCenter));
-            returnDict.Add(ReferencePoint.TopCentered, new Vector2(rect.Dimensions.HorizontalCenter, 0));
-            returnDict.Add(ReferencePoint.BottomCentered, new Vector2(rect.Dimensions.HorizontalCenter, rect.Dimensions.Height));
-            returnDict.Add(ReferencePoint.LeftCentered, new Vector2(0, rect.Dimensions.VerticalCenter));
-            returnDict.Add(ReferencePoint.RightCentered, new Vector2(rect.Dimensions.Width, rect.Dimensions.VerticalCenter));
-            returnDict.Add(ReferencePoint.TopLeft, Vector2.Zero);
-            returnDict.Add(ReferencePoint.TopRight, new Vector2(rect.Dimensions.Width, 0));
-            returnDict.Add(ReferencePoint.BottomLeft, new Vector2(0, rect.Dimensions.Height));
-            returnDict.Add(ReferencePoint.BottomRight, new Vector2(rect.Dimensions.Width, rect.Dimensions.Height));
-
-            return returnDict;
-        }
+       
         
 
         public static Vector2 GetRectDifferential(Rectangle source, Rectangle xtarget, Rectangle ytarget, RectRelativity xrel, RectRelativity yrel, ReferencePoint refPoint, int Offset)
@@ -287,12 +255,7 @@ namespace Velvet
             return new Vector2(x, y);
         }
 
-        //public static Vector2 ScreenCenter()
-        //{
 
-        //}
-
-        //public static Vector2 SetPositionBy<T>
 
 
         #endregion

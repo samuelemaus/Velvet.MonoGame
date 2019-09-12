@@ -10,179 +10,52 @@ using Microsoft.Xna.Framework.Content;
 namespace Velvet
 {
 
-
-    public class BasicImage2D : Image2D
+    public class BasicImage : Image, IDrawableTexture
     {
-        #region //Constructors
-        public BasicImage2D()
+
+        public BasicImage()
         {
-            FilePath = string.Empty;
-
-            DrawOrigin = ReferencePoint.Centered;
-
-            InitializeToDefaults();
-
+            DrawMethod = DrawTexture;
         }
 
-        public BasicImage2D(List<BasicImage2D> list)
+        public BasicImage(string filePath)
         {
-            FilePath = string.Empty;
-            DrawOrigin = ReferencePoint.Centered;
-            InitializeToDefaults();
-            list.Add(this);
-
-
-
+            FilePath = filePath;
+            DrawMethod = DrawTexture;
         }
 
-
-
-
-
-        #endregion
-
-
-        #region//Dimensions
-
-
-
-        protected override void SetOrigin()
-        {
-            float x = 0;
-            float y = 0;
-
-            switch (DrawOrigin.X)
+        private Texture2D texture;
+        public Texture2D Texture { get { return texture; }
+            set
             {
-                case XReference.Center:
+                texture = value;
 
-                    x = SourceRect.Width / 2;
+                InitializeDimensions();
 
-                    break;
-
-                case XReference.Left:
-
-                    x = 0;
-
-                    break;
-
-                case XReference.Right:
-
-                    x = SourceRect.Width;
-
-                    break;
             }
-            switch (DrawOrigin.Y)
-            {
-                case YReference.Center:
-
-                    y = SourceRect.Height / 2;
-
-                    break;
-
-                case YReference.Top:
-
-                    y = 0;
-
-                    break;
-
-                case YReference.Bottom:
-
-                    y = SourceRect.Height;
-
-                    break;
-            }
-
-            Origin.X = x;
-
-            Origin.Y = y;
         }
+
+        
+        public string FilePath { get; set; }
+
+        protected override DrawDelegate DrawMethod { get; set; }
+
 
         protected override void InitializeDimensions()
         {
-            //Dimensions.X = Texture.Width;
-            //Dimensions.Y = Texture.Height;
+            Dimensions = new Dimensions2D(Texture.Width, Texture.Height);
 
-            //if (SourceRect == Rectangle.Empty)
-            //{
-            //    SourceRect = new Rectangle(0, 0, (int)Dimensions.X, (int)Dimensions.Y);
-            //}
-
-            ////Origin = new Vector2(SourceRect.Width / 2, SourceRect.Height / 2);
-
-            //InitializeOrigin();
-
-            //CurrentRect = new ReferenceRect(SourceRect);
-
-
+            SetOrigin();
         }
 
-
-
-        protected override void UpdateDimensions()
+        protected override void SetOrigin()
         {
-
-            //Dimensions.X = System.Math.Abs(Texture.Width * Scale.X);
-            //Dimensions.Y = System.Math.Abs(Texture.Height * Scale.Y);
-
-            //SetOrigin();
-
-            //CurrentRect = new Rectangle((int)(Position.X - (origin.X * Scale.X)), (int)(Position.Y - (origin.Y * Scale.Y)), (int)Dimensions.X, (int)Dimensions.Y);
-
-            
-
-            //CurrentRect.Content.X = (int)(Position.X - (Origin.X * Scale.X));
-            //CurrentRect.Content.Y = (int)(Position.Y - (Origin.Y * Scale.Y));
-            //CurrentRect.Content.Width = (int)Dimensions.X;
-            //CurrentRect.Content.Height = (int)Dimensions.Y;
-
-            SetPositionToAnchor();
-
-
-
+            Origin = new Vector2(Dimensions.HorizontalCenter, Dimensions.VerticalCenter);
         }
-
-        protected override void InitializeContent(IRenderer2D renderer2D)
+        
+        protected void DrawTexture(SpriteBatch spriteBatch)
         {
-            base.InitializeContent(renderer2D);
-
-            if (FilePath != string.Empty)
-            {
-                Texture = renderer2D.ContentManager.Load<Texture2D>(FilePath);
-            }
-
-            else
-            {
-                Texture = renderer2D.ContentManager.Load<Texture2D>("Images/Effects/BorderEffect");
-                Scale = new Vector2(60, 60);
-            }
-        }
-        #endregion
-
-        #region //XNA Methods
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-
-            spriteBatch.Draw(Texture, Position, SourceRect, Color * Alpha, Rotation, Origin, Scale, SpriteEffect, 0.0f);
-
-        }
-
-        #endregion
-
-
-        public override string ToString()
-        {
-            if (ParentObject != null)
-            {
-                return ParentObject.ToString();
-            }
-
-            else
-            {
-                return FilePath;
-            }
-
+            spriteBatch.Draw(Texture, Position, null, Color * Alpha, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
         }
     }
-
 }

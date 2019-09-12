@@ -9,10 +9,10 @@ namespace Velvet
 {
     public interface IDrawableTexture : IDrawableObject
     {
-        Texture2D Texture { get; }
-        string FilePath { get; }
+        Texture2D Texture { get; set;  }
+        string FilePath { get; set;  }
 
-        void SetTexture(Texture2D texture);
+        
 
 
     }

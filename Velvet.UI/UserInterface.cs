@@ -16,22 +16,14 @@ namespace Velvet.UI
         public UserInterface()
         {
             Renderer = new UIRenderer();
-            Controller = new UIController();
-
+            
         }
 
         public static UIRenderer Renderer { get; private set; }
-        public static UIController Controller { get; private set; }
-        public static SoundBank SoundBank { get; private set; }
-        
 
 
         public void LoadContent(ContentManager content, RenderTarget2D renderTarget)
         {
-            Renderer.LoadContent(content, renderTarget);
-            
-            
-            
             
 
         }

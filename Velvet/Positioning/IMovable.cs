@@ -7,11 +7,8 @@ namespace Velvet
 {
     public interface IMovable
     {
-        Vector2 Position { get; }
-
-        void SetPosition(Vector2 position);
-
-        void Move(Vector2 position);
+        Vector2 Position { get; set;  }
+        PositionDependency PositionDependency { get; set; }
 
     }
 }

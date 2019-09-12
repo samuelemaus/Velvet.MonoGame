@@ -7,23 +7,27 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Velvet.Input;
 
 namespace Velvet.UI
 {
-    public class Menu
+    public abstract class Menu
     {
         #region//Content
 
-        public Window FocusedWindow { get; private set; }
+        public IMenuObject FocusedObject { get; protected set; }
 
-        public List<Window> Windows = new List<Window>();
+        public IEnumerable<IMenuObject> MenuObjects { get; protected set; }
+
+        public IEnumerable<IMenuObject> ActiveMenuObjects => from m in MenuObjects where m.ObjectActive select m;
+
 
         //TODO: pre-processor directive for VelvetInput
-        protected BasicInputHandler InputHandler = new BasicInputHandler();
+        public BasicInputHandler InputHandler = new BasicInputHandler();
 
+        
 
         #endregion
-
 
         #region//XNA Methods
 
@@ -56,70 +60,16 @@ namespace Velvet.UI
 
         public virtual void InitializeMenu()
         {
-
+            
         }
 
-        public virtual void ActivateMenuControls()
+        public virtual void ActivateMenuControls(GameTime gameTime)
         {
 
         }
 
         //TODO: pre-processor directive for VelvetInput
-        protected sealed class BasicInputHandler
-        {
-            KeyboardState currentKeystate;
-            KeyboardState prevKeystate;
-
-
-            public void Update(GameTime gameTime)
-            {
-                prevKeystate = currentKeystate;
-                currentKeystate = Keyboard.GetState();
-            }
-
-            #region//Key Booleans
-
-            public bool KeyPressed(Keys key)
-            {
-                bool value = false;
-
-                if (currentKeystate.IsKeyDown(key) && prevKeystate.IsKeyUp(key))
-                {
-                    value = true;
-                }
-                
-                return value;
-
-
-            }
-            public bool KeyDown(Keys key)
-            {
-                bool value = false;
-
-                if (currentKeystate.IsKeyDown(key))
-                {
-                    value = true;
-                }
-                
-                return value;
-            }
-            public bool KeyReleased(Keys key)
-            {
-                bool value = false;
-
-                if (currentKeystate.IsKeyUp(key) && prevKeystate.IsKeyDown(key))
-                {
-                    value = true;
-                }
-                
-                return value;
-
-
-            }
-
-            #endregion
-
-        }
+       
 
 
 

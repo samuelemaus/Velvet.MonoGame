@@ -14,7 +14,10 @@ namespace Velvet
         SpriteBatch SpriteBatch { get; }
         SpriteFont DefaultFont { get; }
 
-        void LoadContent(ContentManager content, RenderTarget2D renderTarget);
+        Dimensions2D TargetDimensions { get; }
+        float TargetScale { get; }
+
+        void LoadContent(Viewport viewport, ContentManager content, RenderTarget2D renderTarget);
         void UnloadContent();
         void LoadImageContent(IDrawableTexture drawableTexture);
         void LoadSpriteFonts(IEnumerable<SpriteFont> fonts);

@@ -4,11 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Velvet.UI;
 using Velvet.GameSystems;
-
 using Velvet.DataIO;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System;
 
 namespace Velvet
 {
@@ -18,21 +18,16 @@ namespace Velvet
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        //DataManager DataManager = new DataManager();
-
-        string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-        public static UserInterface UI;
-        public TestEquipment[] Equipments;
-        public TestMenu TestMenu;
-
+        SpriteBatch spriteBatch;        
+        
         
         public Game1()
         {
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            
+
         }
 
         /// <summary>
@@ -43,7 +38,7 @@ namespace Velvet
         /// </summary>
         protected override void Initialize()
         {
-
+            this.Components.Add(new FrameRateCounter(this));
             this.GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
             this.IsMouseVisible = true;
 
@@ -52,7 +47,9 @@ namespace Velvet
 
             graphics.ApplyChanges();
 
-            UI = new UserInterface();
+            UIController.Initialize(Content, GraphicsDevice.Viewport, new RenderTarget2D(GraphicsDevice, 960, 540), new TestMenu());
+
+            
 
             base.Initialize();
         }
@@ -66,22 +63,9 @@ namespace Velvet
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            UI.LoadContent(Content, new RenderTarget2D(this.GraphicsDevice,1920,1080));
+            //UIController.Renderer.LoadContent(Content, new RenderTarget2D(this.GraphicsDevice,1920,1080));
 
-            TestMenu = new TestMenu();
-
-            TestMenu.LoadContent();
-
-            //DataManager.
-
-            //Equipments = DataManager.LoadObjects<TestEquipment>("Equipment.csv");
-
-            //List<string> Names = new List<string>();
-
-            //foreach(var eq in Equipments)
-            //{
-            //    Names.Add(eq.EquipmentName);
-            //}
+            
 
             // TODO: use this.Content to load your game content here
         }
@@ -105,7 +89,7 @@ namespace Velvet
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            TestMenu.Update(gameTime);
+            UIController.Update(gameTime);
             
 
             base.Update(gameTime);
@@ -118,24 +102,23 @@ namespace Velvet
         protected override void Draw(GameTime gameTime)
         {
 
-            GraphicsDevice.SetRenderTarget(UserInterface.Renderer.RenderTarget);
+            GraphicsDevice.SetRenderTarget(UIController.Renderer.RenderTarget);
             GraphicsDevice.Clear(Color.Transparent);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointWrap, null, null, null, null);
-
-            TestMenu.Draw(spriteBatch);
-
+            UIController.Draw(spriteBatch);
             spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointWrap, null, null, null, null);
 
-            TestMenu.Draw(spriteBatch);
+            spriteBatch.Draw(UIController.Renderer.RenderTarget, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, 0);
 
             spriteBatch.End();
 
             base.Draw(gameTime);
         }
     }
+
 }

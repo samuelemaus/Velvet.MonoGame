@@ -89,7 +89,7 @@ namespace Velvet
         public float HorizontalCenter => Width / 2;
         public float VerticalCenter => Height / 2;
 
-
+        public Vector2 Center => new Vector2(HorizontalCenter, VerticalCenter);
 
 
         #endregion

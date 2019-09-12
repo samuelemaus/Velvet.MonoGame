@@ -19,17 +19,21 @@ namespace Velvet.UI
         public RenderTarget2D RenderTarget { get; private set; }
         public SpriteBatch SpriteBatch { get; private set; }
         public SpriteFont DefaultFont { get; private set; }
+        public Dimensions2D TargetDimensions => new Dimensions2D(RenderTarget.Width, RenderTarget.Height);
+
+        public Dimensions2D ScreenDimensions => new Dimensions2D(ScreenViewport.Width, ScreenViewport.Height);
+
+        public Viewport ScreenViewport { get; private set; }
+        public float TargetScale => ScreenDimensions.Width / TargetDimensions.Width;
 
         #endregion
-        
-        public void LoadContent(ContentManager content, RenderTarget2D renderTarget)
+
+        public void LoadContent(Viewport viewport, ContentManager content, RenderTarget2D renderTarget)
         {
             ContentManager = content;
             RenderTarget = renderTarget;
-
-            DefaultFont = ContentManager.Load<SpriteFont>("Fonts/Consolas");
-            RectImage.DefaultRectImageTexture = ContentManager.Load<Texture2D>(RectImage.DefaultPath);
-
+            ScreenViewport = viewport;
+            DefaultFont = UIResources.DefaultFont;
         }
 
         public void UnloadContent()
@@ -39,12 +43,17 @@ namespace Velvet.UI
 
         public void LoadImageContent(IDrawableTexture drawableTexture)
         {
-            bool hasTexture = drawableTexture.Texture != null;
+            bool hasFilePath = drawableTexture.FilePath != "";
 
-            if (hasTexture)
+            if (hasFilePath)
             {
-               drawableTexture.SetTexture(ContentManager.Load<Texture2D>(drawableTexture.FilePath));
+               drawableTexture.Texture = UIController.Content.Load<Texture2D>(drawableTexture.FilePath);
             }
+        }
+
+        public void LoadImageContentFromPath(IDrawableTexture drawableTexture, string filePath)
+        {
+            drawableTexture.Texture = UIController.Content.Load<Texture2D>(filePath);
         }
 
         public string DefaultFontDirectory = "Fonts";
@@ -53,13 +62,12 @@ namespace Velvet.UI
             
         }
 
-        public void DrawString(string text, float fontScale, Vector2 position, Color color)
-        {
 
-        }
 
-        public void DrawStrings(SpriteBatch spriteBatch, string[] texts, float fontScale, Vector2[] positions, Color[] colors)
+        public void Draw(SpriteBatch spriteBatch)
         {
+            UIController.CurrentMenu.Draw(spriteBatch);
+
 
         }
 
