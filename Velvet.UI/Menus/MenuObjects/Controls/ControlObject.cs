@@ -11,7 +11,7 @@ namespace Velvet.UI
     public abstract class ControlObject : IControlObject
     {
         #region//IControlObject
-        public abstract IViewObject View { get; set; }
+        public abstract IViewObject View { get; }
         public virtual bool IsVisible { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual object TargetObject { get; set; }
@@ -32,6 +32,8 @@ namespace Velvet.UI
         public Vector2 Origin { get; set; }
 
         public PositionDependency PositionDependency { get; set; }
+        public virtual Dimensions2D Dimensions { get; }
+        public virtual DimensionsDependency DimensionsDependency { get; set; }
 
         protected virtual void InitializeView(IViewObject view)
         {
@@ -51,6 +53,15 @@ namespace Velvet.UI
         public void UpdateBoundingRect()
         {
             throw new NotImplementedException();
+        }
+
+        public virtual void SetWidth(float value)
+        {
+
+        }
+        public virtual void SetHeight(float value)
+        {
+
         }
 
         public event SendValuePropertyChangedEventHandler SourceValueUpdateSent;

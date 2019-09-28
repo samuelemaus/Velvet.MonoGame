@@ -13,21 +13,7 @@ namespace Velvet.Input
 
     public static class InputExtensions
     {
-        public static bool BtnDown(this IMouseHandler handler, MouseButtons button)
-        {
-            return handler.CurrentMouseState.IsButtonDown(button) && handler.PrevMouseState.IsButtonDown(button);
-        }
-
-        public static bool BtnReleased(this IMouseHandler handler, MouseButtons button)
-        {
-            return handler.CurrentMouseState.IsButtonUp(button) && handler.PrevMouseState.IsButtonDown(button);
-        }
-
-        public static bool BtnClicked(this IMouseHandler handler, MouseButtons button)
-        {
-            return handler.CurrentMouseState.IsButtonUp(button) && handler.PrevMouseState.IsButtonDown(button);
-        }
-
+       
         
     }
 }

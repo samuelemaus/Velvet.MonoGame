@@ -17,6 +17,8 @@ namespace Velvet.UI
         public float CellWidth { get; set; }
         public float CellHeight { get; set; }
 
+        public Dimensions2D CellDimensions => new Dimensions2D(CellWidth, CellWidth);
+
         public int NumRows { get; protected set; }
         public int NumColumns { get; protected set; }
 

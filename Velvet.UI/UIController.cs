@@ -22,42 +22,39 @@ namespace Velvet.UI
             {
                 currentMenu = value;
 
-                
-
             }
         }
 
         #endregion
 
         #region//Public Methods
-        public static void Initialize(ContentManager content, Viewport viewport, RenderTarget2D renderTarget, Menu defaultMenu)
+        public static void Initialize(IServiceProvider serviceProvider, string rootDirectory, RenderTarget2D renderTarget, Vector2 position = default)
         {
-            Content = content;
+            Content = new ContentManager(serviceProvider, rootDirectory);
 
+            Renderer = new UIRenderer(Content, renderTarget, position);
+
+        }
+
+        public static void LoadContent(Menu menu)
+        {
             UIResources.LoadContent(Content);
 
-            Renderer = new UIRenderer();
-            Renderer.LoadContent(viewport, content, renderTarget);
+            Renderer.LoadContent();
 
+            CurrentMenu = menu;
 
-            
-
-            CurrentMenu = defaultMenu;
-
-            if(CurrentMenu != null)
+            if (CurrentMenu != null)
             {
                 CurrentMenu.LoadContent();
             }
-
         }
+
         public static void Update(GameTime gameTime)
         {
             CurrentMenu.Update(gameTime);
         }
-        public static void Draw(SpriteBatch spriteBatch)
-        {
-            CurrentMenu.Draw(spriteBatch);
-        }
+
         #endregion
 
 

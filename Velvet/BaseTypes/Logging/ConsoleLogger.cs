@@ -8,7 +8,7 @@ namespace Velvet
     {
 
         public bool LoggerActive { get; set; } = false;
-        public List<string> LogMessages { get; } = new List<string>();
+        public Queue<string> LogMessages { get; } = new Queue<string>();
 
         public bool IsFixedLogSize => false;
 

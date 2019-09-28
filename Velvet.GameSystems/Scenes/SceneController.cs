@@ -9,17 +9,17 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Velvet.GameSystems
 {
-    public class SceneController
+    public static class SceneController
     {
-        public SceneController()
+        public static void Initialize(IServiceProvider serviceProvider, string rootDirectory, RenderTarget2D renderTarget, Vector2 position = default)
         {
+            Content = new ContentManager(serviceProvider, rootDirectory);
 
+            Renderer = new SceneRenderer(Content, renderTarget, position);
         }
 
-        
-
-        private GameScene currentScene;
-        public GameScene CurrentScene
+        private static GameScene currentScene;
+        public static GameScene CurrentScene
         {
             get { return currentScene; }
             set
@@ -27,20 +27,35 @@ namespace Velvet.GameSystems
                 currentScene = value;
             }
         }
-        public AudioEngine AudioEngine { get; set; }
+        public static AudioEngine AudioEngine { get; set; }
 
+        public static ContentManager Content { get; set; }
+        public static SceneRenderer Renderer { get; set; }
 
-        protected void Transition(GameScene next)
+        public static void LoadContent(GameScene scene)
+        {
+            CurrentScene = scene;
+            Renderer.Camera = CurrentScene.Camera;
+
+            CurrentScene.LoadContent();
+        }
+
+        private static void Transition(GameScene next)
         {
             
         }
 
-        public void ChangeScene(GameScene next)
+        public static void ChangeScene(GameScene next)
         {
 
         }
         
-        
+        public static void Update(GameTime gameTime)
+        {
+            CurrentScene.Update(gameTime);
+        }
+
+
 
     }
 }

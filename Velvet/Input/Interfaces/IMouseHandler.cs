@@ -8,12 +8,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Velvet.Input
 {
-    public interface IMouseHandler
+    public interface IMouseHandler : IInputHandler
     {
-        MouseStateExtended CurrentMouseState { get; set; }
-        MouseStateExtended PrevMouseState { get; set; }
+        MouseStateExtended CurrentMouseState { get; }
+        MouseStateExtended PrevMouseState { get; }
 
-        IPointer Pointer { get; set; }
+        Pointer Pointer { get; }
         
     }
 }

@@ -5,12 +5,13 @@ using Microsoft.Xna.Framework;
 
 namespace Velvet
 {
-    public interface IPositionDependency
+    public interface IDependency
     {
-        IMovable Dependency { get; }
+        
         bool DependencyActive { get; }
         
-
+        float XOverride { get; }
+        float YOverride { get; }
 
 
 

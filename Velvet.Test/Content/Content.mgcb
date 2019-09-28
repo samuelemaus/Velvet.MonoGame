@@ -25,12 +25,31 @@
 /processorParam:TextureFormat=Color
 /build:../../Velvet.UI/UI Assets/Images/Windows/Borders/Border1.png;Images/Windows/Borders/Border1.png
 
+#begin ../../Velvet.UI/UI Assets/Images/Windows/WindowTexture1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Velvet.UI/UI Assets/Images/Windows/WindowTexture1.png;Images/Windows/WindowTexture1.png
+
 #begin Fonts/Consolas.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Consolas.spritefont
+
+#begin Fonts/File.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/File.spritefont;Fonts/MonacoSmall.spritefont
 
 #begin Fonts/Fipps.spritefont
 /importer:FontDescriptionImporter
@@ -53,6 +72,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/Monaco.spritefont
 
+#begin Fonts/MonacoLarge.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/MonacoLarge.spritefont
+
 #begin Fonts/PrimaryMessage.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -67,6 +93,42 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/SpecialMessage.spritefont
 
+#begin Images/Effects/BloomCombine.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Images/Effects/BloomCombine.fx
+
+#begin Images/Effects/BloomExtract.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Images/Effects/BloomExtract.fx
+
+#begin Images/Effects/Clouds.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Images/Effects/Clouds.fx
+
+#begin Images/Effects/GaussianBlur.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Images/Effects/GaussianBlur.fx
+
+#begin Images/Effects/HighlightEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Images/Effects/HighlightEffect.fx
+
+#begin Images/Effects/ParticleEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Images/Effects/ParticleEffect.fx
+
 #begin Images/EmptyRect.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -79,6 +141,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/EmptyRect.png
 
+#begin Images/SmallControls1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/SmallControls1.png
+
 #begin Images/Windows/Backgrounds/Earthbound Wallpaper.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -90,4 +164,40 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Windows/Backgrounds/Earthbound Wallpaper.png;Images/Windows/Backgrounds/EarthboundWallpaper.png
+
+#begin Scenes/Beach.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Scenes/Beach.png
+
+#begin Scenes/Lucas.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Scenes/Lucas.png
+
+#begin Scenes/Ocean.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Scenes/Ocean.png
 

@@ -43,12 +43,16 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Game1.cs" />
+    <Compile Include="Scripts\Test\TestUI\GameSettingsMenu.cs" />
+    <Compile Include="Scripts\Test\TestUI\TopDownMenu.cs" />
+    <Compile Include="VelvetTestGame.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\Test\TestData\TestEquipment.cs" />
     <Compile Include="Scripts\Test\TestData\TestPerson.cs" />
-    <Compile Include="Scripts\Test\TestUI\TestMenu.cs" />
+    <Compile Include="Scripts\Test\TestScenes\TestTopDownScene.cs" />
+    <Compile Include="Scripts\Test\TestUI\TestHud.cs" />
+    <Compile Include="Scripts\Test\TestUI\TestMenu1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -132,9 +136,17 @@
     <None Include="Content\Fonts\SpecialMessage.spritefont" />
     <None Include="Content\Fonts\SpecialMessage.ttf" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Content\Scenes\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Fonts\SecondaryMessage.fx" />
+    <Content Include="Content\Images\Effects\BloomCombine.fx" />
+    <Content Include="Content\Images\Effects\BloomExtract.fx" />
+    <Content Include="Content\Images\Effects\Clouds.fx" />
+    <Content Include="Content\Images\Effects\GaussianBlur.fx" />
+    <Content Include="Content\Images\Effects\HighlightEffect.fx" />
+    <Content Include="Content\Images\Effects\ParticleEffect.fx" />
     <Content Include="Content\Images\EmptyRect.png" />
   </ItemGroup>
   <ItemGroup>

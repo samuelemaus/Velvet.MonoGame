@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -44,5 +45,14 @@ namespace Velvet.UI
         {
             return senderName == localName;
         }
+
+        public virtual void Update(GameTime gameTime)
+        {
+            Image.Update(gameTime);
+
+
+        }
+
+
     }
 }

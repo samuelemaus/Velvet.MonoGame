@@ -13,47 +13,55 @@ namespace Velvet.UI
 
     public class UIRenderer : IRenderer2D
     {
+        public UIRenderer()
+        {
+
+        }
+
+        public UIRenderer(ContentManager content, RenderTarget2D renderTarget, Vector2 position = default)
+        {
+            Content = content;
+            RenderTarget = renderTarget;
+
+            if(position == default)
+            {
+                RenderPosition = Vector2.Zero;
+            }
+
+            RenderPosition = position;
+
+            Rectangle bounds = new Rectangle((int)position.X, (int)position.Y, renderTarget.Bounds.Width, renderTarget.Bounds.Height);
+            Bounds = new BoundingRect(bounds);
+
+            RendererInitialized = true;
+
+        }
+
+        public bool RendererInitialized { get; private set; }
+
 
         #region//Content
-        public ContentManager ContentManager { get; private set; }
+        public ContentManager Content { get; private set; }
         public RenderTarget2D RenderTarget { get; private set; }
-        public SpriteBatch SpriteBatch { get; private set; }
+        public SpriteBatch SpriteBatch { get; set; }
         public SpriteFont DefaultFont { get; private set; }
+        public BlendState BlendState { get; set; } = BlendState.NonPremultiplied;
+
+        public Vector2 RenderPosition { get; set; } = Vector2.Zero;
+        public BoundingRect Bounds { get; private set; }
         public Dimensions2D TargetDimensions => new Dimensions2D(RenderTarget.Width, RenderTarget.Height);
-
-        public Dimensions2D ScreenDimensions => new Dimensions2D(ScreenViewport.Width, ScreenViewport.Height);
-
-        public Viewport ScreenViewport { get; private set; }
-        public float TargetScale => ScreenDimensions.Width / TargetDimensions.Width;
+        public float TargetScale => GameRenderer.ScreenResolution.Width / TargetDimensions.Width;
 
         #endregion
 
-        public void LoadContent(Viewport viewport, ContentManager content, RenderTarget2D renderTarget)
+        public void LoadContent()
         {
-            ContentManager = content;
-            RenderTarget = renderTarget;
-            ScreenViewport = viewport;
             DefaultFont = UIResources.DefaultFont;
         }
 
         public void UnloadContent()
         {
-            ContentManager.Unload();
-        }
-
-        public void LoadImageContent(IDrawableTexture drawableTexture)
-        {
-            bool hasFilePath = drawableTexture.FilePath != "";
-
-            if (hasFilePath)
-            {
-               drawableTexture.Texture = UIController.Content.Load<Texture2D>(drawableTexture.FilePath);
-            }
-        }
-
-        public void LoadImageContentFromPath(IDrawableTexture drawableTexture, string filePath)
-        {
-            drawableTexture.Texture = UIController.Content.Load<Texture2D>(filePath);
+            Content.Unload();
         }
 
         public string DefaultFontDirectory = "Fonts";
@@ -64,13 +72,18 @@ namespace Velvet.UI
 
 
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void DrawSpriteBatch()
         {
-            UIController.CurrentMenu.Draw(spriteBatch);
-
-
+            SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState, SamplerState.PointWrap, null, null, null, null);   
+            UIController.CurrentMenu.Draw(SpriteBatch);
+            SpriteBatch.End();
         }
 
+
+        public override string ToString()
+        {
+            return $"{nameof(UIRenderer)}:  {this.GetString()}";
+        }
 
     }
 }

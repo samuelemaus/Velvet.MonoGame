@@ -10,6 +10,8 @@ namespace Velvet
         void SetWidth(float value);
         void SetHeight(float value);
 
+        DimensionsDependency DimensionsDependency { get; set; }
+
 
     }
 }

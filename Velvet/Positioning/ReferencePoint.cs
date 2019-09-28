@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Velvet
 {
-    public struct ReferencePoint
+    public class ReferencePoint
     {
 
 
@@ -117,7 +117,7 @@ namespace Velvet
 
         public ReferencePoint ToInverted()
         {
-            ReferencePoint returnValue = new ReferencePoint();
+            ReferencePoint returnValue = default;
 
             ReferencePoint value = this;
 

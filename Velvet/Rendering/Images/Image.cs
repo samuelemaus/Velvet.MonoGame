@@ -10,69 +10,111 @@ namespace Velvet
     public abstract class Image : IDrawableObject, IDisposable
     {
 
-        #region//Content
+        #region//
         public SpriteEffects SpriteEffect { get; set; }
 
-        private BoundingRect boundingRect;
-        public virtual BoundingRect BoundingRect => boundingRect;
-
-        private Dimensions2D dimensions;
-        public virtual Dimensions2D Dimensions
+        protected BoundingRect boundingRect;
+        public virtual BoundingRect BoundingRect
         {
             get
             {
-                boundingRect.Dimensions = dimensions;
-                return dimensions;
-            }
-
-            set
-            {
-                dimensions = value * Scale;
-                boundingRect.Dimensions = value * Scale;
-            }
-        }
-        private Vector2 position;
-        public virtual Vector2 Position
-        {
-            get
-            {
-                if (PositionDependency != null && PositionDependency.DependencyActive)
+                if (DimensionsDependency != null && DimensionsDependency.DependencyActive)
                 {
-                    PositionDependency.GetPositionOverride(ref position);
+                    DimensionsDependency.GetDimensionsOverride(ref boundingRect.Dimensions, ref scale);
                 }
 
-                boundingRect.Position = position;
-                return position;
+                if(PositionDependency != null && PositionDependency.DependencyActive)
+                {
+                    PositionDependency.GetPositionOverride(ref boundingRect.Position);
+                }
 
+                return boundingRect;
+            }
+        }
+
+        //protected Dimensions2D dimensions;
+        public virtual Dimensions2D Dimensions
+        {
+            get => BoundingRect.Dimensions;
+            set
+            {
+                boundingRect.Dimensions = value;
+                InitializeOrigin();
+            }
+        }
+
+        protected Vector2 position;
+        public virtual Vector2 Position
+        {
+            get => BoundingRect.Position - OriginDifferential;
+
+            set => boundingRect.Position = value - OriginDifferential;
+        }
+
+
+
+        private Vector2 origin;
+        public virtual Vector2 Origin
+        {
+            get
+            {
+                return origin;
             }
 
             set
             {
-                position = value;
-                boundingRect.Position = position;
+                origin = value;
+                
             }
         }
-        public virtual Vector2 Origin { get; set; }
         public virtual Color Color { get; set; }
         public float Rotation { get; set; }
         public float Alpha { get; set; } = 1f;
         public float LayerDepth { get; set; }
-        public Vector2 Scale { get; set; } = Vector2.One;
+
+        private Vector2 scale = Vector2.One;
+        public virtual Vector2 Scale
+        {
+            get
+            {
+                return scale;
+            }
+
+            set
+            {
+                scale = value;
+            }
+        }
 
 
         #endregion
 
         #region//Dimensions & Positioning
 
-        protected abstract void InitializeDimensions();
+        public Vector2 OriginDifferential => Origin - BoundingRect.Dimensions.Center;
+        public Vector2 DrawPosition => Position + OriginDifferential;
 
+        protected abstract void InitializeDimensions();
         public virtual PositionDependency PositionDependency { get; set; }
 
+        private DimensionsDependency dimensionsDependency;
+        public virtual DimensionsDependency DimensionsDependency
+        {
+            get
+            {
+                return dimensionsDependency;
+            }
 
-
-
-
-        protected abstract void SetOrigin();
+            set
+            {
+                dimensionsDependency = value;
+                InitializeOrigin();
+            }
+        }
+        protected virtual void InitializeOrigin()
+        {
+            Origin = Dimensions.Center;
+        }
 
         #endregion
 
@@ -81,12 +123,12 @@ namespace Velvet
 
         public void SetWidth(float value)
         {
-            dimensions.Width = value;
+            boundingRect.Dimensions.Width = value;
         }
 
         public void SetHeight(float value)
         {
-            dimensions.Height = value;
+            boundingRect.Dimensions.Height = value;
         }
 
 
@@ -104,19 +146,34 @@ namespace Velvet
 
         public virtual void Update(GameTime gameTime)
         {
-            CheckPosition();
+            
         }
 
-        private void CheckPosition()
+        protected virtual void UpdateBoundingRect()
         {
-            Vector2 p = Position;
+            //boundingRect.Position = Position - originDifferential;
+            //boundingRect.Dimensions = Dimensions;
 
+        }
+
+        protected virtual Vector2 originDifferential
+        {
+            get
+            {
+                return Origin - Dimensions.Center;
+            }
         }
 
         public void Dispose()
         {
             throw new NotImplementedException();
         }
+        #endregion
+
+        #region//Debug
+
+
+
         #endregion
 
     }

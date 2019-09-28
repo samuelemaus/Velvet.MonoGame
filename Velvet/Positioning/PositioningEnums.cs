@@ -18,7 +18,8 @@ namespace Velvet
     public enum Orientation { Vertical, Horizontal }
 
     public enum PositionDependencyType { Default, Anchor}
-    public enum PositionCoordinateOverride { FullOverride, XOverride, YOverride}
+    public enum PositionOverrideType { FullOverride, XOverride, YOverride}
+    public enum DimensionsOverrideType { FullOverride, WidthOverride, HeightOverride}
 
 
 }

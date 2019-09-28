@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Velvet
 {
-    public interface IDrawableObject : IDimensions2D, IBoundingRect, IColorable, IRotatable, ITransparent, IScalable, IUpdate
+    public interface IDrawableObject : IBoundingRect, IColorable, IRotatable, ITransparent, IScalable, IUpdate
     {
         //Properties
         SpriteEffects SpriteEffect { get; set;  }

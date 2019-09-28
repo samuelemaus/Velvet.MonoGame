@@ -6,7 +6,7 @@ namespace Velvet
 {
     public interface ITransparent
     {
-        float Alpha { get; }
+        float Alpha { get; set; }
 
     }
 }

@@ -7,7 +7,7 @@ namespace Velvet
     public interface ILogger
     {
         bool LoggerActive { get; set; }
-        List<string> LogMessages { get; }
+        Queue<string> LogMessages { get; }
         bool IsFixedLogSize { get; }
         int MaxLogCapacity { get; }
 

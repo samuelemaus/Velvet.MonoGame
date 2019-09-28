@@ -18,6 +18,8 @@ namespace Velvet.GameSystems
 
         public Dimensions2D Dimensions => throw new NotImplementedException();
 
+        public DimensionsDependency DimensionsDependency { get; set; }
+
         public readonly Vector2 VertexA;
         public readonly Vector2 VertexB;
         public readonly Vector2 VertexC;
@@ -27,6 +29,7 @@ namespace Velvet.GameSystems
             VertexA = vertexA;
             VertexB = vertexB;
             VertexC = vertexC;
+            DimensionsDependency = null;
         }
 
         

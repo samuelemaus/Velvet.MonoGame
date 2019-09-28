@@ -52,8 +52,6 @@ namespace Velvet
                 SetField(ref isDead, isDead);
             }
         }
-
-
         private bool wearsGlasses;
         public bool WearsGlasses { get => wearsGlasses; set => SetField(ref wearsGlasses, value); }
 
@@ -64,6 +62,11 @@ namespace Velvet
 
 
         #endregion
+
+        public override string ToString()
+        {
+            return $"{Name}, HP: {HP}";
+        }
 
 
     }

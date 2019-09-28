@@ -15,18 +15,21 @@ namespace Velvet
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class VelvetTestGame : Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;        
-        
-        
-        public Game1()
+        SpriteBatch spriteBatch;
+
+        private int internalWidth = 640;
+        private int internalHeight = 360;
+
+
+        public VelvetTestGame()
         {
 
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            
+            Window.AllowUserResizing = true;
 
         }
 
@@ -38,18 +41,22 @@ namespace Velvet
         /// </summary>
         protected override void Initialize()
         {
-            this.Components.Add(new FrameRateCounter(this));
+            //this.Components.Add(new FrameRateCounter(this));
             this.GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
             this.IsMouseVisible = true;
 
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
-
-            graphics.ApplyChanges();
-
-            UIController.Initialize(Content, GraphicsDevice.Viewport, new RenderTarget2D(GraphicsDevice, 960, 540), new TestMenu());
-
             
+
+            int hudWidth = internalWidth * 2;
+            int hudHeight = internalHeight / 3;
+
+            UIController.Initialize(Services, Content.RootDirectory, new RenderTarget2D(GraphicsDevice, hudWidth, hudHeight), Vector2.Zero);
+            
+            SceneController.Initialize(Services, "Content/Scenes", new RenderTarget2D(GraphicsDevice, internalWidth, internalHeight/* - hudHeight*/), Vector2.Zero);
+
+            GameRenderer.Configure(this, graphics, new Dimensions2D(internalWidth, internalHeight), new List<IRenderer2D>() { SceneController.Renderer, UIController.Renderer});
+            GameRenderer.SetResolution(GameRenderer.DisplayResolution / 1.5f);
+
 
             base.Initialize();
         }
@@ -63,11 +70,12 @@ namespace Velvet
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //UIController.Renderer.LoadContent(Content, new RenderTarget2D(this.GraphicsDevice,1920,1080));
+            GameRenderer.LoadContent();
 
-            
+            TestTopDownScene DefaultScene = new TestTopDownScene();
 
-            // TODO: use this.Content to load your game content here
+            SceneController.LoadContent(DefaultScene);
+            UIController.LoadContent(new TestHud(this, DefaultScene));
         }
 
         /// <summary>
@@ -90,6 +98,7 @@ namespace Velvet
                 Exit();
 
             UIController.Update(gameTime);
+            SceneController.Update(gameTime);
             
 
             base.Update(gameTime);
@@ -102,20 +111,7 @@ namespace Velvet
         protected override void Draw(GameTime gameTime)
         {
 
-            GraphicsDevice.SetRenderTarget(UIController.Renderer.RenderTarget);
-            GraphicsDevice.Clear(Color.Transparent);
-
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointWrap, null, null, null, null);
-            UIController.Draw(spriteBatch);
-            spriteBatch.End();
-
-            GraphicsDevice.SetRenderTarget(null);
-
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointWrap, null, null, null, null);
-
-            spriteBatch.Draw(UIController.Renderer.RenderTarget, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2, SpriteEffects.None, 0);
-
-            spriteBatch.End();
+            GameRenderer.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }

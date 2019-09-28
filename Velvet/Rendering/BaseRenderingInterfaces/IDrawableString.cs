@@ -8,13 +8,12 @@ namespace Velvet
 {
     public interface IDrawableString : IDrawableObject
     {
-        string Text { get; }
+        string Text { get; set;  }
         TextAlignment Alignment { get; }
         TextCase TextCase { get; }
-        void SetText(string text);
         SpriteFont Font { get; }
 
-        IDrawableString Instantiate(string text);
+        
 
 
     }

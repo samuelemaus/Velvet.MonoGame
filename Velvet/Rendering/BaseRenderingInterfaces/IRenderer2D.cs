@@ -9,18 +9,18 @@ namespace Velvet
 {
     public interface IRenderer2D
     {
-        ContentManager ContentManager { get; }
+        ContentManager Content { get; }
         RenderTarget2D RenderTarget { get; }
-        SpriteBatch SpriteBatch { get; }
-        SpriteFont DefaultFont { get; }
-
+        SpriteBatch SpriteBatch { get; set; }
+        BlendState BlendState { get; set; }
+        Vector2 RenderPosition { get; }
         Dimensions2D TargetDimensions { get; }
         float TargetScale { get; }
-
-        void LoadContent(Viewport viewport, ContentManager content, RenderTarget2D renderTarget);
+        bool RendererInitialized { get; }
+        void LoadContent();
         void UnloadContent();
-        void LoadImageContent(IDrawableTexture drawableTexture);
-        void LoadSpriteFonts(IEnumerable<SpriteFont> fonts);
+        void DrawSpriteBatch();
+        
 
 
     }

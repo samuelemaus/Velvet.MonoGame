@@ -8,21 +8,21 @@ namespace Velvet
     {
 
         public bool LoggerActive { get; set; } = false;
-        public List<string> LogMessages { get; set; } = new List<string>();
+        public Queue<string> LogMessages { get; set; }
         public int MaxLogCapacity { get; } = 0;
         public bool IsFixedLogSize => MaxLogCapacity != 0;
         public void Log(string message)
         {
-            if (!IsFixedLogSize)
-            {
-                LogMessages.Add(message);
-            }
+            //if (!IsFixedLogSize)
+            //{
+            //    LogMessages.Add(message);
+            //}
 
-            else
-            {
-                LogMessages.RemoveAt(0);
-                LogMessages.Add(message);
-            }
+            //else
+            //{
+            //    LogMessages.RemoveAt(0);
+            //    LogMessages.Add(message);
+            //}
             
         }
 

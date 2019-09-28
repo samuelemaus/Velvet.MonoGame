@@ -12,7 +12,7 @@ namespace Velvet
         Texture2D Texture { get; set;  }
         string FilePath { get; set;  }
 
-        
+        Rectangle SourceRect { get; set; }
 
 
     }

@@ -7,21 +7,51 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Velvet.Rendering;
 
 namespace Velvet
 {
     public delegate void DrawDelegate(SpriteBatch spriteBatch);
-
+    public delegate void UpdateDrawObject(IDrawableObject obj, object args);
     public static class RenderingExtensions
     {
 
-        #region//SpriteBatch
+        #region//Content
 
-        public static void DrawRect(this SpriteBatch spriteBatch, RectImage rectImage)
+        public static void LoadImageContent(this IRenderer2D renderer, IDrawableTexture drawableTexture)
         {
-               
+            bool hasFilePath = drawableTexture.FilePath != "";
+
+            if (hasFilePath)
+            {
+                drawableTexture.Texture = renderer.Content.Load<Texture2D>(drawableTexture.FilePath);
+            }
         }
 
+        public static void LoadImageContentFromPath(this IRenderer2D renderer, IDrawableTexture drawableTexture, string filePath)
+        {
+            drawableTexture.Texture = renderer.Content.Load<Texture2D>(filePath);
+        }
+
+        public static void LoadCompositeImageContent(this IRenderer2D renderer, IDrawableComposite drawableComposite)
+        {
+            
+        }
+
+        
+
+        #endregion
+
+        #region//Textures
+
+        public static void SetRegion(this IDrawableTexture drawable, TextureRegion region)
+        {
+            drawable.Texture = region.SourceTexture;
+            drawable.SourceRect = region.SourceRect;
+        }
+
+
+        
         #endregion
 
         #region//String
@@ -290,65 +320,86 @@ namespace Velvet
 
 
         }
+        public static Color Invert(this Color color)
+        {
+            int r = color.R;
+            int g = color.G;
+            int b = color.B;
 
+            return new Color(g, b, r);
 
+        }
+
+        public static Color GetRandomColor(int min = 0, int max = 255)
+        {
+            Random rand = new Random();
+
+            int r = rand.Next(min, max);
+            int g = rand.Next(min, max);
+            int b = rand.Next(min, max);
+
+            return new Color(r, g, b);
+        }
 
         #endregion
 
+        public static void DrawCollection(this IEnumerable<IDrawableObject> drawables, SpriteBatch spriteBatch)
+        {
+            if(drawables != null)
+            {
+                foreach(var d in drawables)
+                {
+                    d.Draw(spriteBatch);
+                }
+            }
+        }
+
+        public static void UpdateCollection(this IEnumerable<IUpdate> updates, GameTime gameTime)
+        {
+            if(updates != null)
+            {
+                foreach(var u in updates)
+                {
+                    u.Update(gameTime);
+                }
+            }
+        }
+
+        public static string GetString(this IRenderer2D renderer)
+        {
+            return $"Pos: {renderer.RenderPosition}, Bounds{renderer.RenderTarget.Bounds}";
+        }
+
+        #region//RectImages
 
 
-        //public static void AnchorTo(this RectImage img, Image2D targImg, RectRelativity rel, ReferencePoint refPoint, int offset)
-        //{
-        //    PositionAnchor anchor = new PositionAnchor(img.TargetRect, targImg.CurrentRect, rel, refPoint, offset);
+        public static void DrawRectImage(this IBoundingRect rect, ref List<IDrawableObject> targetList, float alpha = 0.35f, Color color = default)
+        {
+            Color rectColor = default;
 
-        //    if (anchor.XRelativity == RectRelativity.Outside)
-        //    {
-        //        img.DrawOrigin.X = anchor.ReferencePoint.ToInverted().X;
-        //    }
-        //    else
-        //    {
-        //        img.DrawOrigin.X = anchor.ReferencePoint.X;
-        //    }
+            if(color == default)
+            {
+                rectColor = GetRandomColor();
+            }
 
-        //    if (anchor.YRelativity == RectRelativity.Outside)
-        //    {
-        //        img.DrawOrigin.Y = anchor.ReferencePoint.ToInverted().Y;
-        //    }
-        //    else
-        //    {
-        //        img.DrawOrigin.Y = anchor.ReferencePoint.Y;
-        //    }
-        //    img.TargetRect.Anchor = anchor;
-        //    img.TargetRect.IsAnchored = true;
+            else
+            {
+                rectColor = color;
+            }
 
-        //}
+            RectImage rectImage = new RectImage(rect)
+            {
+                Color = rectColor,
+                Alpha = alpha
+            };
 
-        //public static void AnchorTo(this RectImage img, ReferenceRect rect, RectRelativity rel, ReferencePoint refPoint, int offset)
-        //{
-        //    PositionAnchor anchor = new PositionAnchor(img.TargetRect, rect, rel, refPoint, offset);
+            targetList.Add(rectImage);
 
-        //    if (anchor.XRelativity == RectRelativity.Outside)
-        //    {
-        //        img.DrawOrigin.X = anchor.ReferencePoint.ToInverted().X;
-        //    }
-        //    else
-        //    {
-        //        img.DrawOrigin.X = anchor.ReferencePoint.X;
-        //    }
+        }
 
-        //    if (anchor.YRelativity == RectRelativity.Outside)
-        //    {
-        //        img.DrawOrigin.Y = anchor.ReferencePoint.ToInverted().Y;
-        //    }
-        //    else
-        //    {
-        //        img.DrawOrigin.Y = anchor.ReferencePoint.Y;
-        //    }
+        
 
-        //    img.TargetRect.Anchor = anchor;
-        //    img.TargetRect.IsAnchored = true;
-
-        //}
+        #endregion
 
     }
 }

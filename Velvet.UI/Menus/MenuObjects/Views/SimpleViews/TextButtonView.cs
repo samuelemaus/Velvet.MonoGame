@@ -27,13 +27,13 @@ namespace Velvet.UI
 
         public override IDrawableObject Image => ImageComposite;
 
-        protected virtual IDrawableComposite ImageComposite { get; set; }
+        protected virtual CompositeImage ImageComposite { get; set; }
 
         public IDrawableString ButtonText { get; protected set; }
 
         public virtual void UpdateTextButtonImage(object value)
         {
-            ButtonText.SetText((string)value);
+            ButtonText.Text = ((string)value); 
         }
         protected override void InitializeImages()
         {

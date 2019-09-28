@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Velvet.Rendering
 {
-    public interface IOrthoCamera : IUpdate, IRotatable, IScalable
+    public interface ICamera : IUpdate, IRotatable, IScalable, IMovable
     {
         Matrix Transform { get; }
         Viewport Viewport { get; }

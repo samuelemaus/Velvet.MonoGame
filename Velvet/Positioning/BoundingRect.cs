@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 using Microsoft.Xna.Framework;
-
+using System.Linq;
 
 namespace Velvet
 {
@@ -99,13 +99,12 @@ namespace Velvet
         /// </summary>
         public Vector2 BottomRight => new Vector2(Right, Bottom);
 
+        
+
         /// <summary>
         /// Returns the Area (Width * Height) of this <see cref="Dimensions"/>.
         /// </summary>
         public float Area => Dimensions.Width * Dimensions.Height;
-
-
-
 
         #endregion
 
@@ -173,19 +172,20 @@ namespace Velvet
                     value.Top < Bottom &&
                     Top < value.Bottom;
         }
-        public static BoundingRect Intersect(ref BoundingRect value1, ref BoundingRect value2)
+        public static BoundingRect Intersect(BoundingRect value1, BoundingRect value2)
         {
             BoundingRect rect = default;
 
             if (value1.Intersects(value2))
             {
 
+                float right = Math.Min(value1.Right, value2.Right);
+                float bottom = Math.Min(value1.Bottom, value2.Bottom);
 
-                float width = (Math.Min(value1.Right, value2.Right)) - (Math.Max(value1.Left, value2.Left));
-                float height = (Math.Min(value1.Bottom, value2.Bottom)) - (Math.Max(value1.Top, value2.Top));
+                float width = (right - (Math.Max(value1.Left, value2.Left)));
+                float height = (bottom - (Math.Max(value1.Top, value2.Top)));
 
-                rect = new BoundingRect(new Vector2(width / 2, height / 2), new Dimensions2D(width, height));
-
+                rect = new BoundingRect(new Vector2(right - (width / 2), bottom - (height / 2)), new Dimensions2D(width, height));
             }
 
             else
@@ -263,20 +263,88 @@ namespace Velvet
             
         }
 
-        public static BoundingRect Union(ref BoundingRect value1, ref BoundingRect value2)
+        public static BoundingRect Union(BoundingRect value1, BoundingRect value2)
+        {
+            BoundingRect rect;
+
+            float left = Math.Min(value1.Left, value2.Left);
+            float right = Math.Max(value1.Right, value2.Right);
+            float top = Math.Min(value1.Top, value2.Top);
+            float bottom = Math.Max(value1.Bottom, value2.Bottom);
+
+            
+            float width = (right - left);
+            float height = (bottom - top);
+
+            rect = new BoundingRect(new Vector2(right - (width / 2), bottom - (height / 2)), new Dimensions2D(width, height));
+
+            return rect;
+        }
+        public static BoundingRect Union(BoundingRect[] rects)
+        {
+            BoundingRect rect;
+
+            float left = rects[0].Left;
+            float right = rects[0].Right;
+            float top = rects[0].Top;
+            float bottom = rects[0].Bottom;
+
+
+            for (int i = 1; i < rects.Length; i++)
+            {
+                if(rects[i].Left < left) { left = rects[i].Left; }
+                if(rects[i].Right > right) { right = rects[i].Right; }
+                if(rects[i].Top < top) { top = rects[i].Top; }
+                if(rects[i].Bottom > bottom) { bottom = rects[i].Bottom; }
+            }
+
+
+
+            float width = (right - left);
+            float height = (bottom - top);
+
+            rect = new BoundingRect(new Vector2(right - (width / 2), bottom - (height / 2)), new Dimensions2D(width, height));
+
+            return rect;
+        }
+
+        public static BoundingRect Union(IEnumerable<IBoundingRect> boundingRects)
         {
             BoundingRect rect = default;
 
+            IBoundingRect[] rects = boundingRects.ToArray();
+
+            float left = rects[0].BoundingRect.Left;
+            float right = rects[0].BoundingRect.Right;
+            float top = rects[0].BoundingRect.Top;
+            float bottom = rects[0].BoundingRect.Bottom;
 
 
+            for (int i = 1; i < rects.Length; i++)
+            {
+                if (rects[i].BoundingRect.Left < left) { left = rects[i].BoundingRect.Left; }
+                if (rects[i].BoundingRect.Right > right) { right = rects[i].BoundingRect.Right; }
+                if (rects[i].BoundingRect.Top < top) { top = rects[i].BoundingRect.Top; }
+                if (rects[i].BoundingRect.Bottom > bottom) { bottom = rects[i].BoundingRect.Bottom; }
+            }
+
+
+
+            float width = (right - left);
+            float height = (bottom - top);
+
+            rect = new BoundingRect(new Vector2(right - (width / 2), bottom - (height / 2)), new Dimensions2D(width, height));
 
             return rect;
+
         }
 
         public Rectangle ToRectangle()
         {
             return new Rectangle((int)Left, (int)Top, (int)Dimensions.Width, (int)Dimensions.Height);
         }
+
+        
 
         #endregion
 
@@ -306,8 +374,19 @@ namespace Velvet
 
         public bool Equals(BoundingRect other)
         {
-            throw new NotImplementedException();
+            return this == other;
         }
+
+        public static implicit operator BoundingRect(Rectangle rectangle)
+        {
+            return new BoundingRect(rectangle);
+        }
+
+        public override string ToString()
+        {
+            return $"Position: {Position.ToString()}, Dimensions: {Dimensions.ToString()}";
+        }
+
         #endregion
 
 

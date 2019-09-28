@@ -8,6 +8,6 @@ namespace Velvet
 {
     public interface IColorable
     {
-        Color Color { get; }
+        Color Color { get; set; }
     }
 }

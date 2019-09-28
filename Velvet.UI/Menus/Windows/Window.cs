@@ -10,41 +10,61 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Velvet.UI
 {
-    public class Window
+    /// <summary>
+    /// 
+    /// </summary>
+    public class Window : IBoundingRect
     {
+        public Window()
+        {
+
+        }
+
+
         #region//Content
 
-        public virtual dynamic Content { get; set; }
+        public WindowBackground WindowBackground { get; private set; }
 
-        public IDrawableTexture WindowBackground;
+        private Viewport viewport;
+        public Viewport Viewport => viewport;
 
 
+
+
+        bool AddScrolling { get; }
+
+        public BoundingRect BoundingRect => throw new NotImplementedException();
+
+        public Vector2 Origin => throw new NotImplementedException();
+
+        public Vector2 Position { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public PositionDependency PositionDependency { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public Dimensions2D Dimensions => throw new NotImplementedException();
+
+        public DimensionsDependency DimensionsDependency { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        void UpdateViewport()
+        {
+
+        }
+
+        public void SetWidth(float value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetHeight(float value)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
 
 
 
-        #region//Constructors
 
-
-        protected Window()
-        {
-                
-        }
-        #endregion
-
-        private sealed class BasicWindow : Window
-        {
-            
-
-
-        }
-
-        private sealed class MultiComponentWindow : Window
-        {
-
-        }
 
     }
 }

@@ -10,7 +10,6 @@ namespace Velvet
     {
         public ValueRange(float minimumValue, float maximumValue)
         {
-
             MinimumValue = minimumValue;
             MaximumValue = maximumValue;
         }
@@ -46,16 +45,34 @@ namespace Velvet
 
         }
 
-        public static float Enforce(float _value, float minValue, float maxValue)
+        public static float Enforce(float _value, float minValue, float maxValue, bool rollOver = false)
         {
             if (_value < minValue)
             {
-                return minValue;
+                if (rollOver)
+                {
+                    return maxValue;
+                }
+
+                else
+                {
+                    return minValue;
+                }
+
+                
             }
 
             if (_value > maxValue)
             {
-                return maxValue;
+                if (rollOver)
+                {
+                    return minValue;
+                }
+
+                else
+                {
+                    return maxValue;
+                }
             }
 
             else
@@ -63,16 +80,33 @@ namespace Velvet
                 return _value;
             }
         }
-        public static float Enforce(float _value, ValueRange valueRange)
+        public static float Enforce(float _value, ValueRange valueRange, bool rollOver = false)
         {
             if (_value < valueRange.MinimumValue)
             {
-                return valueRange.MinimumValue;
+                if (rollOver)
+                {
+                    return valueRange.MaximumValue - (Math.Abs(_value - valueRange.MinimumValue));
+                }
+
+                else
+                {
+                    return valueRange.MinimumValue;
+                }
+                
             }
 
             if (_value > valueRange.MaximumValue)
             {
-                return valueRange.MaximumValue;
+                if (rollOver)
+                {
+                    return valueRange.MinimumValue + (valueRange.MaximumValue - _value);
+                }
+
+                else
+                {
+                    return valueRange.MaximumValue;
+                }
             }
 
             else
@@ -82,16 +116,36 @@ namespace Velvet
 
         }
 
-        public static int Enforce(int _value, ValueRange valueRange)
+        public static int Enforce(int _value, ValueRange valueRange, bool rollOver = false)
         {
             if (_value < valueRange.MinimumValue)
             {
-                return (int)valueRange.MinimumValue;
+                if (rollOver)
+                {
+                    return (int)valueRange.MaximumValue;
+                }
+
+                else
+                {
+                    return (int)valueRange.MinimumValue;
+                }
+
+                
             }
 
             if (_value > valueRange.MaximumValue)
             {
-                return (int)valueRange.MaximumValue;
+
+                if (rollOver)
+                {
+                    return (int)valueRange.MinimumValue;
+                }
+
+                else
+                {
+                    return (int)valueRange.MaximumValue;
+                }
+
             }
 
             else
@@ -100,16 +154,34 @@ namespace Velvet
             }
         }
 
-        public static int Enforce(int _value, int minValue, int maxValue)
+        public static int Enforce(int _value, int minValue, int maxValue, bool rollOver = false)
         {
             if (_value < minValue)
             {
-                return minValue;
+                if (rollOver)
+                {
+                    return maxValue - (_value - minValue);
+                }
+
+                else
+                {
+                    return minValue;
+                }
+
+
             }
 
             if (_value > maxValue)
             {
-                return maxValue;
+                if (rollOver)
+                {
+                    return minValue/* + (maxValue - _value)*/;
+                }
+
+                else
+                {
+                    return maxValue;
+                }
             }
 
             else
@@ -121,4 +193,7 @@ namespace Velvet
 
 
     }
+
+    
+
 }

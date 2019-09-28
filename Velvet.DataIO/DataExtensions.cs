@@ -13,16 +13,7 @@ namespace Velvet.DataIO
     public static class DataExtensions
     {
         public static ConsoleLogger Logger = new ConsoleLogger();
-        public static MemberInfo[] GetBasicMemberInfos(this Type type)
-        {
-            List<MemberInfo> returnList = new List<MemberInfo>();
 
-            returnList.AddRange(type.GetProperties());
-            returnList.AddRange(type.GetFields());
-
-            return returnList.ToArray();
-
-        }
         public static Type GetUnderlyingType(this MemberInfo member)
         {
             switch (member.MemberType)

@@ -17,15 +17,66 @@ namespace Velvet.UI
 
         public IMenuObject FocusedObject { get; protected set; }
 
-        public IEnumerable<IMenuObject> MenuObjects { get; protected set; }
+        public List<IMenuObject> MenuObjects { get; protected set; } = new List<IMenuObject>();
 
-        public IEnumerable<IMenuObject> ActiveMenuObjects => from m in MenuObjects where m.ObjectActive select m;
+        public List<IMenuObject> ActiveMenuObjects { get
+            {
+                var returnList = new List<IMenuObject>();
+
+                foreach(var obj in MenuObjects)
+                {
+                    if (obj.ObjectActive)
+                    {
+                        returnList.Add(obj);
+                    }
+                }
+
+                return returnList;
+            }
+        }
 
 
         //TODO: pre-processor directive for VelvetInput
-        public BasicInputHandler InputHandler = new BasicInputHandler();
+        public InputManager Input { get; set; } = InputManager.CreateInputManager();
 
-        
+
+
+        protected void ArrangeAsList(IBoundingRect[] boundingRects, IBoundingRect target, ReferencePoint refPoint, TextAlignment alignment = TextAlignment.Left)
+        {
+            float offset = 5;
+
+            boundingRects[0].AnchorTo(target, refPoint, RectRelativity.Inside, offset);
+
+            for (int i = 1; i < boundingRects.Count(); i++)
+            {
+                //if (boundingRects[i] is TextImage t)
+                //{
+                //    t.Alignment = alignment;
+                //}
+
+                boundingRects[i].AnchorTo(boundingRects[i - 1], ReferencePoint.BottomCentered, RectRelativity.Outside, offset);
+            }
+
+            
+        }
+
+        protected void ArrangeAsList(IBoundingRect[] boundingRects, BoundingRect target, ReferencePoint refPoint, TextAlignment alignment = TextAlignment.Left)
+        {
+            float offset = 5;
+
+            boundingRects[0].AnchorTo(target, refPoint, RectRelativity.Inside, offset);
+
+            for (int i = 1; i < boundingRects.Count(); i++)
+            {
+                //if(boundingRects[i] is TextImage t)
+                //{
+                //    t.Alignment = alignment;
+                //}
+                boundingRects[i].AnchorTo(boundingRects[i - 1], ReferencePoint.BottomCentered, RectRelativity.Outside, offset);
+            }
+
+
+        }
 
         #endregion
 
@@ -42,9 +93,8 @@ namespace Velvet.UI
         }
 
         public virtual void Update(GameTime gameTime)
-        {
-            //TODO: pre-processor directive for VelvetInput
-            InputHandler.Update(gameTime);
+        {   
+            Input.Update(gameTime);
 
             
         }
@@ -67,13 +117,6 @@ namespace Velvet.UI
         {
 
         }
-
-        //TODO: pre-processor directive for VelvetInput
-       
-
-
-
-
 
         #endregion
 

@@ -5,11 +5,10 @@ using Microsoft.Xna.Framework;
 
 namespace Velvet
 {
-    public interface IBoundingRect : IMovable
+    public interface IBoundingRect : IMovable, IDimensions2D
     {
         BoundingRect BoundingRect { get; }
-        Vector2 Origin { get; set; }
-
+        Vector2 Origin { get; }
 
     }
 }

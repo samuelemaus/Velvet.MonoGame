@@ -7,8 +7,7 @@ namespace Velvet.Input
     public interface ITargetingSource : IMovable
     {
         object TargetedObject { get; }
-
-
+        IBoundingRect[] ActiveTargets { get; set;  }
 
     }
 }

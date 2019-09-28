@@ -11,9 +11,9 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace Velvet.UI
 {
-    public class UserInterface
+    public class UserInterface22
     {
-        public UserInterface()
+        public UserInterface22()
         {
             Renderer = new UIRenderer();
             

@@ -14,21 +14,21 @@ namespace Velvet
         #region//Constructors
         public TextImage()
         {
-            SetText("text null");
+            this.text = "text null";
             InitializeDimensions();
             DrawMethod = DrawTextImage;
         }
 
         public TextImage(string text)
         {
-            SetText(text);
+            this.text = text;
 
             DrawMethod = DrawTextImage;
 
         }
         public TextImage(string text, SpriteFont font)
         {
-            SetText(text);
+            this.text = text;
             Font = font;
             //InitializeDimensions();
             DrawMethod = DrawTextImage;
@@ -47,7 +47,20 @@ namespace Velvet
             return new TextImage(text);
         }
 
-        public string Text { get; protected set; } = "";
+        private string text = "";
+        public string Text
+        {
+            get
+            {
+                return text;
+            }
+
+            set
+            {
+                text = value;
+                InitializeDimensions();
+            }
+        }
         protected string CasedText => Text.GetCasedText(TextCase);
 
         private TextAlignment alignment;
@@ -58,7 +71,7 @@ namespace Velvet
             set
             {
                 alignment = value;
-                SetOrigin();
+                InitializeOrigin();
             }
         }
         public TextCase TextCase { get; set; }
@@ -73,10 +86,7 @@ namespace Velvet
                 InitializeDimensions();
             }
         }
-        public void SetText(string text)
-        {
-            this.Text = text;
-        }
+        
         
 
         #endregion
@@ -93,15 +103,14 @@ namespace Velvet
                 Dimensions = (Dimensions2D.Empty * Scale);
             }
 
-            SetOrigin();
+            
+            InitializeOrigin();
 
         }
-        protected override void SetOrigin()
+        protected override void InitializeOrigin()
         {
             float x = 0;
-
             float y = Dimensions.VerticalCenter;
-
             switch (Alignment)
             {
                 case TextAlignment.Center:
@@ -123,22 +132,27 @@ namespace Velvet
             }
 
             Origin = new Vector2(x, y);
-
         }
+
+        
 
         protected override DrawDelegate DrawMethod { get; set; }
 
         protected void DrawTextImage(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(Font, CasedText, Position, Color, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
+            spriteBatch.DrawString(Font, CasedText, Position, Color * Alpha, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
         }
         protected void DrawTextImageWithShadow(SpriteBatch spriteBatch)
         {
-
+            spriteBatch.DrawString(Font, CasedText, DrawPosition + Vector2.One, Color, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
+            spriteBatch.DrawString(Font, CasedText, DrawPosition, Color, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
         }
 
 
-
+        public override string ToString()
+        {
+            return $"({Text}, {Position}";
+        }
 
 
     }

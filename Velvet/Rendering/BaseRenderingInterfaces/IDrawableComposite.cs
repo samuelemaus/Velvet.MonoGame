@@ -10,7 +10,7 @@ namespace Velvet
     public interface IDrawableComposite : IDrawableObject
     {
 
-        IDrawableObject[] Images { get; }
+        IEnumerable<IDrawableObject> Images { get; }
 
 
 

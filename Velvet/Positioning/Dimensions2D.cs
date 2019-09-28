@@ -57,20 +57,37 @@ namespace Velvet
 
         public static Dimensions2D operator / (Dimensions2D first, Dimensions2D second)
         {
-            float width = first.Width * second.Width;
-            float height = first.Height * second.Height;
+            float width = first.Width / second.Width;
+            float height = first.Height / second.Height;
+
+            return new Dimensions2D(width, height);
+
+        }
+        public static Dimensions2D operator /(Dimensions2D first, Vector2 second)
+        {
+            float width = first.Width / second.X;
+            float height = first.Height / second.Y;
 
             return new Dimensions2D(width, height);
 
         }
 
-        public static Dimensions2D operator /(Dimensions2D first, Vector2 second)
+        public static Dimensions2D operator / (Dimensions2D first, int second)
         {
-            float width = first.Width * second.X;
-            float height = first.Height * second.Y;
+            return new Dimensions2D(first.Width / second, first.Height / second);
+        }
+        public static Dimensions2D operator *(Dimensions2D first, int second)
+        {
+            return new Dimensions2D(first.Width * second, first.Height * second);
+        }
 
-            return new Dimensions2D(width, height);
-
+        public static Dimensions2D operator /(Dimensions2D first, float second)
+        {
+            return new Dimensions2D(first.Width / second, first.Height / second);
+        }
+        public static Dimensions2D operator *(Dimensions2D first, float second)
+        {
+            return new Dimensions2D(first.Width * second, first.Height * second);
         }
 
         public static bool operator ==(Dimensions2D first, Dimensions2D second)
@@ -90,6 +107,14 @@ namespace Velvet
         public float VerticalCenter => Height / 2;
 
         public Vector2 Center => new Vector2(HorizontalCenter, VerticalCenter);
+
+        public static Dimensions2D Empty = new Dimensions2D(0, 0);
+        public Dimensions2D Flipped()
+        {
+            return new Dimensions2D(Height, Width);
+        }
+
+        public bool IsSquare => Width == Height;
 
 
         #endregion
@@ -114,7 +139,12 @@ namespace Velvet
             return $"w:{Width}, h:{Height}";
         }
 
-        public static Dimensions2D Empty = new Dimensions2D(0, 0);
+        public Vector2 ToVector2()
+        {
+            return new Vector2(Width, Height);
+        }
+
+
 
         public static implicit operator Dimensions2D(Vector2 vector2)
         {

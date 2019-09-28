@@ -9,9 +9,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Velvet.Input
 {
-    public interface IInputHandler : IMouseHandler, IKeyboardHandler
+    public interface IInputManager
     {
-
-
+        IInputHandler[] InputHandlers { get; }
     }
 }

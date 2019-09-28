@@ -7,9 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 
-namespace Velvet
+namespace Velvet.Input
 {
-    public interface IKeyboardHandler
+    public interface IKeyboardHandler : IInputHandler
     {
         KeyboardState CurrentKeyState { get; }
         KeyboardState PrevKeyState { get; }

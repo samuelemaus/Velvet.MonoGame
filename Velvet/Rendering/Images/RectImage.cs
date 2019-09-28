@@ -30,48 +30,181 @@ namespace Velvet
         public RectImage(Rectangle target)
         {
             InitialTargetRect = new BoundingRect(target);
+            InitializeDimensions();
+            DrawMethod = DrawRect;
+        }
+
+        public RectImage(IBoundingRect target)
+        {
+            InitialTargetRect = target.BoundingRect;
+            InitializeDimensions();
+            this.SetPositionDependency(target);
+            DrawMethod = DrawRect;
         }
 
         #endregion
 
         #region//Content
 
-        protected BoundingRect InitialTargetRect;
-        public ReferencePoint OriginReferencePoint { get; protected set; } = ReferencePoint.Centered;
+        public override BoundingRect BoundingRect
+        {
+            get
+            {
+                //base.UpdateBoundingRect();
+                //destinationRect.Location = boundingRect.TopLeft.ToPoint();
+                //destinationRect.Width = (int)boundingRect.Dimensions.Width;
+                //destinationRect.Height = (int)boundingRect.Dimensions.Height;
+
+                return boundingRect;
+            }
+        }
+
+        private Rectangle _destinationRect;
+
+        private Rectangle destinationRect
+        {
+            get
+            {
+                _destinationRect.Location = BoundingRect.TopLeft.ToPoint();
+                _destinationRect.Width = (int)BoundingRect.Dimensions.Width;
+                _destinationRect.Height = (int)BoundingRect.Dimensions.Height;
+
+                return _destinationRect;
+            }
+        }
+
+        private bool stretchToFill;
+        public bool StretchToFill { get { return stretchToFill; }
+            set
+            {
+                stretchToFill = value;
+
+                if(value == true)
+                {
+                    DrawMethod = DrawRectStretched;
+                }
+
+            }
+
+        }
+
+        private Vector2 scale = Vector2.One;
+        public override Vector2 Scale
+        {
+            get
+            {
+                if (StretchToFill)
+                {
+                    return new Vector2((BoundingRect.Dimensions.Width / Texture.Width), (BoundingRect.Dimensions.Height / Texture.Height));
+                }
+
+                else
+                {
+                    return scale;
+                }
+                
+            }
+
+            set
+            {
+                scale = value;
+            }
+        }
+
+        private BoundingRect initialTargetRect;
+        public BoundingRect InitialTargetRect
+        {
+            get
+            {
+                return initialTargetRect;
+            }
+
+            set
+            {
+                initialTargetRect = value;
+                InitializeDimensions();
+            }
+        }
         #endregion
 
         #region//IDrawableTexture
 
         public static Texture2D DefaultRectImageTexture;
-        public Texture2D Texture { get; set; } = DefaultRectImageTexture;
+
+        private Texture2D texture = DefaultRectImageTexture;
+        public Texture2D Texture
+        {
+            get { return texture; }
+            set
+            {
+                texture = value;
+
+                InitializeDimensions();
+
+            }
+        }
+
+
 
         public static string DefaultPath = "Images/EmptyRect";
         public string FilePath { get; set; } = DefaultPath;
+
+        private Rectangle sourceRect;
+        public Rectangle SourceRect
+        {
+            get
+            {
+                return sourceRect;
+            }
+
+            set
+            {
+                sourceRect = value;
+                DrawMethod = DrawRectFromRegion;
+            }
+        }
+
         #endregion
 
         protected override DrawDelegate DrawMethod { get; set; }
 
         protected override void InitializeDimensions()
         {
+
             Dimensions = InitialTargetRect.Dimensions;
             Position = InitialTargetRect.Position;
-            SetOrigin();
-
+            InitializeOrigin();
+            _destinationRect = BoundingRect.ToRectangle();
+            
         }
 
-        protected override void SetOrigin()
-        {
-            Origin = InitialTargetRect.GetOrigin(OriginReferencePoint);
-        }
+
 
         #region//XNA Methods
 
-        protected void DrawRect(SpriteBatch spriteBatch)
+        public override void Update(GameTime gameTime)
         {
-            spriteBatch.Draw(Texture, Position, BoundingRect.ToRectangle(), Color * Alpha, Rotation, Origin, Scale, SpriteEffects.None, 0);
+            
         }
 
 
+        protected void DrawRect(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(Texture, DrawPosition, destinationRect, Color * Alpha, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
+        }
+
+        protected void DrawRectFromRegion(SpriteBatch spriteBatch)
+        {
+            //var dest = BoundingRect.ToRectangle();
+
+            spriteBatch.Draw(Texture, destinationRect, SourceRect, Color * Alpha, Rotation, Vector2.Zero, SpriteEffect, LayerDepth);
+        }
+
+        private Vector2 drawScale => new Vector2((BoundingRect.Dimensions.Width / Texture.Width), (BoundingRect.Dimensions.Height / Texture.Height));
+        protected void DrawRectStretched(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(Texture, DrawPosition, null, Color * Alpha, Rotation, Origin / drawScale, drawScale, SpriteEffect, LayerDepth);
+        }
 
         #endregion
     }

@@ -6,25 +6,43 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Velvet
 {
-    public abstract class PositionDependency/* : IPositionDependency*/
+    public abstract class PositionDependency
     {
        
-        public bool DependencyActive { get; set; }
+        public virtual bool DependencyActive { get; set; }
         public abstract Vector2 PositionOverride { get; }
 
         public float YOverride => PositionOverride.Y;
         public float XOverride => PositionOverride.X;
+        
 
-        public PositionCoordinateOverride CoordinateOverride { get; set; } = PositionCoordinateOverride.FullOverride;
+        public virtual PositionOverrideType OverrideType { get; set; } = PositionOverrideType.FullOverride;
 
         public void GetPositionOverride(ref Vector2 position)
         {
-            switch (CoordinateOverride)
+            switch (OverrideType)
             {
-                case PositionCoordinateOverride.FullOverride: position = PositionOverride; break;
-                case PositionCoordinateOverride.XOverride: position.X = PositionOverride.X; break;
-                case PositionCoordinateOverride.YOverride: position.Y = PositionOverride.Y; break;
+                case PositionOverrideType.FullOverride: position = PositionOverride; break;
+                case PositionOverrideType.XOverride: position.X = PositionOverride.X; break;
+                case PositionOverrideType.YOverride: position.Y = PositionOverride.Y; break;
             }
+        }
+
+        
+
+        public Vector2 GetDependencyPosition(IMovable target)
+        {
+            return target.Position;
+        }
+
+        public Vector2 GetDependencyBoundingRectPosition(IBoundingRect target)
+        {
+            return target.BoundingRect.Position;
+        }
+
+        public override string ToString()
+        {
+            return $"Override: {PositionOverride}, Type: {OverrideType}";
         }
 
     }
@@ -35,7 +53,14 @@ namespace Velvet
         public MovablePositionDependency(IMovable movable)
         {
             Dependency = movable;
-            OverrideMethod = DependencyPosition;
+            OverrideMethod = GetDependencyPosition;
+            DependencyActive = true;
+        }
+
+        public MovablePositionDependency(IMovable movable, PositionOverrideFromMovable overrideMethod)
+        {
+            Dependency = movable;
+            OverrideMethod = overrideMethod;
             DependencyActive = true;
         }
 
@@ -44,17 +69,26 @@ namespace Velvet
 
         public PositionOverrideFromMovable OverrideMethod { get; set; }
 
-        public Vector2 DependencyPosition(IMovable target)
+        public override string ToString()
         {
-            return target.Position;
+            return $"{Dependency} + {base.ToString()}";
         }
+
     }
+
+    /// <summary>
+    /// <see cref="PositionDependency"/> with two <see cref="IMovable"/> dependencies.  One for the <see cref="Vector2.X"/> coordinate and one for the <see cref="Vector2.Y"/> coordinate.
+    /// </summary>
     public class DualMovablePositionDependency : PositionDependency
     {
         public DualMovablePositionDependency(IMovable xDependency, IMovable yDependency)
         {
             XDependency = xDependency;
             YDependency = yDependency;
+            DependencyActive = true;
+            XOverrideMethod = GetDependencyPosition;
+            YOverrideMethod = GetDependencyPosition;
+
         }
 
         public IMovable XDependency { get; set; }
@@ -69,6 +103,10 @@ namespace Velvet
         public override Vector2 PositionOverride => new Vector2(xPosition, yPosition);
 
     }
+
+    /// <summary>
+    /// <see cref="PositionDependency"/> which invokes a <see cref="Vector2"/> Method (<see cref="PositionOverrideFromMethod"/>) to get its <see cref="PositionOverride"/>.
+    /// </summary>
     public class MethodPositionDependency : PositionDependency
     {
 
@@ -83,7 +121,13 @@ namespace Velvet
 
         public PositionOverrideFromMethod OverrideMethod { get; set; }
 
+        public override string ToString()
+        {
+            return $"{OverrideMethod}, {base.ToString()}";
+        }
+
     }
+
     public class DualMethodPositionDependency : PositionDependency
     {
         public DualMethodPositionDependency(PositionOverrideFromMethod xMethod, PositionOverrideFromMethod yMethod)
@@ -101,6 +145,39 @@ namespace Velvet
 
 
 
+    }
+
+    public class SplitTypeDualPositionDependency : PositionDependency
+    {
+        public SplitTypeDualPositionDependency(PositionDependency xDependency, PositionDependency yDependency)
+        {
+            XDependency = xDependency;
+            YDependency = yDependency;
+            DependencyActive = true;
+            XDependency.DependencyActive = true;
+            YDependency.DependencyActive = true;
+        }
+
+        private bool dependencyActive;
+        public override bool DependencyActive
+        {
+            get
+            {
+                return dependencyActive;
+            }
+
+            set
+            {
+                dependencyActive = value;
+                XDependency.DependencyActive = value;
+                YDependency.DependencyActive = value;
+            }
+        }
+
+        public PositionDependency XDependency { get; private set; }
+        public PositionDependency YDependency { get; private set; }
+
+        public override Vector2 PositionOverride => new Vector2(XDependency.XOverride, YDependency.YOverride);
     }
     #endregion
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Velvet;
@@ -11,5 +12,6 @@ namespace Velvet.UI
         IDrawableObject Image { get; }
         PassObjectAction UpdateImage { get; }
 
+        void Update(GameTime gameTime);
     }
 }

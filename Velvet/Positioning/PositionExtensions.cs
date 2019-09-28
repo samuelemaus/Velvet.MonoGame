@@ -10,10 +10,27 @@ namespace Velvet
 {
     public delegate Vector2 PositionOverrideFromMovable(IMovable target);
     public delegate Vector2 PositionOverrideFromMethod();
+    public delegate Dimensions2D DimensionsOverrideFromSized(IDimensions2D target);
+    public delegate Dimensions2D DimensionsOverrideFromMethod();
 
 
     public static class PositionExtensions
     {
+        public static Vector2 RoundUp(this Vector2 value)
+        {
+            return new Vector2((float)Math.Ceiling(value.X), (float)Math.Ceiling(value.Y));
+        }
+
+        public static Vector2 RoundDown(this Vector2 value)
+        {
+            return new Vector2((float)Math.Floor(value.X), (float)Math.Floor(value.Y));
+        }
+
+        public static Vector2 Round(this Vector2 value)
+        {
+            return new Vector2((float)Math.Round(value.X), (float)Math.Round(value.Y));
+        }
+
         #region//Snapping
 
         public static void SnapTo(this IMovable movable, BoundingRect rect, ReferencePoint refPoint, float offset)
@@ -72,9 +89,77 @@ namespace Velvet
 
         #endregion
 
+        #region//DimensionsDependency
+
+        #region//SetDependency Methods
+
+        public static void SetDimensionsDependency(this IDimensions2D dimensions, IDimensions2D dependency, DimensionsOverrideType overrideType = DimensionsOverrideType.FullOverride)
+        {
+            if(dimensions.DimensionsDependency is SizedObjectDimensionsDependency s)
+            {
+                s.Dependency = dependency;
+                s.DependencyActive = true;
+                s.OverrideType = overrideType;
+            }
+
+            else
+            {
+                dimensions.DimensionsDependency = new SizedObjectDimensionsDependency(dependency, overrideType);
+            }
+        }
+        public static void SetDimensionsDependency(this IDimensions2D dimensions, IDimensions2D widthDependency, IDimensions2D heightDependency)
+        {
+            if(dimensions.DimensionsDependency is DualObjectDimensionsDependency d)
+            {
+                d.WidthDependency = widthDependency;
+                d.HeightDependency = heightDependency;
+            }
+
+            else
+            {
+                dimensions.DimensionsDependency = new DualObjectDimensionsDependency(widthDependency, heightDependency);
+            }
+        }
+        public static void SetDimensionsDependency(this IDimensions2D dimensions, DimensionsOverrideFromMethod overrideMethod, DimensionsOverrideType overrideType = DimensionsOverrideType.FullOverride)
+        {
+            if(dimensions.DimensionsDependency is MethodDimensionsDependency m)
+            {
+                m.OverrideMethod = overrideMethod;
+                m.DependencyActive = true;
+                m.OverrideType = overrideType;
+            }
+
+            else
+            {
+                dimensions.DimensionsDependency = new MethodDimensionsDependency(overrideMethod, overrideType);
+
+            }
+        }
+        public static void SetDimensionsDependency(this IDimensions2D dimensions, DimensionsOverrideFromMethod widthMethod, DimensionsOverrideFromMethod heightMethod)
+        {
+            if(dimensions.DimensionsDependency is DualMethodDimensionsDependency d)
+            {
+                d.WidthOverrideMethod = widthMethod;
+                d.HeightOverrideMethod = heightMethod;
+                d.DependencyActive = true;
+            }
+
+            else
+            {
+                dimensions.DimensionsDependency = new DualMethodDimensionsDependency(widthMethod, heightMethod);
+            }
+
+        }
+
+
+
+        #endregion
+
+        #endregion
+
         #region//PositionDependency
         #region//SetDependency Methods
-        public static void SetDependency(this IMovable movable, IMovable dependency)
+        public static void SetPositionDependency(this IMovable movable, IMovable dependency)
         {
             if (movable.PositionDependency is MovablePositionDependency m)
             {
@@ -87,7 +172,7 @@ namespace Velvet
                 movable.PositionDependency = new MovablePositionDependency(dependency);
             }
         }
-        public static void SetDependency(this IMovable movable, PositionOverrideFromMethod overrideMethod)
+        public static void SetPositionDependency(this IMovable movable, PositionOverrideFromMethod overrideMethod)
         {
             if (movable.PositionDependency is MethodPositionDependency m)
             {
@@ -99,7 +184,7 @@ namespace Velvet
                 movable.PositionDependency = new MethodPositionDependency(overrideMethod);
             }
         }
-        public static void SetDependency(this IMovable movable, PositionOverrideFromMethod xMethod, PositionOverrideFromMethod yMethod)
+        public static void SetPositionDependency(this IMovable movable, PositionOverrideFromMethod xMethod, PositionOverrideFromMethod yMethod)
         {
             if(movable.PositionDependency is DualMethodPositionDependency d)
             {
@@ -112,7 +197,7 @@ namespace Velvet
                 movable.PositionDependency = new DualMethodPositionDependency(xMethod, yMethod);
             }
         }
-        public static void SetDependency(this IMovable movable, IMovable xDependency, IMovable yDependency)
+        public static void SetPositionDependency(this IMovable movable, IMovable xDependency, IMovable yDependency)
         {
             if(movable.PositionDependency is DualMovablePositionDependency d)
             {
@@ -127,20 +212,51 @@ namespace Velvet
         }
         #endregion
 
-        #region//AnchorMethods
 
-        public static void AnchorTo(this IBoundingRect rect, IBoundingRect target, ReferencePoint refPoint, RectRelativity relativity, float offset = 0, PositionCoordinateOverride coordinateOverride = PositionCoordinateOverride.FullOverride)
+        /// <summary>
+        /// Creates a <see cref="SplitTypeDualPositionDependency"/> for the target <see cref="IMovable"/> object.  If either the xDependency or yDependency parameters are null, the existing <see cref="PositionDependency"/> will be utilized instead for that parameter.
+        /// </summary>
+        /// <param name="movable">The target <see cref="IMovable"/> object. </param>
+        /// <param name="xDependency">The <see cref="PositionDependency"/> for the <see cref="IMovable"/> object's X coordinate. If left null, utilizes the object's current <see cref="PositionDependency"/></param>
+        /// <param name="yDependency">The <see cref="PositionDependency"/> for the <see cref="IMovable"/> object's Y coordinate. If left null, utilizes the object's current <see cref="PositionDependency"/></param>
+        public static void SetSplitPositionDependency(this IMovable movable, PositionDependency xDependency, PositionDependency yDependency)
         {
-            var dep = new MovablePositionDependency(target);
+            PositionDependency x = xDependency;
+            PositionDependency y = yDependency;
 
-            Vector2 origin = GetOrigin(rect.BoundingRect, refPoint.ToInverted());
-
-            if (relativity == RectRelativity.Inside)
+            if(xDependency == null)
             {
-                origin = GetOrigin(rect.BoundingRect, refPoint/*.ToInverted()*/);
+                x = movable.PositionDependency;
             }
 
-            rect.Origin = origin;
+            if(yDependency == null)
+            {
+                y = movable.PositionDependency;
+            }
+
+            if(xDependency == null && yDependency == null)
+            {
+                throw new ArgumentNullException("At least one PositionDependency must be supplied");
+            }
+
+            SplitTypeDualPositionDependency dep = new SplitTypeDualPositionDependency(x, y);
+
+            movable.PositionDependency = dep;
+            
+
+        }
+
+        #region//Tether Methods
+
+
+
+        #endregion
+
+        #region//AnchorMethods
+
+        public static void AnchorTo(this IBoundingRect rect, IBoundingRect target, ReferencePoint refPoint, RectRelativity relativity, float offset = 0, PositionOverrideType coordinateOverride = PositionOverrideType.FullOverride)
+        {
+            var dep = new MovablePositionDependency(target);        
 
             var differential = GetAnchorDifferential(rect.BoundingRect, target.BoundingRect, relativity, refPoint, offset);
 
@@ -150,12 +266,43 @@ namespace Velvet
             }
             
             dep.OverrideMethod = constantDifferential;
-            dep.CoordinateOverride = coordinateOverride;
+            dep.OverrideType = coordinateOverride;
+
+            rect.PositionDependency = dep;
+        }
+
+        public static void AnchorTo(this IBoundingRect rect, BoundingRect target, ReferencePoint refPoint, RectRelativity relativity, float offset = 0, PositionOverrideType coordinateOverride = PositionOverrideType.FullOverride)
+        {            
+
+            var differential = GetAnchorDifferential(rect.BoundingRect, target, relativity, refPoint, offset);
+
+            Vector2 constantDifferential()
+            {
+                return target.GetRectCorner(refPoint) - differential;
+            }
+
+            var dep = new MethodPositionDependency(constantDifferential);
+            dep.OverrideType = coordinateOverride;
+
+            rect.PositionDependency = dep;
+        }
+
+        public static void AnchorToCurrentDifferential(this IBoundingRect rect, IBoundingRect target)
+        {
+            var differential = target.Position - rect.Position;
+
+            Vector2 currentDifferential()
+            {
+                return target.Position - differential;
+            }
+
+            MethodPositionDependency dep = new MethodPositionDependency(currentDifferential);
 
             rect.PositionDependency = dep;
 
         }
-        public static void AnchorToCurrentDifferential(this IBoundingRect rect, IBoundingRect target)
+
+        public static void AnchorToCurrentDifferential(this IBoundingRect rect, BoundingRect target)
         {
             var differential = target.Position - rect.Position;
 
@@ -191,21 +338,23 @@ namespace Velvet
             float y = 0;
 
             Vector2 targetPosition = target.GetRectCorner(refPoint);
+
+
             
 
             if(relativity == RectRelativity.Outside)
             {
                 switch (refPoint.X)
                 {
-                    case XReference.Left:   x = targetPosition.X + (/*rect.Right + */offset); break;
-                    case XReference.Right:  x = targetPosition.X - (/*rect.Left + */offset); break;
+                    case XReference.Left:   x = targetPosition.X + ((rect.Dimensions.HorizontalCenter) + offset); break;
+                    case XReference.Right:  x = targetPosition.X - ((rect.Dimensions.HorizontalCenter) + offset); break;
                     case XReference.Center: x = targetPosition.X; break;
                 }
 
                 switch (refPoint.Y)
                 {
-                    case YReference.Top: y = targetPosition.Y + (/*rect.Bottom + */offset); break;
-                    case YReference.Bottom: y = targetPosition.Y - (/*rect.Top + */offset); break;
+                    case YReference.Top: y = targetPosition.Y - ((rect.Dimensions.VerticalCenter) + offset); break;
+                    case YReference.Bottom: y = targetPosition.Y + ((rect.Dimensions.VerticalCenter) + offset); break;
                     case YReference.Center: y = targetPosition.Y; break;
                 }
 
@@ -218,15 +367,15 @@ namespace Velvet
             {
                 switch (refPoint.X)
                 {
-                    case XReference.Left: x = targetPosition.X + (rect.Right + offset); break;
-                    case XReference.Right: x = targetPosition.X - (rect.Left + offset); break;
+                    case XReference.Left: x = targetPosition.X + ((rect.Dimensions.HorizontalCenter) + offset); break;
+                    case XReference.Right: x = targetPosition.X - ((rect.Dimensions.HorizontalCenter) + offset); break;
                     case XReference.Center: x = targetPosition.X; break;
                 }
 
                 switch (refPoint.Y)
                 {
-                    case YReference.Top: y = targetPosition.Y + (rect.Bottom + offset); break;
-                    case YReference.Bottom: y = targetPosition.Y - (rect.Top + offset); break;
+                    case YReference.Top: y = targetPosition.Y + ((rect.Dimensions.VerticalCenter) + offset); break;
+                    case YReference.Bottom: y = targetPosition.Y - ((rect.Dimensions.VerticalCenter) + offset); break;
                     case YReference.Center: y = targetPosition.Y; break;
                 }
             }
@@ -268,6 +417,7 @@ namespace Velvet
         }
         #endregion
 
+        #region/BoundingRect
         public static Vector2 GetOrigin(this BoundingRect rect, ReferencePoint refPoint)
         {
             Vector2 value = default;
@@ -334,6 +484,95 @@ namespace Velvet
             return returnDict;
         }
 
+
+        public static BoundingRect ToBoundingRect(this Rectangle rect)
+        {
+            return new BoundingRect(rect);
+        }
+        #endregion
+
+        /// <summary>
+        /// Creates an <see cref="Array"/> of <see cref="Rectangle"/>s positioned and sized by the number of <paramref name="divisions"/>
+        /// </summary>
+        /// <param name="rect">The targeted <see cref="Rectangle"/></param>
+        /// <param name="divisions">Number of times Rectangle will be equally divided. </param>
+        /// <returns></returns>
+        public static Rectangle[] SubdivideToGrid(this Rectangle rect, int divisions)
+        {
+            int numRects = divisions * divisions;
+
+            var returnArray = new Rectangle[numRects];
+
+            int height = rect.Height / divisions;
+            int width = rect.Width / divisions;
+
+            //Rows
+            for (int i = 0; i < divisions; i++)
+            {
+                //Columns
+                for (int j = 0; j < divisions; j++)
+                {
+                    int x = rect.X + width * (j/* + 1*/);
+                    int y = rect.Y + height * (i/* + 1*/);
+
+                    Rectangle next = new Rectangle(x, y, width, height);
+
+                    int addIndex = (i * divisions) + j;
+
+                    returnArray[addIndex] = next;
+
+                }
+
+            }
+
+
+            return returnArray;
+
+        }
+
+        public static Rectangle[] SubdivideToGrid(this Rectangle rect, int rows, int columns)
+        {
+            int numRects = rows * columns;
+
+            var returnArray = new Rectangle[numRects];
+
+            int height = rect.Height / rows;
+            int width = rect.Width / columns;
+
+            //Rows
+            for (int i = 0; i < rows; i++)
+            {
+                //Columns
+                for (int j = 0; j < columns; j++)
+                {
+                    int x = rect.X + width * (j/* + 1*/);
+                    int y = rect.Y + height * (i/* + 1*/);
+
+                    Rectangle next = new Rectangle(x, y, width, height);
+
+                    int addIndex = (i * columns) + j;
+
+                    returnArray[addIndex] = next;
+
+                }
+
+            }
+
+
+            return returnArray;
+        }
+
+        public static object[] Rearrange(this object[] rects, IndexArrangement arrangement)
+        {
+            var returnArray = new object[rects.Length];
+
+            return returnArray;
+        }
+
+        public static Rectangle ToRectangle(this Dimensions2D dimensions)
+        {
+            return new Rectangle(0, 0, (int)dimensions.Width, (int)dimensions.Height);
+        }
 
     }
 }
