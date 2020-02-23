@@ -29,6 +29,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Velvet.Rendering", "Velvet.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0D58D9CC-8226-41C6-B58B-232B11293878}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Velvet.Phys", "Velvet.Phys\Velvet.Phys.csproj", "{9F8CFEE2-1A63-4E6A-99DD-C2E2C1B6E68E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSystems.PipelineExtensions", "GameSystems.PipelineExtensions\GameSystems.PipelineExtensions.csproj", "{EC47D305-FB4C-418C-BDEC-467A38683B24}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PipelineExtensions", "PipelineExtensions", "{EDFE029B-BB06-4A01-B5D5-9BBBB510E650}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +69,14 @@ Global
 		{769E4538-95E1-4491-B5F5-82D3295F7BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{769E4538-95E1-4491-B5F5-82D3295F7BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{769E4538-95E1-4491-B5F5-82D3295F7BC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F8CFEE2-1A63-4E6A-99DD-C2E2C1B6E68E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F8CFEE2-1A63-4E6A-99DD-C2E2C1B6E68E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F8CFEE2-1A63-4E6A-99DD-C2E2C1B6E68E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F8CFEE2-1A63-4E6A-99DD-C2E2C1B6E68E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC47D305-FB4C-418C-BDEC-467A38683B24}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{EC47D305-FB4C-418C-BDEC-467A38683B24}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{EC47D305-FB4C-418C-BDEC-467A38683B24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC47D305-FB4C-418C-BDEC-467A38683B24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +84,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A7DFB55E-7876-46E7-91CF-AF365ABEF9F0} = {0D58D9CC-8226-41C6-B58B-232B11293878}
 		{A7543056-F531-413E-AC2F-04DEAE07B4A3} = {0D58D9CC-8226-41C6-B58B-232B11293878}
+		{EC47D305-FB4C-418C-BDEC-467A38683B24} = {EDFE029B-BB06-4A01-B5D5-9BBBB510E650}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {21E98471-C598-4239-A296-0B1858993ED5}

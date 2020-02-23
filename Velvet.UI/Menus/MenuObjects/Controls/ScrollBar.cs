@@ -8,11 +8,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 
+
 namespace Velvet.UI
 {
     public class ScrollBar : ControlObject
     {
-        public override IViewObject View { get; }
+        public override IBindableViewObject View { get; }
 
         public override Dimensions2D Dimensions => throw new NotImplementedException();
 

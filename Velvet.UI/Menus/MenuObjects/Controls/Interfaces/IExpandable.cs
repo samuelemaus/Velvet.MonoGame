@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Velvet.UI
 {
+
     public interface IExpandable
     {
 

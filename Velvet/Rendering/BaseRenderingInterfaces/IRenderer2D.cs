@@ -8,8 +8,7 @@ using Microsoft.Xna.Framework.Content;
 namespace Velvet
 {
     public interface IRenderer2D
-    {
-        ContentManager Content { get; }
+    {        
         RenderTarget2D RenderTarget { get; }
         SpriteBatch SpriteBatch { get; set; }
         BlendState BlendState { get; set; }
@@ -20,8 +19,6 @@ namespace Velvet
         void LoadContent();
         void UnloadContent();
         void DrawSpriteBatch();
-        
-
 
     }
 }

@@ -16,6 +16,8 @@ namespace Velvet
 
     public static class PositionExtensions
     {
+
+        #region//Vector2 Extensions
         public static Vector2 RoundUp(this Vector2 value)
         {
             return new Vector2((float)Math.Ceiling(value.X), (float)Math.Ceiling(value.Y));
@@ -30,6 +32,12 @@ namespace Velvet
         {
             return new Vector2((float)Math.Round(value.X), (float)Math.Round(value.Y));
         }
+
+        public static Vector2 Absolute(this Vector2 value)
+        {
+            return new Vector2(Math.Abs(value.X), Math.Abs(value.Y));
+        }
+        #endregion
 
         #region//Snapping
 
@@ -248,6 +256,14 @@ namespace Velvet
 
         #region//Tether Methods
 
+        public static void TetherTo(this IMovable movable, IMovable dependency, float tolerance)
+        {
+            MovablePositionDependency dep;
+
+
+
+
+        }
 
 
         #endregion
@@ -339,9 +355,6 @@ namespace Velvet
 
             Vector2 targetPosition = target.GetRectCorner(refPoint);
 
-
-            
-
             if(relativity == RectRelativity.Outside)
             {
                 switch (refPoint.X)
@@ -358,9 +371,6 @@ namespace Velvet
                     case YReference.Center: y = targetPosition.Y; break;
                 }
 
-                //value = targetPosition + rect.GetRectCorner(refPoint.ToInverted());
-
-                //return value;
             }
 
             else
@@ -386,10 +396,6 @@ namespace Velvet
 
             return value;
         }
-
-        
-        
-        
 
         #endregion
 
@@ -467,19 +473,19 @@ namespace Velvet
             return new Vector2(rect.GetRectSide(refPoint.X), rect.GetRectSide(refPoint.Y));
         }
 
-        private static Dictionary<ReferencePoint, Vector2> OriginReferencePairs(BoundingRect rect)
+        public static Dictionary<ReferencePoint, Vector2> OriginReferencePairs(BoundingRect rect)
         {
             Dictionary<ReferencePoint, Vector2> returnDict = new Dictionary<ReferencePoint, Vector2>();
 
-            returnDict.Add(ReferencePoint.Centered, new Vector2(rect.Dimensions.HorizontalCenter, rect.Dimensions.VerticalCenter));
-            returnDict.Add(ReferencePoint.TopCentered, new Vector2(rect.Dimensions.HorizontalCenter, 0));
-            returnDict.Add(ReferencePoint.BottomCentered, new Vector2(rect.Dimensions.HorizontalCenter, rect.Dimensions.Height));
-            returnDict.Add(ReferencePoint.LeftCentered, new Vector2(0, rect.Dimensions.VerticalCenter));
-            returnDict.Add(ReferencePoint.RightCentered, new Vector2(rect.Dimensions.Width, rect.Dimensions.VerticalCenter));
-            returnDict.Add(ReferencePoint.TopLeft, Vector2.Zero);
-            returnDict.Add(ReferencePoint.TopRight, new Vector2(rect.Dimensions.Width, 0));
-            returnDict.Add(ReferencePoint.BottomLeft, new Vector2(0, rect.Dimensions.Height));
-            returnDict.Add(ReferencePoint.BottomRight, new Vector2(rect.Dimensions.Width, rect.Dimensions.Height));
+            returnDict.Add(ReferencePoint.Centered,                 new Vector2(rect.Dimensions.HorizontalCenter, rect.Dimensions.VerticalCenter));
+            returnDict.Add(ReferencePoint.TopCentered,              new Vector2(rect.Dimensions.HorizontalCenter, 0));
+            returnDict.Add(ReferencePoint.BottomCentered,           new Vector2(rect.Dimensions.HorizontalCenter, rect.Dimensions.Height));
+            returnDict.Add(ReferencePoint.LeftCentered,             new Vector2(0, rect.Dimensions.VerticalCenter));
+            returnDict.Add(ReferencePoint.RightCentered,            new Vector2(rect.Dimensions.Width, rect.Dimensions.VerticalCenter));
+            returnDict.Add(ReferencePoint.TopLeft,                  Vector2.Zero);
+            returnDict.Add(ReferencePoint.TopRight,                 new Vector2(rect.Dimensions.Width, 0));
+            returnDict.Add(ReferencePoint.BottomLeft,               new Vector2(0, rect.Dimensions.Height));
+            returnDict.Add(ReferencePoint.BottomRight,              new Vector2(rect.Dimensions.Width, rect.Dimensions.Height));
 
             return returnDict;
         }
@@ -525,6 +531,47 @@ namespace Velvet
 
             }
 
+            return returnArray;
+
+        }
+
+        public static Rectangle[] SubdivideToGridByCellDimensions(this Rectangle rect, Dimensions2D cellDimensions, int cellCount = 0)
+        {
+            if(cellCount == 0)
+            {
+                int rectArea = rect.Width * rect.Height;
+                int cellArea = (int)(cellDimensions.Width * cellDimensions.Height);
+
+                cellCount = rectArea / cellArea;
+            }
+
+            var returnArray = new Rectangle[cellCount];
+
+            int rows = (int)(rect.Height / cellDimensions.Height);
+            int columns = (int)(rect.Width / cellDimensions.Width);
+            
+
+            int height = (int)cellDimensions.Height;
+            int width = (int)cellDimensions.Width;
+
+            //Rows
+            for (int i = 0; i < rows; i++)
+            {
+                //Columns
+                for (int j = 0; j < columns; j++)
+                {
+                    int x = rect.X + width * (j/* + 1*/);
+                    int y = rect.Y + height * (i/* + 1*/);
+
+                    Rectangle next = new Rectangle(x, y, width, height);
+
+                    int addIndex = (i * columns) + j;
+
+                    returnArray[addIndex] = next;
+
+                }
+
+            }
 
             return returnArray;
 

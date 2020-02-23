@@ -273,6 +273,9 @@ namespace Velvet
             BorderAsRect = new RectImage(new BoundingRect(140, 140, 100, 150));
             Equipments = DataManager.LoadObjects<TestEquipment>("Equipment.csv");
 
+            WindowBackground = new WindowBackground();
+            
+
             EqpTextImages = new TextImage[Equipments.Length];
 
             for (int i = 0; i < Equipments.Length; i++)
@@ -283,12 +286,12 @@ namespace Velvet
                 EqpTextImages[i].Color = Color.Aqua;
             }
 
-            UIController.Renderer.LoadImageContent(Background);
+            this.LoadImageContent(Background);
             Background.Position = new Vector2(960, 540) / 2;
             Background.Color = Color.DimGray;
             Background.Scale = new Vector2(0.5f);
 
-            UIController.Renderer.LoadImageContentFromPath(BorderAsRect, "Images/Windows/WindowTexture1");
+            this.LoadImageContentFromPath(BorderAsRect, "Images/Windows/WindowTexture1");
             BorderAsRect.Color = Color.HotPink;
 
             Rectangle[] targetRects = reccy.SubdivideToGrid(2,7);
@@ -315,7 +318,7 @@ namespace Velvet
 
             }
 
-            WindowAtlas = new TextureAtlas(UI.UIController.Renderer.Content.Load<Texture2D>("Images/Windows/WindowTexture1"), 3);
+            
 
             targetRegion = WindowAtlas.Regions[0];
 

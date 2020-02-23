@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
 namespace Velvet.Rendering
 {
     public class TextureRegion
     {
-
         public TextureRegion(Texture2D texture, Rectangle rect)
         {
             SourceTexture = texture;
@@ -17,7 +17,7 @@ namespace Velvet.Rendering
         }
 
         /// <summary>
-        /// Objects associated with the particular Texture region.  Currently limited to 6 for performance reasons.
+        /// Objects associated with the particular Texture region.  Currently limited to 7 for performance reasons.
         /// </summary>
         public List<object> Tags { get; protected set; } = new List<object>(7);
         public string Name { get; set; }

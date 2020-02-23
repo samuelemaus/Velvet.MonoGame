@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="GameEntity\" />
-    <Folder Include="Geometry\BoundingShapes\" />
   </ItemGroup>
 
 </Project>

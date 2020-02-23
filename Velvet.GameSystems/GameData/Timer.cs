@@ -17,31 +17,20 @@ namespace Velvet.GameSystems
     {
 
         #region//Constructors
-
-
         public Timer(float low, float high, Order type)
         {
             TimerType = type;
             TimeRange = new ValueRange(low, high);
-
             CurrentValue = initialTimeValue();
-
-            
-
-            //timeSpan = TimeSpan.FromSeconds(TimeRange.CurrentValue);
-
         }
-
         public Timer(float threshold, Order type)
         {
             TimerType = type;
-
         }
 
         #endregion
 
         #region//Content
-
         private float currentValue;
         public float CurrentValue
         {
@@ -58,7 +47,6 @@ namespace Velvet.GameSystems
 
             }
         }
-        
         private TimeSpan timeSpan;
         public TimeSpan TimeSpan
         {
@@ -72,9 +60,6 @@ namespace Velvet.GameSystems
                 SetField(ref timeSpan, value);
             }
         }
-
-
-
         private ValueRange timeRange;
         public ValueRange TimeRange
         {
@@ -87,12 +72,8 @@ namespace Velvet.GameSystems
             {
                 SetField(ref timeRange, value);
             }
-        }
-
-      
-
+        }     
         public Order TimerType;
-
         private float initialTimeValue()
         {
              if (TimerType == Order.Ascending)
@@ -105,9 +86,6 @@ namespace Velvet.GameSystems
                 return TimeRange.MaximumValue;
             }
         }
-
-
-
         private float targetElapsedTime
         {
             get
@@ -146,17 +124,12 @@ namespace Velvet.GameSystems
 
         #region//Time Logic & Events
         public bool TimerActive { get; private set; }
-
         public bool ResetOnTimerEnded { get; set; }
-
         public void Reset()
         {
             OnTimerReset();
-
             CurrentValue = initialTimeValue();
-
             StartTimer();
-
         }
 
         public void ResetToDefault()
@@ -235,7 +208,6 @@ namespace Velvet.GameSystems
         }
 
         #endregion
-
       
     }
 }

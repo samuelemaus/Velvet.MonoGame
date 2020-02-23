@@ -18,27 +18,25 @@ namespace Velvet
 
         #region//Content
 
-        public static void LoadImageContent(this IRenderer2D renderer, IDrawableTexture drawableTexture)
+        public static void LoadImageContent(this IContentManager contentManager, IDrawableTexture drawableTexture)
         {
             bool hasFilePath = drawableTexture.FilePath != "";
 
             if (hasFilePath)
             {
-                drawableTexture.Texture = renderer.Content.Load<Texture2D>(drawableTexture.FilePath);
+                drawableTexture.Texture = contentManager.Content.Load<Texture2D>(drawableTexture.FilePath);
             }
         }
 
-        public static void LoadImageContentFromPath(this IRenderer2D renderer, IDrawableTexture drawableTexture, string filePath)
+        public static void LoadImageContentFromPath(this IContentManager contentManager, IDrawableTexture drawableTexture, string filePath)
         {
-            drawableTexture.Texture = renderer.Content.Load<Texture2D>(filePath);
+            drawableTexture.Texture = contentManager.Content.Load<Texture2D>(filePath);
         }
 
         public static void LoadCompositeImageContent(this IRenderer2D renderer, IDrawableComposite drawableComposite)
         {
             
         }
-
-        
 
         #endregion
 
@@ -97,10 +95,16 @@ namespace Velvet
         }
         #endregion
 
+        #region//IDrawableObject
+
+        
+
+        #endregion
+
         #region //Vector2
 
-       
-        
+
+
 
         public static Vector2 GetRectDifferential(Rectangle source, Rectangle xtarget, Rectangle ytarget, RectRelativity xrel, RectRelativity yrel, ReferencePoint refPoint, int Offset)
         {
@@ -142,17 +146,6 @@ namespace Velvet
 
                         break;
 
-                    case XReference.Unbound:
-
-                        x = 0;
-
-                        break;
-
-                    case XReference.BoundCoordinate:
-
-                        x = 0;
-
-                        break;
                 }
 
 
@@ -185,17 +178,6 @@ namespace Velvet
 
                         break;
 
-                    case XReference.Unbound:
-
-                        x = 0;
-
-                        break;
-
-                    case XReference.BoundCoordinate:
-
-                        x = 0;
-
-                        break;
                 }
 
 
@@ -227,18 +209,6 @@ namespace Velvet
 
                         break;
 
-
-                    case YReference.Unbound:
-
-                        y = 0;
-
-                        break;
-
-                    case YReference.BoundCoordinate:
-
-                        y = 0;
-
-                        break;
                 }
             }
 
@@ -268,17 +238,7 @@ namespace Velvet
 
                         break;
 
-                    case YReference.Unbound:
 
-                        y = 0;
-
-                        break;
-
-                    case YReference.BoundCoordinate:
-
-                        y = 0;
-
-                        break;
                 }
             }
 

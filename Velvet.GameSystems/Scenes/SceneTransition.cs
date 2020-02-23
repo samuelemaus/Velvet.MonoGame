@@ -32,7 +32,7 @@ namespace Velvet.GameSystems
         {
             if(Image is IDrawableTexture)
             {
-                renderer.LoadImageContent(Image as IDrawableTexture);
+                //renderer.LoadImageContent(Image as IDrawableTexture);
             }
 
             

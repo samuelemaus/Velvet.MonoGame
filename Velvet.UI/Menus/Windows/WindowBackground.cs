@@ -119,13 +119,7 @@ namespace Velvet.UI
         private RectImage[] sides = new RectImage[4];
         private RectImage[] images = new RectImage[9];
 
-        public override IEnumerable<IDrawableObject> Images
-        {
-            get
-            {
-                return images/*.ToList<IDrawableObject>()*/;
-            }
-        }
+        public override IEnumerable<IDrawableObject> Images => images;
 
 
         #endregion
@@ -160,16 +154,6 @@ namespace Velvet.UI
 
 
         public override BoundingRect BoundingRect => ((IBoundingRect)ParentWindow).BoundingRect;
-
-
-        #region//IBoundingRect
-        //public BoundingRect BoundingRect => ((IBoundingRect)WindowBackground).BoundingRect;
-
-        //public Vector2 Origin => ((IBoundingRect)WindowBackground).Origin;
-
-        //public Vector2 Position { get => ((IBoundingRect)WindowBackground).Position; set => ((IBoundingRect)WindowBackground).Position = value; }
-        //public PositionDependency PositionDependency { get => ((IBoundingRect)WindowBackground).PositionDependency; set => ((IBoundingRect)WindowBackground).PositionDependency = value; }
-        #endregion
 
 
         #region//Dimensions & Positions Methods

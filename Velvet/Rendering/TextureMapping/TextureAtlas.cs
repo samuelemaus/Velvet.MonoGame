@@ -14,11 +14,16 @@ namespace Velvet.Rendering
         {
             SourceTexture = sourceTexture;
             Divisions = divisions;
-
             Subdivisions = divisions * divisions;
-
-
             InitializeRegions();
+        }
+
+        public TextureAtlas(Texture2D sourceTexture, Dimensions2D cellDimensions)
+        {
+            SourceTexture = sourceTexture;
+            CellDimensions = cellDimensions;
+            InitializeRegionsByCellDimensions();
+
         }
 
 
@@ -43,7 +48,6 @@ namespace Velvet.Rendering
         /// The number of times 
         /// </summary>
         public int Divisions { get; set; }
-
         public int Subdivisions { get; private set; }
 
         public Dimensions2D CellDimensions { get; set; }
@@ -270,6 +274,22 @@ namespace Velvet.Rendering
             }
 
             CellDimensions = new Dimensions2D(regionsSourceRects[0].Width, regionsSourceRects[0].Height);
+        }
+
+        private void InitializeRegionsByCellDimensions()
+        {
+            var textureSourceRect = SourceDimensions.ToRectangle();
+
+            var regionsSourceRects = textureSourceRect.SubdivideToGridByCellDimensions(CellDimensions);
+
+            Regions = new TextureRegion[regionsSourceRects.Length];
+
+            for (int i = 0; i < regionsSourceRects.Length; i++)
+            {
+                Regions[i] = new TextureRegion(SourceTexture, regionsSourceRects[i]);
+            }
+
+            
         }
 
         //TODO: This

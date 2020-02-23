@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Velvet.UI
 {
-    public abstract class MenuControl : MenuObject, IControl
+    public abstract class MenuControl : MenuView, IControl
     {
         public abstract IControlObject MainControl { get; set; }
 

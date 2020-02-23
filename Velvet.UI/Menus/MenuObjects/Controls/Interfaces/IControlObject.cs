@@ -9,7 +9,7 @@ namespace Velvet.UI
     {
         bool IsVisible { get; }
         bool IsActive { get; }
-        IViewObject View { get; }
+        IBindableViewObject View { get; }
         ControlObjectState CurrentBaseState { get; }
 
         ControlObjectState GetCurrentState();

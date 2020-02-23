@@ -11,6 +11,7 @@ namespace Velvet
     {
         //Properties
         SpriteEffects SpriteEffect { get; set;  }
+        Vector2 Origin { get; }
         float LayerDepth { get; set;  }
 
         //Methods

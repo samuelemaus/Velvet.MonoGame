@@ -20,8 +20,9 @@ namespace Velvet
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private int internalWidth = 640;
-        private int internalHeight = 360;
+        private int internalWidth = 320;
+        private int internalHeight = 180;
+        private FrameRateCounter frameRateCounter;
 
 
         public VelvetTestGame()
@@ -30,6 +31,7 @@ namespace Velvet
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Window.AllowUserResizing = true;
+            
 
         }
 
@@ -45,17 +47,18 @@ namespace Velvet
             this.GraphicsDevice.SamplerStates[0] = SamplerState.PointClamp;
             this.IsMouseVisible = true;
 
-            
+            frameRateCounter = new FrameRateCounter(this);
+            Components.Add(frameRateCounter);
+            //graphics.SynchronizeWithVerticalRetrace = true;
 
             int hudWidth = internalWidth * 2;
             int hudHeight = internalHeight / 3;
 
             UIController.Initialize(Services, Content.RootDirectory, new RenderTarget2D(GraphicsDevice, hudWidth, hudHeight), Vector2.Zero);
-            
             SceneController.Initialize(Services, "Content/Scenes", new RenderTarget2D(GraphicsDevice, internalWidth, internalHeight/* - hudHeight*/), Vector2.Zero);
-
-            GameRenderer.Configure(this, graphics, new Dimensions2D(internalWidth, internalHeight), new List<IRenderer2D>() { SceneController.Renderer, UIController.Renderer});
-            GameRenderer.SetResolution(GameRenderer.DisplayResolution / 1.5f);
+            TileSetManager.Initialize(SceneController.Content, "Content/Scenes/Tilesets");
+            GameRenderer.Initialize(this, graphics, new Dimensions2D(internalWidth, internalHeight), new List<IRenderer2D>() { SceneController.Renderer, UIController.Renderer});
+            GameRenderer.SetResolution(GameRenderer.DisplayResolution / 2f);
 
 
             base.Initialize();
@@ -71,11 +74,17 @@ namespace Velvet
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             GameRenderer.LoadContent();
+            UIController.LoadContent();
 
-            TestTopDownScene DefaultScene = new TestTopDownScene();
+            var DefaultScene = new ZeldaTestScene();
+            //var ZeldaScene = new ZeldaTestScene();
+
 
             SceneController.LoadContent(DefaultScene);
-            UIController.LoadContent(new TestHud(this, DefaultScene));
+            SceneController.GameScenes.Add(DefaultScene);
+            
+
+            
         }
 
         /// <summary>

@@ -35,7 +35,7 @@ namespace Velvet
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            spriteFont = content.Load<SpriteFont>("Content/Fonts/Monaco");
+            spriteFont = content.Load<SpriteFont>("Content/Fonts/MonacoLarge");
         }
 
         /// <summary>

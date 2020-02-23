@@ -43,8 +43,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Scripts\Test\TestScenes\ZeldaTestScene.cs" />
     <Compile Include="Scripts\Test\TestUI\GameSettingsMenu.cs" />
-    <Compile Include="Scripts\Test\TestUI\TopDownMenu.cs" />
+    <Compile Include="Scripts\Test\TestUI\ZeldaHud.cs" />
     <Compile Include="VelvetTestGame.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,11 +59,15 @@
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="Primitives2D">
+      <HintPath>..\..\..\Projects\C3.XNA.Primitives2D.r12\Primitives2D\bin\Debug\Primitives2D.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="Velvet">
       <HintPath>..\Velvet\bin\Debug\netstandard2.0\Velvet.dll</HintPath>
     </Reference>

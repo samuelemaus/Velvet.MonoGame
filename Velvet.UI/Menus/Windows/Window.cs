@@ -27,10 +27,6 @@ namespace Velvet.UI
 
         private Viewport viewport;
         public Viewport Viewport => viewport;
-
-
-
-
         bool AddScrolling { get; }
 
         public BoundingRect BoundingRect => throw new NotImplementedException();

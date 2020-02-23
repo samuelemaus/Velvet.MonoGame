@@ -9,7 +9,20 @@ namespace Velvet
 {
     public static class BaseExtensions
     {
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="extensionLength"></param>
+        /// <returns></returns>
+        public static string TrimFileExtension(this string s, int extensionLength = 3)
+        {
+            return s.Substring(0, s.Length - (extensionLength + 1));
+        }
+        public static string GetFileExtension(this string s)
+        {
+            return s.Substring(s.LastIndexOf('.'));
+        }
         public static List<string> DebugMemberInfoList<T>(this T obj) where T : class
         {
             var returnList = new List<string>();

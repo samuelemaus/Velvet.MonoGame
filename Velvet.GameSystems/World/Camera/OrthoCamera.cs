@@ -59,7 +59,6 @@ namespace Velvet.GameSystems
             viewableArea.Dimensions.Height = height;
         }
         public BoundingRect WorldBounds { get; set; }
-
         public Vector2 Scale { get; set; }
         #endregion
 
@@ -85,7 +84,6 @@ namespace Velvet.GameSystems
 
         public CameraScroller ScrollTool { get; set; }
         #endregion
-
         #region//Rotation
         private float rotation;
         public float Rotation
@@ -146,10 +144,8 @@ namespace Velvet.GameSystems
             set
             {
                 SetPositionDependencyWithInterrupt(value);     
-                
             }
         }
-
         public void SetPositionDependencyWithInterrupt(PositionDependency value, bool scrollToValue = true)
         {
             if (scrollToValue)
@@ -221,5 +217,13 @@ namespace Velvet.GameSystems
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return $"Pos: {Position}, Bounds: (({WorldBounds})), VP: (({Viewport}))";
+        }
+
+        public string DisplayRanges => $"HR(({HorizontalRange})) | VR(({VerticalRange}))";
+        public string DisplayBounds => $"Top {highestPosition}, Bottom {lowestPosition} Left {leftMostPosition} Right {rightMostPosition}";
     }
 }

@@ -40,10 +40,26 @@ namespace Velvet.GameSystems
         }
         public PropertyInfo[] GetProperties()
         {
-            Type t = this.GetType();
+            return this.GetType().GetProperties();
+        }
 
-            return t.GetProperties();
+        public PropertyInfo this[string propertyName]
+        {
+            get
+            {
+                PropertyInfo property = null;
 
+                foreach (PropertyInfo info in this.GetProperties())
+                {
+                    if (propertyName == info.Name)
+                    {
+                        property = info;
+                    }
+
+                }
+
+                return property;
+            }
         }
 
         #endregion
@@ -54,11 +70,10 @@ namespace Velvet.GameSystems
         #region//Sending Property Changes to Data
         public event SendValuePropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(object _value, [CallerMemberName] string propertyName = "")
+        protected virtual void OnPropertyChanged(object value, [CallerMemberName] string propertyName = "")
         {
-            PropertyChanged?.Invoke(this, _value, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, value, new PropertyChangedEventArgs(propertyName));
         }
-
 
         protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
         {
@@ -79,7 +94,7 @@ namespace Velvet.GameSystems
         #endregion
 
         #region//Receiving PropertyChanges from Data
-        public void OnPropertySetByControl(object sender, object _value, PropertyChangedEventArgs e)
+        public void OnPropertySetByControl(object sender, object value, PropertyChangedEventArgs e)
         {
             if (PropertyUpdateValidated(sender))
             {
@@ -87,12 +102,11 @@ namespace Velvet.GameSystems
 
                 if (property != null)
                 {
-                    property.SetValue(this, _value);
+                    property.SetValue(this, value);
                 }
             }
 
         }
-
         private bool PropertyUpdateValidated(object _sender)
         {
             bool value = false;
@@ -174,5 +188,4 @@ namespace Velvet.GameSystems
 
 
     }
-
 }

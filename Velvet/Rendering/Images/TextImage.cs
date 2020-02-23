@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
+
 namespace Velvet
 {
     public class TextImage : Image, IDrawableString
@@ -15,22 +16,38 @@ namespace Velvet
         public TextImage()
         {
             this.text = "text null";
+            CasedText = this.text;
             InitializeDimensions();
             DrawMethod = DrawTextImage;
         }
 
-        public TextImage(string text)
+        public TextImage(string text, SpriteFont font = default, Color color = default)
         {
             this.text = text;
+            CasedText = this.text;
+
+            if (font != default)
+            {
+                Font = font;
+            }
+            if(color != default)
+            {
+                Color = color;
+            }
+            else
+            {
+                Color = Color.White;
+            }
 
             DrawMethod = DrawTextImage;
 
         }
         public TextImage(string text, SpriteFont font)
         {
+
             this.text = text;
+            CasedText = this.text;
             Font = font;
-            //InitializeDimensions();
             DrawMethod = DrawTextImage;
 
         }
@@ -38,14 +55,7 @@ namespace Velvet
 
 
         #endregion
-
-
         #region//IDrawableString
-
-        public IDrawableString Instantiate(string text)
-        {
-            return new TextImage(text);
-        }
 
         private string text = "";
         public string Text
@@ -58,12 +68,15 @@ namespace Velvet
             set
             {
                 text = value;
+                CasedText = text.GetCasedText(TextCase);
                 InitializeDimensions();
             }
         }
-        protected string CasedText => Text.GetCasedText(TextCase);
 
-        private TextAlignment alignment;
+
+        protected string CasedText;
+
+        private TextAlignment alignment = TextAlignment.Center;
         public TextAlignment Alignment
         {
             get { return alignment; }
@@ -74,7 +87,20 @@ namespace Velvet
                 InitializeOrigin();
             }
         }
-        public TextCase TextCase { get; set; }
+        private TextCase textCase;
+        public TextCase TextCase
+        {
+            get
+            {
+                return textCase;
+            }
+
+            set
+            {
+                textCase = value;
+                CasedText = Text.GetCasedText(value);
+            }
+        }
 
         private SpriteFont font;
         public SpriteFont Font
@@ -133,9 +159,6 @@ namespace Velvet
 
             Origin = new Vector2(x, y);
         }
-
-        
-
         protected override DrawDelegate DrawMethod { get; set; }
 
         protected void DrawTextImage(SpriteBatch spriteBatch)
@@ -144,8 +167,8 @@ namespace Velvet
         }
         protected void DrawTextImageWithShadow(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(Font, CasedText, DrawPosition + Vector2.One, Color, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
-            spriteBatch.DrawString(Font, CasedText, DrawPosition, Color, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
+            spriteBatch.DrawString(Font, CasedText, Position + Vector2.One, Color, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
+            spriteBatch.DrawString(Font, CasedText, Position, Color, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
         }
 
 
@@ -154,6 +177,7 @@ namespace Velvet
             return $"({Text}, {Position}";
         }
 
+        
 
     }
 }

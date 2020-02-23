@@ -36,6 +36,12 @@ namespace Velvet.Input
 
             }
         }
+        public Vector2 TranslatedPosition
+        {
+            get; set;
+        }
+
+
 
         public delegate bool PointerClickedDelegate();
         private PointerClickedDelegate pointerClicked { get; set; }

@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 
 namespace Velvet.UI
 {
-    
 
-    
+
+
 
     #region//Menu Objects
+
+    #region//Views
+
+    public enum ResizeViewBehavior {ConstrainObjectsToBoundingRect, ConstrainBoundingRectToObjects }
+
+    #endregion
 
     #region//ToggleButton
     public enum ToggleButtonType {Text, RadioButton, EmbossedButton, HorizontalSwitch, VerticalSwitch}
@@ -36,14 +42,10 @@ namespace Velvet.UI
 
     #endregion
 
-
-
-
     #endregion
 
     #region//UI Elements
     public enum ControlObjectState {Default, Active, Targeted, Unselectable}
-    
     public enum HighlighterType {CursorIndicator, ColorHighlighter, DrawableHighlighter}
     public enum HoverTrigger {Wait, Input}
     public enum HeadingType { Default}

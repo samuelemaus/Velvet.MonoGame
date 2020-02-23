@@ -11,7 +11,7 @@ namespace Velvet.UI
     public abstract class ControlObject : IControlObject
     {
         #region//IControlObject
-        public abstract IViewObject View { get; }
+        public abstract IBindableViewObject View { get; }
         public virtual bool IsVisible { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual object TargetObject { get; set; }
@@ -35,7 +35,7 @@ namespace Velvet.UI
         public virtual Dimensions2D Dimensions { get; }
         public virtual DimensionsDependency DimensionsDependency { get; set; }
 
-        protected virtual void InitializeView(IViewObject view)
+        protected virtual void InitializeView(IBindableViewObject view)
         {
             view.Image.PositionDependency = new MovablePositionDependency(this);
 

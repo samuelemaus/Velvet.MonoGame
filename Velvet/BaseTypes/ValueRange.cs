@@ -160,7 +160,7 @@ namespace Velvet
             {
                 if (rollOver)
                 {
-                    return maxValue - (_value - minValue);
+                    return maxValue/* - (_value - minValue)*/;
                 }
 
                 else

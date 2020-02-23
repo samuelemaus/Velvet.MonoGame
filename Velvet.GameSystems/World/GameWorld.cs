@@ -35,8 +35,10 @@ namespace Velvet.GameSystems
         }
         public static float CullRange { get; set; } = 150f;
 
-        public List<GameWorldObject> GameObjects = new List<GameWorldObject>();
+        public List<GameObject> GameObjects = new List<GameObject>();
         public IDrawableComposite WorldMap { get; set; }
+
+        public TileMap TileMap { get; set; } = new TileMap();
 
         protected virtual void InitializeWorld()
         {
@@ -46,7 +48,7 @@ namespace Velvet.GameSystems
         #region//XNA Methods
         public void LoadContent()
         {
-            
+            TileMap.LoadContent();
         }
 
         public void UnloadContent()

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Velvet.Rendering;
 
 namespace Velvet
 {
@@ -15,7 +16,19 @@ namespace Velvet
         public BasicImage()
         {
             DrawMethod = DrawTexture;
+            Alpha = 1f;
+            Color = Color.White;
             
+        }
+
+        public BasicImage(TextureRegion textureRegion)
+        {
+            Texture = textureRegion.SourceTexture;
+            SourceRect = textureRegion.SourceRect;
+            InitializeDimensions();
+            DrawMethod = DrawTextureFromRegion;
+            Alpha = 1f;
+            Color = Color.White;
         }
 
         public BasicImage(string filePath)
@@ -57,22 +70,34 @@ namespace Velvet
             }
         }
 
+        
 
         protected override void InitializeDimensions()
         {
-            Dimensions = new Dimensions2D(Texture.Width, Texture.Height);
+            if(!SourceRect.IsEmpty)
+            {
+                Dimensions = new Dimensions2D(SourceRect.Width, SourceRect.Height);
+            }
 
-            
+            else
+            {
+                Dimensions = new Dimensions2D(Texture.Width, Texture.Height);
+            }
         }
         
         protected void DrawTexture(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, DrawPosition, null, Color * Alpha, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
+            spriteBatch.Draw(Texture, /*Draw*/Position, null, Color * Alpha, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
         }
 
         protected void DrawTextureFromRegion(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, DrawPosition, SourceRect, Color * Alpha, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
+            spriteBatch.Draw(Texture, /*Draw*/Position, SourceRect, Color * Alpha, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
+        }
+
+        public override string ToString()
+        {
+            return $"{FilePath}, Bounds: {BoundingRect}";
         }
     }
 }

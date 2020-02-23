@@ -10,7 +10,7 @@ namespace Velvet
     public abstract class Image : IDrawableObject, IDisposable
     {
 
-        #region//
+        #region//Content
         public SpriteEffects SpriteEffect { get; set; }
 
         protected BoundingRect boundingRect;
@@ -31,8 +31,6 @@ namespace Velvet
                 return boundingRect;
             }
         }
-
-        //protected Dimensions2D dimensions;
         public virtual Dimensions2D Dimensions
         {
             get => BoundingRect.Dimensions;
@@ -42,16 +40,11 @@ namespace Velvet
                 InitializeOrigin();
             }
         }
-
-        protected Vector2 position;
         public virtual Vector2 Position
         {
             get => BoundingRect.Position - OriginDifferential;
-
-            set => boundingRect.Position = value - OriginDifferential;
+            set => boundingRect.Position = value + OriginDifferential;
         }
-
-
 
         private Vector2 origin;
         public virtual Vector2 Origin
@@ -67,7 +60,7 @@ namespace Velvet
                 
             }
         }
-        public virtual Color Color { get; set; }
+        public virtual Color Color { get; set; } = Color.White;
         public float Rotation { get; set; }
         public float Alpha { get; set; } = 1f;
         public float LayerDepth { get; set; }
@@ -91,8 +84,8 @@ namespace Velvet
 
         #region//Dimensions & Positioning
 
-        public Vector2 OriginDifferential => Origin - BoundingRect.Dimensions.Center;
-        public Vector2 DrawPosition => Position + OriginDifferential;
+        public Vector2 OriginDifferential => BoundingRect.Dimensions.Center - Origin;
+        
 
         protected abstract void InitializeDimensions();
         public virtual PositionDependency PositionDependency { get; set; }
@@ -168,6 +161,31 @@ namespace Velvet
         {
             throw new NotImplementedException();
         }
+        #endregion
+
+        #region//Public Methods
+
+        public void SetOriginByReferencePoint(ReferencePoint refPoint)
+        {
+            float x = 0;
+            float y = 0;
+
+            switch (refPoint.X)
+            {
+                case XReference.Left: x = 0; break;
+                case XReference.Center: x = Dimensions.HorizontalCenter;  break;
+                case XReference.Right: x = Dimensions.Width;  break;
+            }
+            switch (refPoint.Y)
+            {
+                case YReference.Top: y = 0; break;
+                case YReference.Center: y = Dimensions.VerticalCenter; break;
+                case YReference.Bottom: y = Dimensions.Height; break;
+            }
+
+            Origin = new Vector2(x, y);
+        }
+
         #endregion
 
         #region//Debug

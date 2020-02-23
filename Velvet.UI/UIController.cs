@@ -25,6 +25,10 @@ namespace Velvet.UI
             }
         }
 
+        public static List<Menu> Menus = new List<Menu>();
+
+        
+
         #endregion
 
         #region//Public Methods
@@ -36,18 +40,24 @@ namespace Velvet.UI
 
         }
 
-        public static void LoadContent(Menu menu)
+        public static void ChangeMenu(Menu next)
+        {
+            next.LoadContent();
+            var previousMenu = CurrentMenu;
+            CurrentMenu = next;
+            if(previousMenu != null)
+            {
+                previousMenu.UnloadContent();
+            }
+            
+        }
+
+        public static void LoadContent()
         {
             UIResources.LoadContent(Content);
 
             Renderer.LoadContent();
 
-            CurrentMenu = menu;
-
-            if (CurrentMenu != null)
-            {
-                CurrentMenu.LoadContent();
-            }
         }
 
         public static void Update(GameTime gameTime)

@@ -7,17 +7,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.ComponentModel;
 
 namespace Velvet.UI
 {
     public static class UIExtensions
     {
-
-        public static Dictionary<ToggleButtonType, string> ToggleTypeImagePaths = new Dictionary<ToggleButtonType, string>()
-        {
-
-        };
-
         public static Vector2 ToVector2(this Direction direction, float speed)
         {
             Vector2 returnVector = default;
@@ -54,7 +51,16 @@ namespace Velvet.UI
             return returnVector;
         }
 
-        
+        public static ListView CreateListView(this IBindingSource source, PropertyInfo[] data)
+        {
+            return default;
+        }
+
+        public static string GetPropertyName(this object property, [CallerMemberName] string memberName = "")
+        {
+            return memberName;
+        }
+
 
 
     }

@@ -9,21 +9,20 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Velvet.UI;
 using Velvet.Input;
+using C3.XNA;
 
 namespace Velvet
 {
     public class TestTopDownScene : GameScene
     {
-        public TestTopDownScene()
+        public TestTopDownScene() : base("Content/Scenes")
         {
-            Camera = new OrthoCamera(SceneController.Renderer.Viewport);
-
-
+            SceneMenu = new TestHud(this);
         }
 
-        #region//Images
+        public TestHud SceneMenu { get; set; }
 
-        
+        #region//Images     
 
         public BasicImage Beach = new BasicImage("Beach");
         public BasicImage Ocean = new BasicImage("Ocean");
@@ -34,14 +33,15 @@ namespace Velvet
 
         public List<IDrawableObject> TemporaryImages = new List<IDrawableObject>();
 
-        
-
         #endregion
 
         #region//Overrides
 
         #region//Controls
 
+        public ReferencePoint LucasRefPoint = ReferencePoint.Centered;
+
+        int refPointIndex = ReferencePoint.ReferencePoints.IndexOf(ReferencePoint.Centered);
         float zoomSpeed = 0.25f / 3;
         float rotationSpeed = .001f;
         float moveSpeed = 2;
@@ -49,13 +49,20 @@ namespace Velvet
         double deltaTime;
         public override void ActivateSceneControls()
         {
-            MoveObject(moveObject, moveSpeed);
+            ChangeScenes();
+            CheckSomething();
+            MoveObjectWithKey(moveObject, moveSpeed);
 
             
 
             if (Input.Keyboard.KeyPressed(Keys.B))
             {
-                Beach.Color = Color.HotPink;
+                GameRenderer.ToggleFullScreen();
+            }
+
+            if (Input.Keyboard.KeyPressed(Keys.D))
+            {
+                ToggleLucasRefPoint();
             }
 
             if (Input.Keyboard.KeyPressed(Keys.R))
@@ -102,20 +109,14 @@ namespace Velvet
             DrawCreatedRect();
 
         }
-        void SetCameraDependency()
+
+        void ToggleLucasRefPoint()
         {
-            
-            if(Input.Mouse.BtnDown(MouseButtons.Left) && Input.Mouse.Pointer.CreatedRect != BoundingRect.Empty)
-            {
-                Camera.PositionDependency = MouseDependency;
-            }
+            refPointIndex = ValueRange.Enforce(refPointIndex + 1, 0, ReferencePoint.ReferencePoints.Count -1, true);
 
-            if (Input.Mouse.BtnReleased(MouseButtons.Left))
-            {
-                Camera.PositionDependency = LucasDependency;
-            }
-
+            Lucas.SetOriginByReferencePoint(ReferencePoint.ReferencePoints[refPointIndex]);
         }
+        
         void DrawCreatedRect()
         {
             if(drawTempRect)
@@ -186,32 +187,30 @@ namespace Velvet
         public int div = 2;
 
         #endregion
-
         public override void LoadContent()
         {
-            SceneController.Renderer.LoadImageContent(Beach);
-            SceneController.Renderer.LoadImageContent(Ocean);
-            SceneController.Renderer.LoadImageContent(Lucas);
-
-            moveObject = Lucas;
-
             
-            Beach.Position = Vector2.Zero;
+            this.LoadImageContent(Beach);
+            this.LoadImageContent(Ocean);
+            this.LoadImageContent(Lucas);
+
+            moveObject = Lucas;            
+            
             Beach.Origin = Vector2.Zero;
+            Beach.Position = Vector2.Zero;
             
             Lucas.Position = SceneController.Renderer.TargetDimensions.Center;
             Ocean.Position = new Vector2(170, 0);
 
-            Camera = SceneController.Renderer.Camera;
-
             LucasDependency = new MovablePositionDependency(Lucas);
             MouseDependency = new MethodPositionDependency(GetCreatedRectPosition);
 
+            /*Camera = new OrthoCamera(SceneController.Renderer.Viewport);*/
+
             Camera.SetPositionDependencyWithInterrupt(LucasDependency, false);
             Camera.WorldBounds = new BoundingRect(Beach.BoundingRect.Dimensions.Center, Beach.BoundingRect.Dimensions);
-            
-            
-            
+            UIController.ChangeMenu(SceneMenu);
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -229,6 +228,11 @@ namespace Velvet
             {
                 FadeRect.Draw(spriteBatch);
             }
+
+            spriteBatch.DrawRectangle(Lucas.BoundingRect.ToRectangle(), Color.Teal * 0.79f);
+            spriteBatch.DrawCircle(Lucas.BoundingRect.Position, 3f, 5, Color.Black* 0.65f);
+            spriteBatch.DrawCircle(Lucas.Position, 3f, 5, Color.DarkGoldenrod * 0.65f);
+
         }
 
         public override void Update(GameTime gameTime)

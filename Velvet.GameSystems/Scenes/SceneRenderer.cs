@@ -29,8 +29,7 @@ namespace Velvet.GameSystems
 
         public bool RendererInitialized { get; private set; }
 
-        public OrthoCamera Camera;
-
+        public OrthoCamera Camera { get; set; }
         public ContentManager Content { get; set; }
         public RenderTarget2D RenderTarget { get; set; }
         public Viewport Viewport;

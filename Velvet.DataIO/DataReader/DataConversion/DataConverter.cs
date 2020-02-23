@@ -132,7 +132,7 @@ namespace Velvet.DataIO
                     }
                 }
 
-            }
+            }   
 
             return types;
         }

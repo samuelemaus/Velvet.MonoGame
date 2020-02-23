@@ -5,15 +5,13 @@ using Velvet.Input;
 
 namespace Velvet.UI
 {
-    public interface IMenuObject
+    public interface IMenuObject : IBoundingRect
     {
-        IViewObject View { get; }
 
-        bool ObjectActive { get; }
+        bool IsActive { get; }
+        bool IsTargeted { get; }
 
-        bool ObjectTargeted { get; }
-
-        ITargetingSource TargetingSource { get; }
+        
 
     }
 }

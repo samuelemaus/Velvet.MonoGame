@@ -46,18 +46,7 @@ namespace Velvet
 
         #region//Content
 
-        public override BoundingRect BoundingRect
-        {
-            get
-            {
-                //base.UpdateBoundingRect();
-                //destinationRect.Location = boundingRect.TopLeft.ToPoint();
-                //destinationRect.Width = (int)boundingRect.Dimensions.Width;
-                //destinationRect.Height = (int)boundingRect.Dimensions.Height;
-
-                return boundingRect;
-            }
-        }
+        public override BoundingRect BoundingRect => boundingRect;
 
         private Rectangle _destinationRect;
 
@@ -138,8 +127,7 @@ namespace Velvet
             set
             {
                 texture = value;
-
-                InitializeDimensions();
+                UpdateDimensions();
 
             }
         }
@@ -160,7 +148,10 @@ namespace Velvet
             set
             {
                 sourceRect = value;
-                DrawMethod = DrawRectFromRegion;
+                if(DrawMethod != DrawRectFromRegion)
+                {
+                    DrawMethod = DrawRectFromRegion;
+                }
             }
         }
 
@@ -178,6 +169,12 @@ namespace Velvet
             
         }
 
+        private void UpdateDimensions()
+        {
+            Dimensions = InitialTargetRect.Dimensions;
+            InitializeOrigin();
+            _destinationRect = BoundingRect.ToRectangle();
+        }
 
 
         #region//XNA Methods
@@ -190,7 +187,7 @@ namespace Velvet
 
         protected void DrawRect(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, DrawPosition, destinationRect, Color * Alpha, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
+            spriteBatch.Draw(Texture, Position, destinationRect, Color * Alpha, Rotation, Origin, Scale, SpriteEffect, LayerDepth);
         }
 
         protected void DrawRectFromRegion(SpriteBatch spriteBatch)
@@ -203,9 +200,14 @@ namespace Velvet
         private Vector2 drawScale => new Vector2((BoundingRect.Dimensions.Width / Texture.Width), (BoundingRect.Dimensions.Height / Texture.Height));
         protected void DrawRectStretched(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, DrawPosition, null, Color * Alpha, Rotation, Origin / drawScale, drawScale, SpriteEffect, LayerDepth);
+            spriteBatch.Draw(Texture, Position, null, Color * Alpha, Rotation, Origin / drawScale, drawScale, SpriteEffect, LayerDepth);
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return $"{Color}, {BoundingRect}";
+        }
     }
 }

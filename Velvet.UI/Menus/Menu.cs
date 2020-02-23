@@ -11,21 +11,18 @@ using Velvet.Input;
 
 namespace Velvet.UI
 {
-    public abstract class Menu
+    public abstract class Menu : IContentManager
     {
         #region//Content
-
         public IMenuObject FocusedObject { get; protected set; }
-
         public List<IMenuObject> MenuObjects { get; protected set; } = new List<IMenuObject>();
-
         public List<IMenuObject> ActiveMenuObjects { get
             {
                 var returnList = new List<IMenuObject>();
 
                 foreach(var obj in MenuObjects)
                 {
-                    if (obj.ObjectActive)
+                    if (obj.IsActive)
                     {
                         returnList.Add(obj);
                     }
@@ -34,12 +31,15 @@ namespace Velvet.UI
                 return returnList;
             }
         }
-
-
         //TODO: pre-processor directive for VelvetInput
         public InputManager Input { get; set; } = InputManager.CreateInputManager();
+        public ContentManager Content { get; set; }
+        public string RootDirectory { get; set; }
 
-
+        protected void InitializeContent()
+        {
+            Content = new ContentManager(UIController.Content.ServiceProvider, RootDirectory);
+        }
 
         protected void ArrangeAsList(IBoundingRect[] boundingRects, IBoundingRect target, ReferencePoint refPoint, TextAlignment alignment = TextAlignment.Left)
         {

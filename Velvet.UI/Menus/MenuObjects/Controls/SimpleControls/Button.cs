@@ -13,7 +13,7 @@ namespace Velvet.UI
 {
     public class Button : ControlObject
     {
-        public override IViewObject View => view;
+        public override IBindableViewObject View => view;
 
         public override Dimensions2D Dimensions => throw new NotImplementedException();
 

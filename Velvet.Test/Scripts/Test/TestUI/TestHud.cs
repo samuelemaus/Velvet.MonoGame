@@ -12,14 +12,14 @@ using Velvet.Input;
 using Velvet.GameSystems;
 using Microsoft.Xna.Framework.Input;
 using System.Threading;
+using C3.XNA;
 
 namespace Velvet
 {
     public class TestHud : Menu
     {
-        public TestHud(VelvetTestGame game, TestTopDownScene scene = null)
+        public TestHud(TestTopDownScene scene)
         {
-            GameData = game;
             
             SceneData = scene;
 
@@ -27,9 +27,8 @@ namespace Velvet
             drawInfos.Add(DrawRectInfo);
             drawInfos.Add(DrawSceneInfo);
             drawInfos.Add(DrawResolutions);
+            drawInfos.Add(DrawTextView);
 
-
-            
         }
 
         SpriteFont font;
@@ -44,15 +43,14 @@ namespace Velvet
 
         public TextImage[] RendererTextImages;
         public List<IDrawableObject> TemporaryImages;
-        public VelvetTestGame GameData { get; private set; }
-
+        
         public TestTopDownScene TopDownScene { get; set; }
 
         public OrthoCamera Camera;
 
         public RectImage Background;
 
-        public ButtonView.ButtonCompositeImage ButtonCompositeImage;
+        public TextView Person1TextView { get; set; }
 
         Color[] randomColors = new Color[10];
 
@@ -126,24 +124,24 @@ namespace Velvet
 
         public override void ActivateMenuControls(GameTime gameTime)
         {
-            if (Input.Keyboard.KeyPressed(Keys.E))
+            if (Input.Keyboard.KeyPressed(Keys.U))
             {
-                SceneController.Renderer.AddSceneEffect(BaseResources.GaussianBlur);
+                People[0].HP -= 10;
             }
 
             if (Input.Keyboard.KeyPressed(Keys.I))
             {
-                SceneController.Renderer.AddSceneEffect(BaseResources.BloomCombine);
+                People[0].HP += 10;
             }
 
             if (Input.Keyboard.KeyPressed(Keys.O))
             {
-                SceneController.Renderer.AddSceneEffect(BaseResources.BloomExtract);
+                
             }
 
             if (Input.Keyboard.KeyPressed(Keys.W))
             {
-                SceneController.Renderer.ClearEffects();
+                
             }
 
             
@@ -176,9 +174,35 @@ namespace Velvet
             {
                 infoIndex = ValueRange.Enforce(infoIndex + 1, 0, drawInfos.Count -1, true);
             }
+
+            if (Input.Keyboard.KeyPressed(Keys.Z))
+            {
+                resToggle = !resToggle;
+
+                GameRenderer.SetResolution(toggledRes);
+            }
+
+            
         }
 
 
+        bool resToggle = false;
+        Dimensions2D otherRes = new Dimensions2D(1280, 720);
+        Dimensions2D toggledRes
+        {
+            get
+            {
+                if (resToggle)
+                {
+                    return otherRes;
+                }
+
+                else
+                {
+                    return GameRenderer.DisplayResolution;
+                }
+            }
+        }
 
         public override void LoadContent()
         {
@@ -206,10 +230,7 @@ namespace Velvet
                 Alpha = 0.5f
             };
 
-            ButtonCompositeImage = new ButtonView.ButtonCompositeImage(new BoundingRect(100, 20, 32, 8));
-
-
-            TextAlignment alignment = TextAlignment.Right;
+            TextAlignment alignment = TextAlignment.Left;
 
             PeopleTextImages[0] = new TextImage(People[0].ToString())
             {
@@ -242,8 +263,19 @@ namespace Velvet
             }
 
 
-            var CameraInfo = Camera.DebugMemberInfoList();
+            Person1TextView = new TextView();
 
+            Person1TextView.BindTo(People[0], People[0].HP, nameof(TestPerson.HP));
+            Person1TextView.Image.Position = UIController.Renderer.TargetDimensions.Center;
+
+            TextImage t = Person1TextView.Image as TextImage;
+
+            t.Alignment = TextAlignment.Center;
+
+            Person1TextView.Image.Color = Color.HotPink;
+
+
+            
         }
         public override void UnloadContent()
         {
@@ -258,15 +290,11 @@ namespace Velvet
             ActivateMenuControls(gameTime);
 
             PeopleTextImages.UpdateCollection(gameTime);
-            
-
-            ButtonCompositeImage.Update(gameTime);
 
             GetDrawnRect();
 
             
         }
-
         public override void Draw(SpriteBatch spriteBatch)
         {
             Background.Draw(spriteBatch);
@@ -277,55 +305,67 @@ namespace Velvet
 
             TemporaryImages.DrawCollection(spriteBatch);
 
-
-
             DrawInfo.Invoke(spriteBatch);
 
+            Person1TextView.Draw(spriteBatch);
+
+            DrawDebugRects(spriteBatch);
             
         }
-
-
-
         #endregion
 
         public delegate void DrawMethod(SpriteBatch spriteBatch);
         public DrawMethod DrawInfo => drawInfos[infoIndex];
 
+        private void DrawDebugRects(SpriteBatch spriteBatch)
+        {
+            foreach(var p in PeopleTextImages)
+            {
+                spriteBatch.DrawRectangle(p.BoundingRect.ToRectangle(), Color.Honeydew * 0.45f);
+            }
+        }
+
         private void DrawCameraInfo(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font, $"Pos {Camera.Position}, Targ Pos: {Camera.ScrollTool.targetPosition}", new Vector2(0, 5), randomColors[0]);
-            spriteBatch.DrawString(font, $"TargReached: {Camera.ScrollTool.TargetReached}, Scrolling: {Camera.ScrollTool.Scrolling}", new Vector2(0, 20), randomColors[0]);
-            spriteBatch.DrawString(font, $"PosDep: {Camera.PositionDependency}, Active: {Camera.PositionDependency.DependencyActive}", new Vector2(0, 35), randomColors[0]);
-            spriteBatch.DrawString(font, $"Viewport: {Camera.Viewport}, ViewableArea: {Camera.ViewableArea}, WorldBounds: {Camera.WorldBounds}", new Vector2(0, 50), randomColors[5]);
-            spriteBatch.DrawString(font, $"GraphicsDevice: {GameRenderer.GraphicsDevice.Adapter.Description}, GD Viewport: {GameRenderer.GraphicsDevice.Viewport}", new Vector2(0, 65), randomColors[5]);
-
+            if(Camera.PositionDependency != null)
+            {
+                spriteBatch.DrawString(font, $"Pos {Camera.Position}, Targ Pos: {Camera.ScrollTool.targetPosition}", new Vector2(0, 5), randomColors[0]);
+                spriteBatch.DrawString(font, $"TargReached: {Camera.ScrollTool.TargetReached}, Scrolling: {Camera.ScrollTool.Scrolling}", new Vector2(0, 20), randomColors[0]);
+                spriteBatch.DrawString(font, $"PosDep: {Camera.PositionDependency}, Active: {Camera.PositionDependency.DependencyActive}", new Vector2(0, 35), randomColors[0]);
+                spriteBatch.DrawString(font, $"ViewableArea: {Camera.ViewableArea}, WorldBounds: {Camera.WorldBounds}", new Vector2(0, 50), randomColors[5]);
+                spriteBatch.DrawString(font, $"GraphicsDevice: {GameRenderer.GraphicsDevice.Adapter.Description}, GD Viewport: {GameRenderer.GraphicsDevice.Viewport}", new Vector2(0, 65), randomColors[5]);
+            }
         }
 
         private void DrawRectInfo(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(font, $"Ptr Pos: {Input.Mouse.Pointer.Position}, Translated: {SceneData.GetTranslatedMousePosition()}", new Vector2(5, 5), randomColors[0]);
             spriteBatch.DrawString(font, $"Div: {SceneData.div}, Matrix: {SceneData.MouseTransform}", new Vector2(5, 15), randomColors[0]);
-            spriteBatch.DrawString(font, $"[0]: BR:{PeopleTextImages[0].BoundingRect}, DP{PeopleTextImages[0].DrawPosition}", new Vector2(5, 30), randomColors[0]);
+            spriteBatch.DrawString(font, $"[0]: BR:{PeopleTextImages[0].BoundingRect}, Pos: {PeopleTextImages[0].Position}, Algn: {PeopleTextImages[0].Alignment}, Org: {PeopleTextImages[0].Origin}", new Vector2(5, 30), randomColors[0]);
             spriteBatch.DrawString(font, $"Ptr Obj Bounds: {targetRectString}, Ptr DR Bounds: {drawnRectString}", new Vector2(5, 45), randomColors[3]);
 
 
         }
-
         private void DrawSceneInfo(SpriteBatch spriteBatch)
         {
             
-            spriteBatch.DrawString(font, $"Beach Pos: {SceneData.Beach.Position}, Origin: {SceneData.Beach.Origin}, OD: {SceneData.Beach.OriginDifferential}, DP: {SceneData.Beach.DrawPosition}", new Vector2(5, 5), randomColors[0]);
-            spriteBatch.DrawString(font, $"Lucas Pos: {SceneData.Lucas.Position}, Origin: {SceneData.Lucas.Origin}, OD: {SceneData.Lucas.OriginDifferential}", new Vector2(5, 15), randomColors[0]);
+            spriteBatch.DrawString(font, $"Beach Pos: {SceneData.Beach.Position}, Origin: {SceneData.Beach.Origin}, OD: {SceneData.Beach.OriginDifferential}, BR: {SceneData.Beach.BoundingRect}", new Vector2(5, 5), randomColors[0]);
+            spriteBatch.DrawString(font, $"Lucas Pos: {SceneData.Lucas.Position}, , Origin: {SceneData.Lucas.Origin}, OD: {SceneData.Lucas.OriginDifferential}, BR: {SceneData.Lucas.BoundingRect}", new Vector2(5, 15), randomColors[0]);
             spriteBatch.DrawString(font, $"Camera Pos: {Camera.Position}", new Vector2(5, 30), randomColors[2]);
 
         }
-
         private void DrawResolutions(SpriteBatch spriteBatch)
         {
+            spriteBatch.DrawString(font, $"{GameRenderer.ScreenResolution}", new Vector2(5, 5), randomColors[3]);
+
             for (int i = 0; i < GameRenderer.AvailableScreenResolutions.Count; i++)
             {
-                spriteBatch.DrawString(font, $"{GameRenderer.AvailableScreenResolutions[i].ToString()}", new Vector2(5, (i+1)*15), randomColors[3]);
+                spriteBatch.DrawString(font, $"{GameRenderer.AvailableScreenResolutions[i].ToString()}", new Vector2(5, (i+2)*15), randomColors[3]);
             }
+        }
+        private void DrawTextView(SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawString(font, $"Pos: {Person1TextView.Image.Position}, DimCent{Person1TextView.Image.Dimensions.HorizontalCenter}", new Vector2(5, 5), Color.White);
         }
 
         private List<DrawMethod> drawInfos = new List<DrawMethod>();

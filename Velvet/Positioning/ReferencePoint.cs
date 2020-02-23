@@ -25,72 +25,24 @@ namespace Velvet
         public XReference X { get; set; }
         public YReference Y { get; set; }
 
-        public BindType BindType
-        {
-            get
-            {
-                if (X != XReference.Unbound && Y != YReference.Unbound)
-                {
-                    return BindType.FullyBound;
-                }
-
-                else if (X == XReference.Unbound)
-                {
-                    return BindType.X_Unbound;
-                }
-
-                else if (Y == YReference.Unbound)
-                {
-                    return BindType.Y_Unbound;
-                }
-
-                else
-                {
-                    return BindType.Unbound;
-                }
-
-            }
-        }
-
-
-
-
         //Fully Bound
-        public static ReferencePoint Centered = new ReferencePoint(XReference.Center, YReference.Center);
-        public static ReferencePoint LeftCentered = new ReferencePoint(XReference.Left, YReference.Center);
-        public static ReferencePoint RightCentered = new ReferencePoint(XReference.Right, YReference.Center);
-        public static ReferencePoint TopCentered = new ReferencePoint(XReference.Center, YReference.Top);
-        public static ReferencePoint BottomCentered = new ReferencePoint(XReference.Center, YReference.Bottom);
-        public static ReferencePoint TopLeft = new ReferencePoint(XReference.Left, YReference.Top);
-        public static ReferencePoint TopRight = new ReferencePoint(XReference.Right, YReference.Top);
-        public static ReferencePoint BottomLeft = new ReferencePoint(XReference.Left, YReference.Bottom);
-        public static ReferencePoint BottomRight = new ReferencePoint(XReference.Right, YReference.Bottom);
+        public static readonly ReferencePoint Centered = new ReferencePoint(XReference.Center, YReference.Center);
+        public static readonly ReferencePoint LeftCentered = new ReferencePoint(XReference.Left, YReference.Center);
+        public static readonly ReferencePoint RightCentered = new ReferencePoint(XReference.Right, YReference.Center);
+        public static readonly ReferencePoint TopCentered = new ReferencePoint(XReference.Center, YReference.Top);
+        public static readonly ReferencePoint BottomCentered = new ReferencePoint(XReference.Center, YReference.Bottom);
+        public static readonly ReferencePoint TopLeft = new ReferencePoint(XReference.Left, YReference.Top);
+        public static readonly ReferencePoint TopRight = new ReferencePoint(XReference.Right, YReference.Top);
+        public static readonly ReferencePoint BottomLeft = new ReferencePoint(XReference.Left, YReference.Bottom);
+        public static readonly ReferencePoint BottomRight = new ReferencePoint(XReference.Right, YReference.Bottom);
 
-        //Partially Unbound
-        public static ReferencePoint UnboundLeft = new ReferencePoint(XReference.Left, YReference.Unbound);
-        public static ReferencePoint UnboundRight = new ReferencePoint(XReference.Right, YReference.Unbound);
-        public static ReferencePoint UnboundTop = new ReferencePoint(XReference.Unbound, YReference.Top);
-        public static ReferencePoint UnboundBottom = new ReferencePoint(XReference.Unbound, YReference.Bottom);
-
-        private static List<ReferencePoint> referencePoints = new List<ReferencePoint>()
+        public static List<ReferencePoint> ReferencePoints = new List<ReferencePoint>()
         {
-            Centered,
-            LeftCentered,
-            RightCentered,
-            TopCentered,
-            BottomCentered,
-            TopLeft,
-            TopRight,
-            BottomLeft,
-            BottomRight,
-            UnboundLeft,
-            UnboundRight,
-            UnboundTop,
-            UnboundBottom
+            TopLeft, TopCentered, TopRight, LeftCentered, Centered, RightCentered, BottomLeft, BottomCentered, BottomRight
         };
 
         //Fully Unbound
-        public static ReferencePoint UnboundReference = new ReferencePoint(XReference.Unbound, YReference.Unbound);
+        
 
 
         private static Dictionary<ReferencePoint, ReferencePoint> ReferencePointInversions = new Dictionary<ReferencePoint, ReferencePoint>()
@@ -104,18 +56,10 @@ namespace Velvet
             { TopLeft,BottomRight },
             { BottomRight,TopLeft },
             { TopRight,BottomLeft },
-            { BottomLeft,TopRight },
-
-            //Partially Unbound
-            { UnboundLeft, UnboundRight },
-            { UnboundRight, UnboundLeft },
-            { UnboundTop, UnboundBottom },
-            { UnboundBottom, UnboundTop },
-
-            {UnboundReference,UnboundReference }
+            { BottomLeft,TopRight }
         };
 
-        public ReferencePoint ToInverted()
+        public ReferencePoint Invert()
         {
             ReferencePoint returnValue = default;
 
