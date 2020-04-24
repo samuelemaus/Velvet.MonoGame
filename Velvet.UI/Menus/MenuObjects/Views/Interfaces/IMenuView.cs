@@ -6,7 +6,8 @@ namespace Velvet.UI
 {
     public interface IMenuView : IMenuObject
     {
-
+        bool IsVisible { get; }
+        void UpdateVisualState();
 
     }
 }

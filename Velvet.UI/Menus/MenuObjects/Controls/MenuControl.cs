@@ -7,7 +7,7 @@ namespace Velvet.UI
 {
     public abstract class MenuControl : MenuView, IControl
     {
-        public abstract IControlObject MainControl { get; set; }
+        public abstract IControlObject MainControlObject { get; set; }
 
 
     }

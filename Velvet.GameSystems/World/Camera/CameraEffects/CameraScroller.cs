@@ -268,7 +268,7 @@ namespace Velvet.GameSystems
 
             //if (!TargetReached)
             //{
-            //    Camera.Position = nextPosition;
+            //    Camera.CenterPosition = nextPosition;
             //}
 
 

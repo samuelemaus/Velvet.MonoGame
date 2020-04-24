@@ -13,11 +13,9 @@ namespace Velvet.GameSystems
         public OrthoCamera(Viewport view)
         {
             Viewport = view;
-
             viewableArea = new BoundingRect(Viewport.Bounds);
-
             UpdateMethod = BaseUpdate;
-            Center = viewableArea.Position;
+            Center = viewableArea.CenterPosition;
             ZoomTool = new CameraZoom(this);
             ScrollTool = new CameraScroller(this);
         }
@@ -27,10 +25,21 @@ namespace Velvet.GameSystems
         {
             get
             {
-                return Matrix.CreateTranslation(-(int)Position.X, -(int)Position.Y, 0) *
+                return Matrix.CreateTranslation(-Position.X, -Position.Y, 0) *
                 Matrix.CreateRotationZ(Rotation) *
                 Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *
                 Matrix.CreateTranslation(new Vector3(Center, 0));
+            }
+        }
+
+        public Matrix TransformClamped
+        {
+            get
+            {
+                return Matrix.CreateTranslation((int)-Position.X, (int)-Position.Y, 0) *
+                   Matrix.CreateRotationZ(Rotation) *
+                   Matrix.CreateScale(new Vector3(Zoom, Zoom, 1)) *
+                   Matrix.CreateTranslation(new Vector3(Center, 0));
             }
         }
 
@@ -47,22 +56,28 @@ namespace Velvet.GameSystems
         public Viewport Viewport { get; set; }
         public Vector2 Center { get; private set; }
 
-        float width => Viewport.Width / Zoom;
-        float height => Viewport.Height / Zoom;
+        int width => (int)(Viewport.Width / Zoom);
+        int height => (int)(Viewport.Height / Zoom);
 
         private BoundingRect viewableArea;
         public BoundingRect ViewableArea => viewableArea;
         private void UpdateViewableArea()
         {
-            viewableArea.Position = this.Position;
+            viewableArea.CenterPosition = this.Position;
             viewableArea.Dimensions.Width = width;
             viewableArea.Dimensions.Height = height;
         }
+
+        private BoundingRect GetViewableArea()
+        {
+            return new BoundingRect(this.Position, new Dimensions2D(width, height));
+        }
+
         public BoundingRect WorldBounds { get; set; }
         public Vector2 Scale { get; set; }
         #endregion
 
-        #region//Position
+        #region//CenterPosition
         private Vector2 position;
         public Vector2 Position
         {
@@ -72,7 +87,7 @@ namespace Velvet.GameSystems
                 {
                     GetCameraPositionOverride(ref position, HorizontalRange, VerticalRange);
                 }
-                return position;
+                return position.Round();
             }
 
             set
@@ -164,22 +179,24 @@ namespace Velvet.GameSystems
             
         }
 
-        private bool dependencyInitialized => positionDependency != null;
-
 
         #region//Updating
         protected virtual UpdateMethod UpdateMethod { get; set; }
 
         public void Update(GameTime gameTime)
         {
-            UpdateMethod.Invoke(gameTime);   
+            //UpdateMethod.Invoke(gameTime);
+            BaseUpdate(gameTime);
         }
 
         protected void BaseUpdate(GameTime gameTime)
         {            
-            foreach(var effect in ActiveEffects)
+            if(ActiveEffects.Count != 0)
             {
-                effect.Update(gameTime);
+                foreach (var effect in ActiveEffects)
+                {
+                    effect.Update(gameTime);
+                }
             }
 
             UpdateViewableArea();
@@ -193,10 +210,10 @@ namespace Velvet.GameSystems
 
         #region//PositionDependencyMethods
 
-        float highestPosition => WorldBounds.Top + ViewableArea.Dimensions.VerticalCenter;
-        float lowestPosition => WorldBounds.Bottom - ViewableArea.Dimensions.VerticalCenter;
-        float leftMostPosition => WorldBounds.Left + ViewableArea.Dimensions.HorizontalCenter;
-        float rightMostPosition => WorldBounds.Right - ViewableArea.Dimensions.HorizontalCenter;
+        float highestPosition =>      (WorldBounds.Top + ViewableArea.Dimensions.VerticalCenter);
+        float lowestPosition =>       (WorldBounds.Bottom - ViewableArea.Dimensions.VerticalCenter);
+        float leftMostPosition =>     (WorldBounds.Left + ViewableArea.Dimensions.HorizontalCenter);
+        float rightMostPosition =>    (WorldBounds.Right - ViewableArea.Dimensions.HorizontalCenter);
 
         public ValueRange HorizontalRange => new ValueRange(leftMostPosition, rightMostPosition);
         public ValueRange VerticalRange => new ValueRange(highestPosition, lowestPosition);

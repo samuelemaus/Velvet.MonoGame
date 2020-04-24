@@ -87,9 +87,9 @@ namespace Velvet.UI
                 };
 
 
-                Left.SetRegion(buttonAtlas[XReference.Left, ControlObjectState.Default]);
-                Right.SetRegion(buttonAtlas[XReference.Right, ControlObjectState.Default]);
-                Center.SetRegion(buttonAtlas[XReference.Center, ControlObjectState.Default]);
+                Left.SetRegion(buttonAtlas[HorizontalAlignment.Left, ControlObjectState.Default]);
+                Right.SetRegion(buttonAtlas[HorizontalAlignment.Right, ControlObjectState.Default]);
+                Center.SetRegion(buttonAtlas[HorizontalAlignment.Center, ControlObjectState.Default]);
 
                 images[0] = Center;
                 images[1] = Right;
@@ -112,13 +112,12 @@ namespace Velvet.UI
                 //Left.SetDimensionsDependency(GetDimensions, DimensionsOverrideType.HeightOverride);
                 //Right.SetDimensionsDependency(GetDimensions, DimensionsOverrideType.HeightOverride);
 
-
                 //Left.StretchToFill = true;
                 //Right.StretchToFill = true;
 
 
-                Left.AnchorTo(Center, ReferencePoint.LeftCentered, RectRelativity.Outside);
-                Right.AnchorTo(Center, ReferencePoint.RightCentered, RectRelativity.Outside);
+                Left.AnchorTo(Center, Alignment.LeftCentered, RectRelativity.Outside, Dimensions2D.Empty);
+                Right.AnchorTo(Center, Alignment.RightCentered, RectRelativity.Outside, Dimensions2D.Empty);
 
 
             }
@@ -128,10 +127,10 @@ namespace Velvet.UI
                 return new Dimensions2D(TargetRect.Dimensions.Width - (cellDimensions.Width * 2), TargetRect.Dimensions.Height);
             }
 
-            #region//Dimensions & Position Methods
+            #region//Dimensions & CenterPosition Methods
             public Vector2 GetTargetCenter()
             {
-                return TargetRect.Position;
+                return TargetRect.CenterPosition;
             }
 
             public Dimensions2D GetDimensions()
@@ -141,9 +140,9 @@ namespace Velvet.UI
 
             public void UpdateImages(ControlObjectState state)
             {
-                Left.SetRegion(buttonAtlas[XReference.Left, state]);
-                Center.SetRegion(buttonAtlas[XReference.Center, state]);
-                Right.SetRegion(buttonAtlas[XReference.Right, state]);
+                Left.SetRegion(buttonAtlas[HorizontalAlignment.Left, state]);
+                Center.SetRegion(buttonAtlas[HorizontalAlignment.Center, state]);
+                Right.SetRegion(buttonAtlas[HorizontalAlignment.Right, state]);
             }
 
 

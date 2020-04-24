@@ -37,7 +37,7 @@ namespace Velvet.GameSystems
 
         }
 
-        Tile[] tiles;
+        TileImage[] tiles;
 
         public TileMapLayer(TileMap parent, XElement layerData)
         {
@@ -61,8 +61,8 @@ namespace Velvet.GameSystems
             InitializeTiles(tileIndexes);
         }
 
-        private BoundingRect boundingRect;
-        public override BoundingRect BoundingRect => boundingRect;
+        //private BoundingRect boundingRect;
+        //public override BoundingRect BoundingRect => boundingRect;
 
         private void InitializeImages(int[] tileIndexes)
         {
@@ -107,16 +107,16 @@ namespace Velvet.GameSystems
 
         private void InitializeTiles(int[] tileIndexes)
         {
-            tiles = new Tile[tileIndexes.Length];
+            tiles = new TileImage[tileIndexes.Length];
             TextureAtlas textureAtlas = parentMap.Tileset.TextureAtlas;
             sourceTexture = textureAtlas.SourceTexture;
 
             int rowIndex = 0;
-            int columnIndex = 1;
+            int columnIndex = 0;
 
-            for (int i = 1; i < tiles.Length; i++)
+            for (int i = 0; i < tiles.Length; i++)
             {
-                tiles[i] = new Tile(tileIndexes[i], GetPositionFromIndex(rowIndex, columnIndex), textureAtlas[tileIndexes[i] - 1].SourceRect);
+                tiles[i] = new TileImage(tileIndexes[i], rowIndex, columnIndex, GetPositionFromIndex(rowIndex, columnIndex), textureAtlas[tileIndexes[i] - 1].SourceRect);
                 
 
                 if (columnIndex < (Width - 1))
@@ -153,7 +153,7 @@ namespace Velvet.GameSystems
         {
             for (int i = 0; i < tiles.Length; i++)
             {
-                spriteBatch.Draw(sourceTexture, tiles[i].Position, tiles[i].SourceRect, Color * Alpha, Rotation, Vector2.Zero, Scale, SpriteEffect, LayerDepth);
+                spriteBatch.Draw(sourceTexture, tiles[i].Position.Round(), tiles[i].SourceRect, Color * Alpha, Rotation, Vector2.Zero, Scale, SpriteEffect, LayerDepth);
             }
         }
 
@@ -168,9 +168,5 @@ namespace Velvet.GameSystems
 
         }
 
-        public void Update(GameTime gameTime)
-        {
-            
-        }
     }
 }

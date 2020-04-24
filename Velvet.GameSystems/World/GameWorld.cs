@@ -16,39 +16,34 @@ namespace Velvet.GameSystems
 
         }
 
-       
+        public GameWorld(string tileMapName)
+        {
+            TileMap = new TileMap(tileMapName);
+            Camera = new OrthoCamera(SceneController.Renderer.Viewport);
+        }       
 
         public Dimensions2D Dimensions { get; protected set; }
 
         private BoundingRect worldBounds;
-        public BoundingRect WorldBounds
-        {
-            get
-            {
-                return worldBounds;
-            }
-
-            set
-            {
-                worldBounds = value;
-            }
-        }
+        public BoundingRect WorldBounds => worldBounds;
         public static float CullRange { get; set; } = 150f;
 
         public List<GameObject> GameObjects = new List<GameObject>();
-        public IDrawableComposite WorldMap { get; set; }
-
+        public OrthoCamera Camera { get; set; }
         public TileMap TileMap { get; set; } = new TileMap();
-
-        protected virtual void InitializeWorld()
-        {
-            worldBounds = new BoundingRect(Vector2.Zero, Dimensions);
-        }
+        public TileSpace[,] Spaces { get; set; }
+        public bool Initialized { get; private set; }
 
         #region//XNA Methods
         public void LoadContent()
         {
             TileMap.LoadContent();
+            for (int i = 0; i < GameObjects.Count; i++)
+            {
+                GameObjects[i].LoadContent();
+            }
+            worldBounds = TileMap.BoundingRect;
+            Camera.WorldBounds = new BoundingRect(WorldBounds.Dimensions.Center, WorldBounds.Dimensions);
         }
 
         public void UnloadContent()
@@ -58,12 +53,16 @@ namespace Velvet.GameSystems
 
         public void Draw(SpriteBatch spriteBatch)
         {
-
+            TileMap.Draw(spriteBatch);
+            for (int i = 0; i < GameObjects.Count; i++)
+            {
+                GameObjects[i].Draw(spriteBatch);
+            }
         }
 
         public void Update(GameTime gameTime)
         {
-
+            Camera.Update(gameTime);
         }
         #endregion
 

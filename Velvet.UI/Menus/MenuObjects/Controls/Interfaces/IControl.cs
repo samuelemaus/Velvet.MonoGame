@@ -7,7 +7,7 @@ namespace Velvet.UI
 {
     public interface IControl
     {
-        IControlObject MainControl { get; }
+        IControlObject MainControlObject { get; }
 
     }
 }

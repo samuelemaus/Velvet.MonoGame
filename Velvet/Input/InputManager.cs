@@ -7,6 +7,8 @@ using System.Linq;
 
 namespace Velvet.Input
 {
+    public delegate bool KeyHoldDelegate(Keys key);
+
     public class InputManager : IInputManager
     {
 
@@ -74,6 +76,18 @@ namespace Velvet.Input
                 Mouse.Pointer.ActiveTargets = targets.ToArray();
             }
         }
+
+        #endregion
+
+        #region//Static Helpers
+
+        public static Dictionary<Keys, Direction> KeyDirections = new Dictionary<Keys, Direction>()
+        {
+            {Keys.Up, Direction.Up },
+            {Keys.Down, Direction.Down },
+            {Keys.Left, Direction.Left },
+            {Keys.Right, Direction.Right }
+        };
 
         #endregion
 

@@ -250,3 +250,15 @@
 /processorParam:TextureFormat=Color
 /build:Scenes/ZeldaTestScene/goldenrod_city.png
 
+#begin Scenes/ZeldaTestScene/linkAtlas.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Scenes/ZeldaTestScene/linkAtlas.png
+

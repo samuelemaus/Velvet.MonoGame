@@ -5,9 +5,9 @@ using Microsoft.Xna.Framework;
 
 namespace Velvet
 {
-    public interface IBoundingRect : IMovable, IDimensions2D
+    public interface IBoundingRect : IMovable
     {
         BoundingRect BoundingRect { get; }
-
+        DimensionsDependency DimensionsDependency { get; set; }
     }
 }

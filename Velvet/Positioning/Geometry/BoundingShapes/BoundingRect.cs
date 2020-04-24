@@ -14,22 +14,22 @@ namespace Velvet
 
         public BoundingRect(Vector2 position, Dimensions2D dimensions)
         {
-            Position = position;
+            CenterPosition = position;
             Dimensions = dimensions;
         }
         public BoundingRect(IMovable movable, IDimensions2D dimensions)
         {
-            Position = movable.Position;
+            CenterPosition = movable.Position;
             Dimensions = dimensions.Dimensions;
         }
         public BoundingRect(float x, float y, float width, float height)
         {
-            Position = new Vector2(x, y);
+            CenterPosition = new Vector2(x, y);
             Dimensions = new Dimensions2D(width, height);
         }
         public BoundingRect(Rectangle rectangle)
         {
-            Position = rectangle.Center.ToVector2();
+            CenterPosition = rectangle.Center.ToVector2();
             Dimensions = new Dimensions2D(rectangle.Width, rectangle.Height);
         }
 
@@ -44,7 +44,7 @@ namespace Velvet
         /// <summary>
         /// The X and Y coordinates of this <see cref="BoundingRect"/> represented as <see cref="Vector2"/> .
         /// </summary>
-        public Vector2 Position;
+        public Vector2 CenterPosition;
 
         /// <summary>
         /// The Height and Width of this <see cref="BoundingRect"/> represented as <see cref="Dimensions2D"/> .
@@ -57,7 +57,7 @@ namespace Velvet
         /// <summary>
         /// Checks if this <see cref="BoundingRect"/> is empty.
         /// </summary>
-        public bool IsEmpty => (Position == Vector2.Zero & Dimensions.Equals(Dimensions2D.Empty));
+        public bool IsEmpty => (CenterPosition == Vector2.Zero & Dimensions.Equals(Dimensions2D.Empty));
 
         public static BoundingRect Empty => empty;
 
@@ -66,19 +66,19 @@ namespace Velvet
         /// <summary>
         /// The X coordinate of the Left side of this <see cref="BoundingRect"/>
         /// </summary>
-        public float Left => Position.X - (Dimensions.Width / 2);
+        public float Left => CenterPosition.X - (Dimensions.Width / 2);
         /// <summary>
         /// The X coordinate of the Right side of this <see cref="BoundingRect"/>
         /// </summary>
-        public float Right => Position.X + (Dimensions.Width / 2);
+        public float Right => CenterPosition.X + (Dimensions.Width / 2);
         /// <summary>
         /// The Y coordinate of the Top side of this <see cref="BoundingRect"/>
         /// </summary>
-        public float Top => Position.Y - (Dimensions.Height / 2);
+        public float Top => CenterPosition.Y - (Dimensions.Height / 2);
         /// <summary>
         /// The Y coordinate of the Bottom side of this <see cref="BoundingRect"/>
         /// </summary>
-        public float Bottom => Position.Y + (Dimensions.Height / 2);
+        public float Bottom => CenterPosition.Y + (Dimensions.Height / 2);
 
         //Corners
 
@@ -105,6 +105,8 @@ namespace Velvet
         /// Returns the Area (Width * Height) of this <see cref="Dimensions"/>.
         /// </summary>
         public float Area => Dimensions.Width * Dimensions.Height;
+
+        public float Length => CenterPosition.Length();
 
         #endregion
 
@@ -151,7 +153,7 @@ namespace Velvet
         }
         public bool Contains(BoundingRect value)
         {
-            return (this.Contains(value.Position) && value.Area < this.Area);
+            return (this.Contains(value.CenterPosition) && value.Area < this.Area);
         }
 
 
@@ -251,12 +253,12 @@ namespace Velvet
         {
             Vector2 newPos = new Vector2(x, y);
 
-            this.Position += newPos;
+            this.CenterPosition += newPos;
 
         }
         public void Offset(Vector2 value)
         {
-            this.Position += value;
+            this.CenterPosition += value;
         }
         public void Offset(Direction direction, float value)
         {
@@ -352,12 +354,12 @@ namespace Velvet
 
         public static bool operator == (BoundingRect first, BoundingRect second)
         {
-            return (first.Dimensions == second.Dimensions && first.Position == second.Position);
+            return (first.Dimensions == second.Dimensions && first.CenterPosition == second.CenterPosition);
         }
 
         public static bool operator != (BoundingRect first, BoundingRect second)
         {
-            return (first.Dimensions != second.Dimensions || first.Position != second.Position);
+            return (first.Dimensions != second.Dimensions || first.CenterPosition != second.CenterPosition);
         }
 
         public static bool operator ==(BoundingRect first, Rectangle second)
@@ -384,7 +386,7 @@ namespace Velvet
 
         public override string ToString()
         {
-            return $"Position: {Position.ToString()}, Dimensions: {Dimensions.ToString()}";
+            return $"CenterPosition: {CenterPosition.ToString()}, Dimensions: {Dimensions.ToString()}";
         }
 
         #endregion

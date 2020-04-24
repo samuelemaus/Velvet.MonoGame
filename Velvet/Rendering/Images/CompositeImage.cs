@@ -17,8 +17,8 @@ namespace Velvet
 
         public CompositeImage()
         {
-            InitializeDimensions();
-            DrawMethod = DrawImages;
+            /*InitializeDimensions();
+            DrawMethod = DrawImages;*/
         }
 
         public CompositeImage(IEnumerable<IDrawableObject> images, Vector2 position = default, Color color = default, Vector2 scale = default, float alpha = 0, float rotation = 0, float layerDepth = 0, SpriteEffects spriteEffect = default)
@@ -55,9 +55,10 @@ namespace Velvet
         {
             //InitializeDependencies();
 
-            Dimensions = BoundingRect.Dimensions;
+            //Dimensions = BoundingRect.Dimensions;
 
             InitializeOrigin();
+            
         }
 
         protected virtual void InitializeDependencies()
@@ -70,7 +71,7 @@ namespace Velvet
 
         protected override void InitializeOrigin()
         {
-            Origin = new Vector2(Dimensions.HorizontalCenter, Dimensions.VerticalCenter);
+            Origin = new Vector2(BoundingRect.Dimensions.HorizontalCenter, BoundingRect.Dimensions.VerticalCenter);
         }
 
         #endregion

@@ -46,6 +46,44 @@ namespace Velvet.UI
         public SpriteBatch SpriteBatch { get; set; }
         public SpriteFont DefaultFont { get; private set; }
         public BlendState BlendState { get; set; } = BlendState.NonPremultiplied;
+        private RasterizerState rasterizerState = RasterizerState.CullNone;
+        public RasterizerState RasterizerState
+        {
+            get
+            {
+                return rasterizerState;
+            }
+
+            set
+            {
+                rasterizerState = value;
+            }
+        }
+        private SamplerState samplerState = SamplerState.PointWrap;
+        public SamplerState SamplerState
+        {
+            get
+            {
+                //if (Camera.ZoomIsInt && Camera.RotationIsNinetyDegreeInterval)
+                //{
+                //    return SamplerState.PointWrap;
+                //}
+
+                //else
+                //{
+                //    return SamplerState.PointClamp;
+                //}
+
+                return samplerState;
+            }
+
+            set
+            {
+                samplerState = value;
+            }
+        }
+
+        public SpriteSortMode SpriteSortMode { get; set; }
 
         public Vector2 RenderPosition { get; set; } = Vector2.Zero;
         public BoundingRect Bounds { get; private set; }
@@ -74,7 +112,7 @@ namespace Velvet.UI
 
         public void DrawSpriteBatch()
         {
-            SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState, SamplerState.PointWrap, null, null, null, null);   
+            SpriteBatch.Begin(SpriteSortMode, BlendState, SamplerState, null, RasterizerState, null, null);   
             UIController.CurrentMenu.Draw(SpriteBatch);
             SpriteBatch.End();
         }

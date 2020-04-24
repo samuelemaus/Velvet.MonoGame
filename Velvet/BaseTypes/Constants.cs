@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Velvet.GameSystems
+namespace Velvet.BaseTypes
 {
-    public class CharObject : GameObject
+    class Constants
     {
-
     }
 }

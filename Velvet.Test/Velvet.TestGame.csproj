@@ -53,7 +53,6 @@
     <Compile Include="Scripts\Test\TestData\TestPerson.cs" />
     <Compile Include="Scripts\Test\TestScenes\TestTopDownScene.cs" />
     <Compile Include="Scripts\Test\TestUI\TestHud.cs" />
-    <Compile Include="Scripts\Test\TestUI\TestMenu1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -68,9 +67,6 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Velvet">
-      <HintPath>..\Velvet\bin\Debug\netstandard2.0\Velvet.dll</HintPath>
-    </Reference>
     <Reference Include="Velvet.GameSystems">
       <HintPath>..\Velvet.GameSystems\bin\Debug\netstandard2.0\Velvet.GameSystems.dll</HintPath>
     </Reference>
@@ -162,6 +158,10 @@
     <ProjectReference Include="..\Velvet.UI\Velvet.UI.csproj">
       <Project>{ac6685cf-bbd2-468f-ae65-20c4f0fb9b71}</Project>
       <Name>Velvet.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Velvet\Velvet.csproj">
+      <Project>{27bb17a7-5735-4a4e-aa68-01e5ee52dfcd}</Project>
+      <Name>Velvet</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

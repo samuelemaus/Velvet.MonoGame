@@ -37,7 +37,7 @@ namespace Velvet
 
         public Vector2 GetDependencyBoundingRectPosition(IBoundingRect target)
         {
-            return target.BoundingRect.Position;
+            return target.BoundingRect.CenterPosition;
         }
 
         public override string ToString()

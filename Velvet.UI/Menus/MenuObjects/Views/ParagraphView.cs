@@ -55,7 +55,7 @@ namespace Velvet.UI
         }
 
         /// <summary>
-        /// The <see cref="Vector2"/> Position at which each word of the <see cref="ParagraphText"/> is written.  This array is updated any time that the text changes or the <see cref="BoundingRect"/> changes.
+        /// The <see cref="Vector2"/> CenterPosition at which each word of the <see cref="ParagraphText"/> is written.  This array is updated any time that the text changes or the <see cref="BoundingRect"/> changes.
         /// </summary>
         public Vector2[] WordPositions { get; private set; }
         private Vector2[] GetWordPositions(string[] words)
@@ -64,6 +64,11 @@ namespace Velvet.UI
 
 
             return default;
+        }
+
+        public override void Initialize()
+        {
+            throw new NotImplementedException();
         }
 
         public int WordCount => ParagraphWords.Length;

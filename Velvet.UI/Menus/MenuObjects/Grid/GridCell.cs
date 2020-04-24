@@ -13,7 +13,7 @@ namespace Velvet.UI
             Content = content;
             PositionDependency = dependency;
 
-            position = rect.Position;
+            position = rect.CenterPosition;
             Origin = Vector2.Zero;
         }
 
@@ -29,17 +29,17 @@ namespace Velvet.UI
         {
             get
             {
-                boundingRect.Position = position;
+                boundingRect.CenterPosition = position;
                 return position;
             }
             set
             {
                 position = value;
-                boundingRect.Position = position;
+                boundingRect.CenterPosition = position;
             }
         }
         public PositionDependency PositionDependency { get; set; }
-        public ReferencePoint OriginReference { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Alignment OriginReference { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Dimensions2D Dimensions => throw new NotImplementedException();
 

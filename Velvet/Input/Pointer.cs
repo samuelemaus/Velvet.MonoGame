@@ -54,7 +54,7 @@ namespace Velvet.Input
 
         private bool resetClickedPosition = false;
         /// <summary>
-        /// <see cref="Vector2"/> Position on screen recorded when Pointer's button is clicked down and held.
+        /// <see cref="Vector2"/> CenterPosition on screen recorded when Pointer's button is clicked down and held.
         /// </summary>
         public Vector2 ClickedPosition { get; private set; }
 

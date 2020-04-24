@@ -29,6 +29,7 @@ namespace Velvet.UI
         {
             windowAtlas = UIResources.WindowTextures;
             ParentWindow = parent;
+            TargetRect = ParentWindow.BoundingRect;
             InitializeImages();
             DrawMethod = DrawImages;
         }
@@ -38,12 +39,15 @@ namespace Velvet.UI
 
         private void InitializeImages()
         {
+            
             cellDimensions = windowAtlas.CellDimensions;
             
             BoundingRect defaultCornerRect = new BoundingRect(Vector2.Zero, cellDimensions);
             BoundingRect defaultHorizontalSidesRect = new BoundingRect(Vector2.Zero, GetHorizontalSideDimensions());
             BoundingRect defaultVerticalSidesRect = new BoundingRect(Vector2.Zero, GetVerticalSideDimensions());
-            BoundingRect defaultFillRect = new BoundingRect(TargetRect.Position, GetFillDimensions());
+            BoundingRect defaultFillRect = new BoundingRect(TargetRect.CenterPosition, GetFillDimensions());
+
+
 
             BottomLeft = new RectImage(defaultCornerRect);
             BottomCenter = new RectImage(defaultHorizontalSidesRect);
@@ -55,17 +59,15 @@ namespace Velvet.UI
             RightCenter = new RectImage(defaultVerticalSidesRect);
             CenterFill = new RectImage(defaultFillRect);
 
-            BottomLeft.SetRegion(windowAtlas[ReferencePoint.BottomLeft]);
-            BottomCenter.SetRegion(windowAtlas[ReferencePoint.BottomCentered]);
-            BottomRight.SetRegion(windowAtlas[ReferencePoint.BottomRight]);
-            TopLeft.SetRegion(windowAtlas[ReferencePoint.TopLeft]);
-            TopCenter.SetRegion(windowAtlas[ReferencePoint.TopCentered]);
-            TopRight.SetRegion(windowAtlas[ReferencePoint.TopRight]);
-            LeftCenter.SetRegion(windowAtlas[ReferencePoint.LeftCentered]);
-            RightCenter.SetRegion(windowAtlas[ReferencePoint.RightCentered]);
-            CenterFill.SetRegion(windowAtlas[ReferencePoint.Centered]);
-
-
+            BottomLeft.SetRegion(windowAtlas[Alignment.BottomLeft]);
+            BottomCenter.SetRegion(windowAtlas[Alignment.BottomCentered]);
+            BottomRight.SetRegion(windowAtlas[Alignment.BottomRight]);
+            TopLeft.SetRegion(windowAtlas[Alignment.TopLeft]);
+            TopCenter.SetRegion(windowAtlas[Alignment.TopCentered]);
+            TopRight.SetRegion(windowAtlas[Alignment.TopRight]);
+            LeftCenter.SetRegion(windowAtlas[Alignment.LeftCentered]);
+            RightCenter.SetRegion(windowAtlas[Alignment.RightCentered]);
+            CenterFill.SetRegion(windowAtlas[Alignment.Centered]);
 
 
             corners[0] = TopLeft;
@@ -77,7 +79,6 @@ namespace Velvet.UI
             sides[1] = BottomCenter;
             sides[2] = LeftCenter;
             sides[3] = RightCenter;
-
 
             images[0] = CenterFill;
             images[1] = TopLeft;
@@ -136,21 +137,23 @@ namespace Velvet.UI
             TopCenter.DimensionsDependency = new MethodDimensionsDependency(GetHorizontalSideDimensions);
             BottomCenter.DimensionsDependency = new MethodDimensionsDependency(GetHorizontalSideDimensions);
 
-            LeftCenter.AnchorTo(CenterFill, ReferencePoint.LeftCentered, RectRelativity.Outside);
-            RightCenter.AnchorTo(CenterFill, ReferencePoint.RightCentered, RectRelativity.Outside);
-            TopCenter.AnchorTo(CenterFill, ReferencePoint.TopCentered, RectRelativity.Outside);
-            BottomCenter.AnchorTo(CenterFill, ReferencePoint.BottomCentered, RectRelativity.Outside);
+            LeftCenter.AnchorTo(CenterFill, Alignment.LeftCentered, RectRelativity.Outside, Dimensions2D.Empty);
+            RightCenter.AnchorTo(CenterFill, Alignment.RightCentered, RectRelativity.Outside, Dimensions2D.Empty);
+            TopCenter.AnchorTo(CenterFill, Alignment.TopCentered, RectRelativity.Outside, Dimensions2D.Empty);
+            BottomCenter.AnchorTo(CenterFill, Alignment.BottomCentered, RectRelativity.Outside, Dimensions2D.Empty);
 
             //Corners
-            TopLeft.AnchorTo(CenterFill, ReferencePoint.TopLeft, RectRelativity.Outside);
-            TopRight.AnchorTo(CenterFill, ReferencePoint.TopRight, RectRelativity.Outside);
-            BottomLeft.AnchorTo(CenterFill, ReferencePoint.BottomLeft, RectRelativity.Outside);
-            BottomRight.AnchorTo(CenterFill, ReferencePoint.BottomRight, RectRelativity.Outside);
+            TopLeft.AnchorTo(CenterFill, Alignment.TopLeft, RectRelativity.Outside, Dimensions2D.Empty);
+            TopRight.AnchorTo(CenterFill, Alignment.TopRight, RectRelativity.Outside, Dimensions2D.Empty);
+            BottomLeft.AnchorTo(CenterFill, Alignment.BottomLeft, RectRelativity.Outside, Dimensions2D.Empty);
+            BottomRight.AnchorTo(CenterFill, Alignment.BottomRight, RectRelativity.Outside, Dimensions2D.Empty);
 
         }
         public BoundingRect TargetRect { get; set; }
 
         private Dimensions2D cellDimensions;
+
+    
 
 
         public override BoundingRect BoundingRect => ((IBoundingRect)ParentWindow).BoundingRect;
@@ -174,11 +177,11 @@ namespace Velvet.UI
 
         public Vector2 GetTargetCenter()
         {
-            return TargetRect.Position;
+            return TargetRect.CenterPosition;
         }
         public void ResizeTo(Dimensions2D dimensions)
         {
-            Vector2 position = TargetRect.Position;
+            Vector2 position = TargetRect.CenterPosition;
             TargetRect = new BoundingRect(position, dimensions);
         }
         #endregion
@@ -189,6 +192,20 @@ namespace Velvet.UI
             //UIResources.Effect.CurrentTechnique.Passes[0].Apply();
             base.DrawImages(spriteBatch);
             
+        }
+
+        private Dictionary<RectImage, Alignment> imageAlignments = new Dictionary<RectImage, Alignment>();
+        private void initializeDict()
+        {
+            imageAlignments.Add(TopLeft, Alignment.TopLeft);
+            imageAlignments.Add(TopCenter, Alignment.TopCentered);
+            imageAlignments.Add(TopRight, Alignment.TopRight);
+            imageAlignments.Add(LeftCenter, Alignment.LeftCentered);
+            imageAlignments.Add(CenterFill, Alignment.Centered);
+            imageAlignments.Add(RightCenter, Alignment.RightCentered);
+            imageAlignments.Add(BottomLeft, Alignment.BottomLeft);
+            imageAlignments.Add(BottomCenter, Alignment.BottomCentered);
+            imageAlignments.Add(BottomRight, Alignment.BottomRight);
         }
 
     }

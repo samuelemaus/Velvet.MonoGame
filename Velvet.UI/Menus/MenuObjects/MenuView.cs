@@ -11,8 +11,11 @@ using System.ComponentModel;
 
 namespace Velvet.UI
 {
+    
     public abstract class MenuView : IMenuObject
     {
+
+        protected List<IMenuObject> MenuObjects { get; set; } = new List<IMenuObject>();
 
         #region//Dimensions & Positioning
         protected BoundingRect boundingRect;
@@ -27,28 +30,25 @@ namespace Velvet.UI
         }
         public virtual Vector2 Position
         {
-            get => BoundingRect.Position;
+            get => BoundingRect.CenterPosition;
 
-            set => boundingRect.Position = value;
+            set => boundingRect.CenterPosition = value;
         }
         public PositionDependency PositionDependency { get; set; }
         public DimensionsDependency DimensionsDependency { get; set; }
 
-        public void SetHeight(float value)
-        {
-            boundingRect.Dimensions.Height = value;
-        }
+        
+        public bool IsActive { get; protected set; }
+        public bool IsTargeted { get; protected set; }
 
-        public void SetWidth(float value)
-        {
-            boundingRect.Dimensions.Width = value;
-        }
         #endregion
 
         #region//MenuView Logic
 
-        public bool IsActive { get; protected set; }
-        public bool IsTargeted { get; protected set; }
+        public bool IsVisible { get; protected set; }
+
+        public abstract void Initialize();
+
 
         #endregion
 

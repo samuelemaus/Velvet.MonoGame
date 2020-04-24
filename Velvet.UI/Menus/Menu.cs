@@ -18,13 +18,23 @@ namespace Velvet.UI
         public List<IMenuObject> MenuObjects { get; protected set; } = new List<IMenuObject>();
         public List<IMenuObject> ActiveMenuObjects { get
             {
-                var returnList = new List<IMenuObject>();
+                //var returnList = new List<IMenuObject>();
 
-                foreach(var obj in MenuObjects)
+                //foreach(var obj in MenuObjects)
+                //{
+                //    if (obj.IsActive)
+                //    {
+                //        returnList.Add(obj);
+                //    }
+                //}
+
+                var returnList = MenuObjects;
+
+                foreach(var obj in returnList)
                 {
-                    if (obj.IsActive)
+                    if (!obj.IsActive)
                     {
-                        returnList.Add(obj);
+                        returnList.Remove(obj);
                     }
                 }
 
@@ -41,42 +51,40 @@ namespace Velvet.UI
             Content = new ContentManager(UIController.Content.ServiceProvider, RootDirectory);
         }
 
-        protected void ArrangeAsList(IBoundingRect[] boundingRects, IBoundingRect target, ReferencePoint refPoint, TextAlignment alignment = TextAlignment.Left)
-        {
-            float offset = 5;
+        //protected void ArrangeAsList(IBoundingRect[] boundingRects, IBoundingRect target, Alignment alignment, TextAlignment alignment = TextAlignment.Left)
+        //{
+        //    float offset = 5;
 
-            boundingRects[0].AnchorTo(target, refPoint, RectRelativity.Inside, offset);
+        //    boundingRects[0].AnchorTo(target, alignment, RectRelativity.Inside, offset);
 
-            for (int i = 1; i < boundingRects.Count(); i++)
-            {
-                //if (boundingRects[i] is TextImage t)
-                //{
-                //    t.Alignment = alignment;
-                //}
+        //    for (int i = 1; i < boundingRects.Count(); i++)
+        //    {
+        //        //if (boundingRects[i] is TextImage t)
+        //        //{
+        //        //    t.Alignment = alignment;
+        //        //}
 
-                boundingRects[i].AnchorTo(boundingRects[i - 1], ReferencePoint.BottomCentered, RectRelativity.Outside, offset);
-            }
+        //        boundingRects[i].AnchorTo(boundingRects[i - 1], Alignment.BottomCentered, RectRelativity.Outside, offset);
+        //    }
 
             
-        }
+        //}
 
-        protected void ArrangeAsList(IBoundingRect[] boundingRects, BoundingRect target, ReferencePoint refPoint, TextAlignment alignment = TextAlignment.Left)
-        {
-            float offset = 5;
+        //protected void ArrangeAsList(IBoundingRect[] boundingRects, BoundingRect target, Alignment alignment, TextAlignment alignment = TextAlignment.Left)
+        //{
+        //    float offset = 5;
 
-            boundingRects[0].AnchorTo(target, refPoint, RectRelativity.Inside, offset);
+        //    boundingRects[0].AnchorTo(target, alignment, RectRelativity.Inside, offset);
 
-            for (int i = 1; i < boundingRects.Count(); i++)
-            {
-                //if(boundingRects[i] is TextImage t)
-                //{
-                //    t.Alignment = alignment;
-                //}
-                boundingRects[i].AnchorTo(boundingRects[i - 1], ReferencePoint.BottomCentered, RectRelativity.Outside, offset);
-            }
-
-
-        }
+        //    for (int i = 1; i < boundingRects.Count(); i++)
+        //    {
+        //        //if(boundingRects[i] is TextImage t)
+        //        //{
+        //        //    t.Alignment = alignment;
+        //        //} 
+        //        boundingRects[i].AnchorTo(boundingRects[i - 1], Alignment.BottomCentered, RectRelativity.Outside, offset);
+        //    }
+        //}
 
         #endregion
 

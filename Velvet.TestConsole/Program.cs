@@ -38,7 +38,7 @@ namespace Velvet.TestConsole
             //    Manager.Logger.Log(person.Age);
             //    Manager.Logger.Log(person.EyeColor);
             //    Manager.Logger.Log(person.HairColor);
-            //    Manager.Logger.Log(person.Position);
+            //    Manager.Logger.Log(person.CenterPosition);
             //}
 
             XDocument tileSetDoc = XDocument.Load(@"C:\Users\samem\OneDrive\Documents\Velvet\Velvet.MonoGame\Velvet.TestConsole\Content\zelda_gbc.tsx");

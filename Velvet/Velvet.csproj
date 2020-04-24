@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <Folder Include="Audio\" />
-    <Folder Include="Positioning\Geometry\BoundingShapes\" />
   </ItemGroup>
 
 </Project>

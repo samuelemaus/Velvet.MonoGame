@@ -42,14 +42,16 @@ namespace Velvet.UI
 
         public static void ChangeMenu(Menu next)
         {
-            next.LoadContent();
-            var previousMenu = CurrentMenu;
-            CurrentMenu = next;
-            if(previousMenu != null)
+            if(next != currentMenu)
             {
-                previousMenu.UnloadContent();
-            }
-            
+                next.LoadContent();
+                var previousMenu = CurrentMenu;
+                CurrentMenu = next;
+                if (previousMenu != null)
+                {
+                    previousMenu.UnloadContent();
+                }
+            }            
         }
 
         public static void LoadContent()

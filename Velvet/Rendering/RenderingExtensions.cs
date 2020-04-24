@@ -106,7 +106,7 @@ namespace Velvet
 
 
 
-        public static Vector2 GetRectDifferential(Rectangle source, Rectangle xtarget, Rectangle ytarget, RectRelativity xrel, RectRelativity yrel, ReferencePoint refPoint, int Offset)
+        public static Vector2 GetRectDifferential(Rectangle source, Rectangle xtarget, Rectangle ytarget, RectRelativity xrel, RectRelativity yrel, Alignment alignment, int Offset)
         {
             int sourceXRef = source.Width;
             int sourceYRef = source.Height;
@@ -119,9 +119,9 @@ namespace Velvet
 
             if (xrel == RectRelativity.Outside)
             {
-                switch (refPoint.X)
+                switch (alignment.X)
                 {
-                    case XReference.Left:
+                    case HorizontalAlignment.Left:
 
                         targetXRef = xtarget.Left;
 
@@ -129,7 +129,7 @@ namespace Velvet
 
                         break;
 
-                    case XReference.Center:
+                    case HorizontalAlignment.Center:
 
                         //sourceXRef = 0;
                         targetXRef = xtarget.Center.X;
@@ -138,7 +138,7 @@ namespace Velvet
 
                         break;
 
-                    case XReference.Right:
+                    case HorizontalAlignment.Right:
 
                         targetXRef = xtarget.Right;
 
@@ -154,9 +154,9 @@ namespace Velvet
 
             else if (xrel == RectRelativity.Inside)
             {
-                switch (refPoint.X)
+                switch (alignment.X)
                 {
-                    case XReference.Left:
+                    case HorizontalAlignment.Left:
 
                         targetXRef = xtarget.Left;
 
@@ -164,13 +164,13 @@ namespace Velvet
 
                         break;
 
-                    case XReference.Center:
+                    case HorizontalAlignment.Center:
 
                         x = xtarget.Center.X;
 
                         break;
 
-                    case XReference.Right:
+                    case HorizontalAlignment.Right:
 
                         targetXRef = xtarget.Right;
 
@@ -185,9 +185,9 @@ namespace Velvet
 
             if (yrel == RectRelativity.Outside)
             {
-                switch (refPoint.Y)
+                switch (alignment.Y)
                 {
-                    case YReference.Top:
+                    case VerticalAlignment.Top:
 
                         targetYRef = ytarget.Top;
 
@@ -195,13 +195,13 @@ namespace Velvet
 
                         break;
 
-                    case YReference.Center:
+                    case VerticalAlignment.Center:
 
                         y = ytarget.Center.Y;
 
                         break;
 
-                    case YReference.Bottom:
+                    case VerticalAlignment.Bottom:
 
                         targetYRef = ytarget.Bottom;
 
@@ -214,9 +214,9 @@ namespace Velvet
 
             else if (yrel == RectRelativity.Inside)
             {
-                switch (refPoint.Y)
+                switch (alignment.Y)
                 {
-                    case YReference.Top:
+                    case VerticalAlignment.Top:
 
                         targetYRef = ytarget.Top;
 
@@ -224,13 +224,13 @@ namespace Velvet
 
                         break;
 
-                    case YReference.Center:
+                    case VerticalAlignment.Center:
 
                         y = ytarget.Center.Y;
 
                         break;
 
-                    case YReference.Bottom:
+                    case VerticalAlignment.Bottom:
 
                         targetYRef = ytarget.Bottom;
 

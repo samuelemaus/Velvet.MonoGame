@@ -12,6 +12,9 @@ namespace Velvet
         RenderTarget2D RenderTarget { get; }
         SpriteBatch SpriteBatch { get; set; }
         BlendState BlendState { get; set; }
+        SamplerState SamplerState { get; set; }
+        RasterizerState RasterizerState { get; set; }
+        SpriteSortMode SpriteSortMode { get; set; }
         Vector2 RenderPosition { get; }
         Dimensions2D TargetDimensions { get; }
         float TargetScale { get; }

@@ -41,15 +41,15 @@ namespace Velvet.UI
         {
             WindowTextures = new TextureAtlas(content.Load<Texture2D>("Images/Windows/WindowTexture1"), 3);
 
-            WindowTextures.Regions[0].AddTag(ReferencePoint.TopLeft);
-            WindowTextures.Regions[1].AddTag(ReferencePoint.TopCentered);
-            WindowTextures.Regions[2].AddTag(ReferencePoint.TopRight);
-            WindowTextures.Regions[3].AddTag(ReferencePoint.LeftCentered);
-            WindowTextures.Regions[4].AddTag(ReferencePoint.Centered);
-            WindowTextures.Regions[5].AddTag(ReferencePoint.RightCentered);
-            WindowTextures.Regions[6].AddTag(ReferencePoint.BottomLeft);
-            WindowTextures.Regions[7].AddTag(ReferencePoint.BottomCentered);
-            WindowTextures.Regions[8].AddTag(ReferencePoint.BottomRight);
+            WindowTextures.Regions[0].AddTag(Alignment.TopLeft);
+            WindowTextures.Regions[1].AddTag(Alignment.TopCentered);
+            WindowTextures.Regions[2].AddTag(Alignment.TopRight);
+            WindowTextures.Regions[3].AddTag(Alignment.LeftCentered);
+            WindowTextures.Regions[4].AddTag(Alignment.Centered);
+            WindowTextures.Regions[5].AddTag(Alignment.RightCentered);
+            WindowTextures.Regions[6].AddTag(Alignment.BottomLeft);
+            WindowTextures.Regions[7].AddTag(Alignment.BottomCentered);
+            WindowTextures.Regions[8].AddTag(Alignment.BottomRight);
         }
 
         public static TextureAtlas SmallControlTextures;
@@ -59,15 +59,15 @@ namespace Velvet.UI
 
 
             //SmallButtons
-            SmallControlTextures.Regions[0].AddTags(XReference.Left, ControlObjectState.Default);
-            SmallControlTextures.Regions[1].AddTags(XReference.Center, ControlObjectState.Default);
-            SmallControlTextures.Regions[2].AddTags(XReference.Right, ControlObjectState.Default);
-            SmallControlTextures.Regions[4].AddTags(XReference.Left, ControlObjectState.Active);
-            SmallControlTextures.Regions[5].AddTags(XReference.Center, ControlObjectState.Active);
-            SmallControlTextures.Regions[6].AddTags(XReference.Right, ControlObjectState.Active);
-            SmallControlTextures.Regions[8].AddTags(XReference.Left, ControlObjectState.Targeted);
-            SmallControlTextures.Regions[9].AddTags(XReference.Center, ControlObjectState.Targeted);
-            SmallControlTextures.Regions[10].AddTags(XReference.Right, ControlObjectState.Targeted);
+            SmallControlTextures.Regions[0].AddTags(HorizontalAlignment.Left, ControlObjectState.Default);
+            SmallControlTextures.Regions[1].AddTags(HorizontalAlignment.Center, ControlObjectState.Default);
+            SmallControlTextures.Regions[2].AddTags(HorizontalAlignment.Right, ControlObjectState.Default);
+            SmallControlTextures.Regions[4].AddTags(HorizontalAlignment.Left, ControlObjectState.Active);
+            SmallControlTextures.Regions[5].AddTags(HorizontalAlignment.Center, ControlObjectState.Active);
+            SmallControlTextures.Regions[6].AddTags(HorizontalAlignment.Right, ControlObjectState.Active);
+            SmallControlTextures.Regions[8].AddTags(HorizontalAlignment.Left, ControlObjectState.Targeted);
+            SmallControlTextures.Regions[9].AddTags(HorizontalAlignment.Center, ControlObjectState.Targeted);
+            SmallControlTextures.Regions[10].AddTags(HorizontalAlignment.Right, ControlObjectState.Targeted);
 
         }
 

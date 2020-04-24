@@ -16,10 +16,8 @@ namespace Velvet.Rendering
             SourceRect = rect;
         }
 
-        /// <summary>
-        /// Objects associated with the particular Texture region.  Currently limited to 7 for performance reasons.
-        /// </summary>
-        public List<object> Tags { get; protected set; } = new List<object>(7);
+
+        public List<object> Tags { get; protected set; } = new List<object>();
         public string Name { get; set; }
 
 

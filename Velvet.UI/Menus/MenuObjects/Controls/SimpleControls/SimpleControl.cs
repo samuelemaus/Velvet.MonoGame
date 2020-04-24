@@ -6,6 +6,6 @@ namespace Velvet.UI
 {
     public abstract class SimpleControl : IControl
     {
-        public IControlObject MainControl { get; set; }
+        public IControlObject MainControlObject { get; set; }
     }
 }

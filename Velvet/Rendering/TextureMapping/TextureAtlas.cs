@@ -23,9 +23,7 @@ namespace Velvet.Rendering
             SourceTexture = sourceTexture;
             CellDimensions = cellDimensions;
             InitializeRegionsByCellDimensions();
-
         }
-
 
         #region//Dimensions & Divisions
 
@@ -309,13 +307,13 @@ namespace Velvet.Rendering
 
             switch (arrangement.CornerOfFirstIndex.X)
             {
-                case XReference.Right:
+                case HorizontalAlignment.Right:
 
                     leftSide = rightSide - (int)CellDimensions.Width;
                     rightSide = (int)SourceDimensions.Width;
                     break;
 
-                case XReference.Left:
+                case HorizontalAlignment.Left:
 
                     leftSide = 0;
                     rightSide = (int)CellDimensions.Width;
@@ -324,13 +322,13 @@ namespace Velvet.Rendering
 
             switch (arrangement.CornerOfFirstIndex.Y)
             {
-                case YReference.Top:
+                case VerticalAlignment.Top:
 
                     bottomSide = (int)CellDimensions.Height;
                     topSide = 0;
                     break;
 
-                case YReference.Bottom:
+                case VerticalAlignment.Bottom:
 
                     bottomSide = (int)SourceDimensions.Height;
                     topSide = bottomSide - (int)CellDimensions.Height;

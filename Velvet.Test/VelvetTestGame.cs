@@ -20,9 +20,10 @@ namespace Velvet
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private int internalWidth = 320;
-        private int internalHeight = 180;
+        private int internalWidth = 640;
+        private int internalHeight = 360;
         private FrameRateCounter frameRateCounter;
+        
 
 
         public VelvetTestGame()
@@ -31,14 +32,14 @@ namespace Velvet
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Window.AllowUserResizing = true;
-            
+            this.IsFixedTimeStep = false;
 
         }
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
+        /// related content.  Calling base.Initialize will enumerate through any componentsf
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize()
@@ -52,10 +53,10 @@ namespace Velvet
             //graphics.SynchronizeWithVerticalRetrace = true;
 
             int hudWidth = internalWidth * 2;
-            int hudHeight = internalHeight / 3;
+            int hudHeight = internalHeight * 2;
 
             UIController.Initialize(Services, Content.RootDirectory, new RenderTarget2D(GraphicsDevice, hudWidth, hudHeight), Vector2.Zero);
-            SceneController.Initialize(Services, "Content/Scenes", new RenderTarget2D(GraphicsDevice, internalWidth, internalHeight/* - hudHeight*/), Vector2.Zero);
+            SceneController.Initialize(Services, "Content/Scenes", new RenderTarget2D(GraphicsDevice, internalWidth, internalHeight), Vector2.Zero);
             TileSetManager.Initialize(SceneController.Content, "Content/Scenes/Tilesets");
             GameRenderer.Initialize(this, graphics, new Dimensions2D(internalWidth, internalHeight), new List<IRenderer2D>() { SceneController.Renderer, UIController.Renderer});
             GameRenderer.SetResolution(GameRenderer.DisplayResolution / 2f);
@@ -82,6 +83,10 @@ namespace Velvet
 
             SceneController.LoadContent(DefaultScene);
             SceneController.GameScenes.Add(DefaultScene);
+            if(DefaultScene is ZeldaTestScene z)
+            {
+                z.GameSettingsMenu = new GameSettingsMenu(this);
+            }
             
 
             

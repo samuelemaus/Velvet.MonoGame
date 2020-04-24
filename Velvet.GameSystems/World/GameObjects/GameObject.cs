@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Velvet.GameSystems
 {
@@ -24,7 +25,7 @@ namespace Velvet.GameSystems
             set
             {
                 position = value;
-                boundingRect.Position = value;
+                boundingRect.CenterPosition = value;
             }
         }
 
@@ -43,7 +44,9 @@ namespace Velvet.GameSystems
             dimensions.Height = value;
         }
 
-
-
+        public abstract void LoadContent();
+        public abstract void UnloadContent();
+        public abstract void Draw(SpriteBatch spriteBatch);
+        public abstract void Update(GameTime gameTime);
     }
 }

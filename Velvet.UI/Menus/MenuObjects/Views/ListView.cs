@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Velvet.UI
 {
-    public class ListView : MenuView
+    public class ListView : ObjectArrangementView
     {
 
         #region//Constructors
@@ -15,76 +15,54 @@ namespace Velvet.UI
         public ListView()
         {
             boundingRect = TargetRect;
-
+            Initialize();
         }
 
-        #endregion
+        public ListView(IBoundingRect targetBoundingRectObject, Orientation _orientation, Alignment _alignment)
+        {
+            TargetRect = targetBoundingRectObject.BoundingRect;
+            orientation = _orientation;
+            alignment = _alignment;
+        }
 
-        #region//Content
+        public int Columns { get; private set; } = 1;
 
-        private BoundingRect TargetRect { get; set; }
-        public List<IMenuObject> MenuObjects { get; set; }
+        private Orientation orientation = Orientation.Vertical;
+        public Orientation Orientation
+        {
+            get => orientation;
+            set
+            {
+                orientation = value;
+                ArrangeObjects();
+            }
+        }
 
+        private Alignment alignment = Alignment.TopLeft;
+        public Alignment Alignment
+        {
+            get => alignment;
+            set
+            {
+                alignment = value;
+                ArrangeObjects();
+            }
+        }
         
+        public override void ArrangeObjects()
+        {
+            
+        }
 
+        public override void Initialize()
+        {
+            
+        }
 
         #endregion
 
-        #region//Overrides
-        #endregion
-
-        #region//Settings
-        private Dimensions2D boundariesOffset;
-
-        /// <summary>
-        /// The offset between the <see cref="BoundingRect"/> and <see cref="MenuObjects"/>
-        /// </summary>
-        public Dimensions2D BoundariesOffset
-        {
-            get
-            {
-                return boundariesOffset;
-            }
-
-            set
-            {
-                boundariesOffset = value;
-            }
-        }
-
-        private Dimensions2D menuObjectOffset;
-        /// <summary>
-        /// The offset between each <see cref="IMenuObject"/>
-        /// </summary>
-        public Dimensions2D MenuObjectOffset
-        {
-            get
-            {
-                return menuObjectOffset;
-            }
-
-            set
-            {
-                menuObjectOffset = value;
-            }
-        }
-
-        private ResizeViewBehavior resizeBehavior;
-        public ResizeViewBehavior ResizeBehavior
-        {
-            get
-            {
-                return resizeBehavior;
-            }
-
-            set
-            {
-                resizeBehavior = value;
-            }
-        }
 
 
 
-        #endregion
     }
 }

@@ -17,11 +17,12 @@ namespace Velvet
         #region//Constructors
         public RectImage()
         {
-
+            
         }
 
         public RectImage(BoundingRect target)
         {
+            
             InitialTargetRect = target;
             InitializeDimensions();
             DrawMethod = DrawRect;
@@ -29,6 +30,7 @@ namespace Velvet
 
         public RectImage(Rectangle target)
         {
+            
             InitialTargetRect = new BoundingRect(target);
             InitializeDimensions();
             DrawMethod = DrawRect;
@@ -36,6 +38,7 @@ namespace Velvet
 
         public RectImage(IBoundingRect target)
         {
+            
             InitialTargetRect = target.BoundingRect;
             InitializeDimensions();
             this.SetPositionDependency(target);
@@ -47,6 +50,7 @@ namespace Velvet
         #region//Content
 
         public override BoundingRect BoundingRect => boundingRect;
+
 
         private Rectangle _destinationRect;
 
@@ -162,8 +166,8 @@ namespace Velvet
         protected override void InitializeDimensions()
         {
 
-            Dimensions = InitialTargetRect.Dimensions;
-            Position = InitialTargetRect.Position;
+            boundingRect.Dimensions = InitialTargetRect.Dimensions;
+            Position = InitialTargetRect.CenterPosition;
             InitializeOrigin();
             _destinationRect = BoundingRect.ToRectangle();
             
@@ -171,7 +175,7 @@ namespace Velvet
 
         private void UpdateDimensions()
         {
-            Dimensions = InitialTargetRect.Dimensions;
+            boundingRect.Dimensions = InitialTargetRect.Dimensions;
             InitializeOrigin();
             _destinationRect = BoundingRect.ToRectangle();
         }

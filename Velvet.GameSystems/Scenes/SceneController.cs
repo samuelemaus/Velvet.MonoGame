@@ -38,7 +38,16 @@ namespace Velvet.GameSystems
         public static void LoadContent(GameScene scene)
         {
             CurrentScene = scene;
-            Renderer.Camera = CurrentScene.Camera;
+            if(CurrentScene is GameWorldScene gameWorldScene)
+            {
+                Renderer.Camera = gameWorldScene.World.Camera;
+            }
+
+            else
+            {
+                Renderer.Camera = null;
+            }
+
             CurrentScene.LoadContent();
         }
 

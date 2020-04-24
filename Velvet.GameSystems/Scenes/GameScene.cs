@@ -26,7 +26,7 @@ namespace Velvet.GameSystems
             InitializeCamera();
         }
 
-        public OrthoCamera Camera { get; set; }
+        //public OrthoCamera Camera { get; set; }
         public GameEventController EventController { get; set; }
         public IRenderer2D SceneRenderer { get; set; }
         public PlaylistCollection AudioPlaylists { get; set; }
@@ -105,7 +105,7 @@ namespace Velvet.GameSystems
         }
         protected void InitializeCamera()
         {
-            Camera = new OrthoCamera(SceneController.Renderer.Viewport);
+            //Camera = new OrthoCamera(SceneController.Renderer.Viewport);
         }
 
         #region//Events

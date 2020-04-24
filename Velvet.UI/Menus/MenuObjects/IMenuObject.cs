@@ -11,7 +11,5 @@ namespace Velvet.UI
         bool IsActive { get; }
         bool IsTargeted { get; }
 
-        
-
     }
 }

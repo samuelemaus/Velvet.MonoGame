@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Velvet
 {
-    public delegate void SendValuePropertyChangedEventHandler(object sender, object _value, PropertyChangedEventArgs e);
+    public delegate void SendValuePropertyChangedEventHandler(object sender, object value, PropertyChangedEventArgs e);
 
     public interface IBindingSource
     {
@@ -15,9 +15,7 @@ namespace Velvet
         PropertyInfo IdentifyProperty(string propertyName);
 
         event SendValuePropertyChangedEventHandler PropertyChanged;
-        void OnPropertySetByControl(object sender, object _value, PropertyChangedEventArgs e);
-
-
+        void OnPropertySetByControl(object sender, object value, PropertyChangedEventArgs e);
 
     }
 }

@@ -12,54 +12,6 @@ namespace Velvet
 
         #region//Content
         public SpriteEffects SpriteEffect { get; set; }
-
-        protected BoundingRect boundingRect;
-        public virtual BoundingRect BoundingRect
-        {
-            get
-            {
-                if (DimensionsDependency != null && DimensionsDependency.DependencyActive)
-                {
-                    DimensionsDependency.GetDimensionsOverride(ref boundingRect.Dimensions, ref scale);
-                }
-
-                if(PositionDependency != null && PositionDependency.DependencyActive)
-                {
-                    PositionDependency.GetPositionOverride(ref boundingRect.Position);
-                }
-
-                return boundingRect;
-            }
-        }
-        public virtual Dimensions2D Dimensions
-        {
-            get => BoundingRect.Dimensions;
-            set
-            {
-                boundingRect.Dimensions = value;
-                InitializeOrigin();
-            }
-        }
-        public virtual Vector2 Position
-        {
-            get => BoundingRect.Position - OriginDifferential;
-            set => boundingRect.Position = value + OriginDifferential;
-        }
-
-        private Vector2 origin;
-        public virtual Vector2 Origin
-        {
-            get
-            {
-                return origin;
-            }
-
-            set
-            {
-                origin = value;
-                
-            }
-        }
         public virtual Color Color { get; set; } = Color.White;
         public float Rotation { get; set; }
         public float Alpha { get; set; } = 1f;
@@ -83,20 +35,63 @@ namespace Velvet
         #endregion
 
         #region//Dimensions & Positioning
-
-        public Vector2 OriginDifferential => BoundingRect.Dimensions.Center - Origin;
-        
-
-        protected abstract void InitializeDimensions();
-        public virtual PositionDependency PositionDependency { get; set; }
-
-        private DimensionsDependency dimensionsDependency;
-        public virtual DimensionsDependency DimensionsDependency
+        protected BoundingRect boundingRect;
+        public virtual BoundingRect BoundingRect
         {
             get
             {
-                return dimensionsDependency;
+                if(PositionDependency!= null && PositionDependency.DependencyActive)
+                {
+                    PositionDependency.GetPositionOverride(ref boundingRect.CenterPosition);
+                }
+
+                if(DimensionsDependency != null && DimensionsDependency.DependencyActive)
+                {
+                    DimensionsDependency.GetDimensionsOverride(ref boundingRect.Dimensions);
+                }
+
+                return boundingRect;
             }
+
+        }
+
+
+        public virtual Vector2 Position
+        {
+            get => BoundingRect.CenterPosition - OriginDifferential;
+            set => boundingRect.CenterPosition = value + OriginDifferential;
+        }
+
+        private Vector2 origin;
+        public virtual Vector2 Origin
+        {
+            get => origin;
+
+            set
+            {
+                origin = value;
+                OriginDifferential = BoundingRect.Dimensions.Center - value;
+            }
+        }
+        public Vector2 OriginDifferential { get; protected set; }
+        
+
+        protected abstract void InitializeDimensions();
+        protected PositionDependency positionDependency;
+        public virtual PositionDependency PositionDependency
+        {
+            get => positionDependency;
+            set
+            {
+                positionDependency = value;
+                
+            }
+        }
+
+        protected DimensionsDependency dimensionsDependency;
+        public virtual DimensionsDependency DimensionsDependency
+        {
+            get => dimensionsDependency;
 
             set
             {
@@ -106,26 +101,11 @@ namespace Velvet
         }
         protected virtual void InitializeOrigin()
         {
-            Origin = Dimensions.Center;
+            Origin = BoundingRect.Dimensions.Center;
         }
 
         #endregion
 
-        #region//Interface Methods
-       
-
-        public void SetWidth(float value)
-        {
-            boundingRect.Dimensions.Width = value;
-        }
-
-        public void SetHeight(float value)
-        {
-            boundingRect.Dimensions.Height = value;
-        }
-
-
-        #endregion
 
         #region//Draw & Update
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -142,21 +122,6 @@ namespace Velvet
             
         }
 
-        protected virtual void UpdateBoundingRect()
-        {
-            //boundingRect.Position = Position - originDifferential;
-            //boundingRect.Dimensions = Dimensions;
-
-        }
-
-        protected virtual Vector2 originDifferential
-        {
-            get
-            {
-                return Origin - Dimensions.Center;
-            }
-        }
-
         public void Dispose()
         {
             throw new NotImplementedException();
@@ -165,22 +130,22 @@ namespace Velvet
 
         #region//Public Methods
 
-        public void SetOriginByReferencePoint(ReferencePoint refPoint)
+        public void SetOriginByReferencePoint(Alignment alignment)
         {
             float x = 0;
             float y = 0;
 
-            switch (refPoint.X)
+            switch (alignment.X)
             {
-                case XReference.Left: x = 0; break;
-                case XReference.Center: x = Dimensions.HorizontalCenter;  break;
-                case XReference.Right: x = Dimensions.Width;  break;
+                case HorizontalAlignment.Left: x = 0; break;
+                case HorizontalAlignment.Center: x = BoundingRect.Dimensions.HorizontalCenter;  break;
+                case HorizontalAlignment.Right: x = BoundingRect.Dimensions.Width;  break;
             }
-            switch (refPoint.Y)
+            switch (alignment.Y)
             {
-                case YReference.Top: y = 0; break;
-                case YReference.Center: y = Dimensions.VerticalCenter; break;
-                case YReference.Bottom: y = Dimensions.Height; break;
+                case VerticalAlignment.Top: y = 0; break;
+                case VerticalAlignment.Center: y = BoundingRect.Dimensions.VerticalCenter; break;
+                case VerticalAlignment.Bottom: y = BoundingRect.Dimensions.Height; break;
             }
 
             Origin = new Vector2(x, y);

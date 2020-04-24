@@ -13,7 +13,7 @@ namespace Velvet
         /// </summary>
         public bool ReversedStartPoint;
 
-        public ReferencePoint CornerOfFirstIndex { get; private set; }
+        public Alignment CornerOfFirstIndex { get; private set; }
 
         private IndexArrangement(Orientation orientation, Order order, bool reversed = false)
         {
@@ -62,35 +62,35 @@ namespace Velvet
         /// </summary>
         public static IndexArrangement HorizontalDescendingReversed = new IndexArrangement(Orientation.Horizontal, Order.Descending, true);
 
-        private ReferencePoint GetReferencePoint(Orientation orientation, Order order, bool reversed)
+        private Alignment GetReferencePoint(Orientation orientation, Order order, bool reversed)
         {
-            XReference x = default;
-            YReference y = default;
+            HorizontalAlignment x = default;
+            VerticalAlignment y = default;
 
             if(orientation == Orientation.Horizontal)
             {
                 if (reversed)
                 {
-                    y = YReference.Bottom;
+                    y = VerticalAlignment.Bottom;
                     
                 }
 
                 else
                 {
-                    y = YReference.Top;
+                    y = VerticalAlignment.Top;
                 }
 
                 if (order == Order.Ascending)
                 {
-                    x = XReference.Left;
+                    x = HorizontalAlignment.Left;
                 }
 
                 else
                 {
-                    x = XReference.Right;
+                    x = HorizontalAlignment.Right;
                 }
 
-                return new ReferencePoint(x, y);
+                return new Alignment(x, y);
 
             }
 
@@ -98,26 +98,26 @@ namespace Velvet
             {
                 if (reversed)
                 {
-                    x = XReference.Right;
+                    x = HorizontalAlignment.Right;
 
                 }
 
                 else
                 {
-                    x = XReference.Left;
+                    x = HorizontalAlignment.Left;
                 }
 
                 if (order == Order.Ascending)
                 {
-                    y = YReference.Bottom;
+                    y = VerticalAlignment.Bottom;
                 }
 
                 else
                 {
-                    y = YReference.Top;
+                    y = VerticalAlignment.Top;
                 }
 
-                return new ReferencePoint(x, y);
+                return new Alignment(x, y);
             }
 
         }

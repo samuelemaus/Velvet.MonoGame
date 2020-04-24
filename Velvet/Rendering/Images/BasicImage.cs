@@ -70,19 +70,19 @@ namespace Velvet
             }
         }
 
-        
-
         protected override void InitializeDimensions()
         {
             if(!SourceRect.IsEmpty)
             {
-                Dimensions = new Dimensions2D(SourceRect.Width, SourceRect.Height);
+                boundingRect.Dimensions = new Dimensions2D(SourceRect.Width, SourceRect.Height);
             }
 
             else
             {
-                Dimensions = new Dimensions2D(Texture.Width, Texture.Height);
+                boundingRect.Dimensions = new Dimensions2D(Texture.Width, Texture.Height);
             }
+
+            
         }
         
         protected void DrawTexture(SpriteBatch spriteBatch)

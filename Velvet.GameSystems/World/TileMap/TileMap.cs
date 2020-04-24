@@ -37,8 +37,8 @@ namespace Velvet.GameSystems
         {
             FilePath = filePath;
             Name = FilePath.TrimFileExtension();            
-            LoadTileMapData(GetTileMapFile(FilePath));
-            BoundingRect = new BoundingRect(0, 0, Width * TileWidth, Height * TileHeight);
+            
+            
         }
 
         public void LoadContent()
@@ -47,8 +47,8 @@ namespace Velvet.GameSystems
             //{
             //    layer.LoadContent();
             //}
-
-
+            LoadTileMapData(GetTileMapFile(FilePath));
+            BoundingRect = new BoundingRect(0, 0, Width * TileWidth, Height * TileHeight);
 
         }
 

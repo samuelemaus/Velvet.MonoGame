@@ -14,7 +14,8 @@ namespace Velvet.UI
 
     #region//Views
 
-    public enum ResizeViewBehavior {ConstrainObjectsToBoundingRect, ConstrainBoundingRectToObjects }
+    
+    
 
     #endregion
 
@@ -37,9 +38,7 @@ namespace Velvet.UI
     #region//Slider
 
     public enum SliderIntervalDivision {FullRange, RegularIntervals, IrregularIntervals, LogarithmicIntervals}
-
-
-
+    
     #endregion
 
     #endregion

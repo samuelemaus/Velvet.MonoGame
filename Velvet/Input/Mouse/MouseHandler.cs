@@ -59,7 +59,7 @@ namespace Velvet.Input
         public Vector2 GetMousePosition()
         {
             return (CurrentMouseState.Position / 4).Round();
-            //return CurrentMouseState.Position;
+            //return CurrentMouseState.CenterPosition;
         }
 
         public bool BtnDown(MouseButtons button)

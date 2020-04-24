@@ -13,12 +13,7 @@ namespace Velvet
         string LocalPropertyName { get; }
         bool BindingActive { get; }
         void PropertyChanged(object sender, object value, PropertyChangedEventArgs e);
-        //void ActivateBinding();
         void BindTo(IBindingSource source, object property, string propertyName);
         dynamic DisplayedValue { get; }
-
-
-
-
     }
 }

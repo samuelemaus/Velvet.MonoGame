@@ -7,9 +7,9 @@ namespace Velvet
     //Positioning
     public enum Origin { Left, Center, Right }
 
-    public enum XReference { Center, Left, Right }
+    public enum HorizontalAlignment { Center, Left, Right }
 
-    public enum YReference { Center, Top, Bottom}
+    public enum VerticalAlignment { Center, Top, Bottom}
 
     public enum BindType { FullyBound, Unbound, X_Unbound, Y_Unbound }
 

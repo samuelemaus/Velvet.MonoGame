@@ -10,7 +10,7 @@ namespace Velvet
 {
     public delegate Vector2 PositionOverrideFromMovable(IMovable target);
     public delegate Vector2 PositionOverrideFromMethod();
-    public delegate Dimensions2D DimensionsOverrideFromSized(IDimensions2D target);
+    public delegate Dimensions2D DimensionsOverrideFromSized(IBoundingRect target);
     public delegate Dimensions2D DimensionsOverrideFromMethod();
 
 
@@ -41,47 +41,47 @@ namespace Velvet
 
         #region//Snapping
 
-        public static void SnapTo(this IMovable movable, BoundingRect rect, ReferencePoint refPoint, float offset)
+        public static void SnapTo(this IMovable movable, BoundingRect rect, Alignment alignment, float offset)
         {
             float xPos = 0;
             float yPos = 0;
 
-            XReference xOrigin;
-            YReference yOrigin;
+            HorizontalAlignment xOrigin;
+            VerticalAlignment yOrigin;
 
-            switch (refPoint.X)
+            switch (alignment.X)
             {
-                case XReference.Left:
+                case HorizontalAlignment.Left:
                     xPos = rect.Left - offset;
-                    xOrigin = XReference.Right;
+                    xOrigin = HorizontalAlignment.Right;
                     break;
 
-                case XReference.Right:
+                case HorizontalAlignment.Right:
                     xPos = rect.Right + offset;
-                    xOrigin = XReference.Left;
+                    xOrigin = HorizontalAlignment.Left;
                     break;
 
-                case XReference.Center:
-                    xPos = rect.Position.X + offset;
-                    xOrigin = XReference.Center;
+                case HorizontalAlignment.Center:
+                    xPos = rect.CenterPosition.X + offset;
+                    xOrigin = HorizontalAlignment.Center;
                     break;
             }
 
-            switch (refPoint.Y)
+            switch (alignment.Y)
             {
-                case YReference.Top:
+                case VerticalAlignment.Top:
                     yPos = rect.Top - offset;
-                    yOrigin = YReference.Bottom;
+                    yOrigin = VerticalAlignment.Bottom;
                     break;
 
-                case YReference.Bottom:
+                case VerticalAlignment.Bottom:
                     yPos = rect.Bottom + offset;
-                    yOrigin = YReference.Top;
+                    yOrigin = VerticalAlignment.Top;
                     break;
 
-                case YReference.Center:
-                    yPos = rect.Position.Y;
-                    yOrigin = YReference.Center;
+                case VerticalAlignment.Center:
+                    yPos = rect.CenterPosition.Y;
+                    yOrigin = VerticalAlignment.Center;
                     break;
 
             }
@@ -97,13 +97,14 @@ namespace Velvet
 
         #endregion
 
+         
         #region//DimensionsDependency
 
         #region//SetDependency Methods
 
-        public static void SetDimensionsDependency(this IDimensions2D dimensions, IDimensions2D dependency, DimensionsOverrideType overrideType = DimensionsOverrideType.FullOverride)
+        public static void SetDimensionsDependency(this IBoundingRect boundingRectObject, IBoundingRect dependency, DimensionsOverrideType overrideType = DimensionsOverrideType.FullOverride)
         {
-            if(dimensions.DimensionsDependency is SizedObjectDimensionsDependency s)
+            if(boundingRectObject.DimensionsDependency is SizedObjectDimensionsDependency s)
             {
                 s.Dependency = dependency;
                 s.DependencyActive = true;
@@ -112,12 +113,12 @@ namespace Velvet
 
             else
             {
-                dimensions.DimensionsDependency = new SizedObjectDimensionsDependency(dependency, overrideType);
+                boundingRectObject.DimensionsDependency = new SizedObjectDimensionsDependency(dependency, overrideType);
             }
         }
-        public static void SetDimensionsDependency(this IDimensions2D dimensions, IDimensions2D widthDependency, IDimensions2D heightDependency)
+        public static void SetDimensionsDependency(this IBoundingRect boundingRectObject, IBoundingRect widthDependency, IBoundingRect heightDependency)
         {
-            if(dimensions.DimensionsDependency is DualObjectDimensionsDependency d)
+            if(boundingRectObject.DimensionsDependency is DualObjectDimensionsDependency d)
             {
                 d.WidthDependency = widthDependency;
                 d.HeightDependency = heightDependency;
@@ -125,12 +126,12 @@ namespace Velvet
 
             else
             {
-                dimensions.DimensionsDependency = new DualObjectDimensionsDependency(widthDependency, heightDependency);
+                boundingRectObject.DimensionsDependency = new DualObjectDimensionsDependency(widthDependency, heightDependency);
             }
         }
-        public static void SetDimensionsDependency(this IDimensions2D dimensions, DimensionsOverrideFromMethod overrideMethod, DimensionsOverrideType overrideType = DimensionsOverrideType.FullOverride)
+        public static void SetDimensionsDependency(this IBoundingRect boundingRectObject, DimensionsOverrideFromMethod overrideMethod, DimensionsOverrideType overrideType = DimensionsOverrideType.FullOverride)
         {
-            if(dimensions.DimensionsDependency is MethodDimensionsDependency m)
+            if(boundingRectObject.DimensionsDependency is MethodDimensionsDependency m)
             {
                 m.OverrideMethod = overrideMethod;
                 m.DependencyActive = true;
@@ -139,13 +140,13 @@ namespace Velvet
 
             else
             {
-                dimensions.DimensionsDependency = new MethodDimensionsDependency(overrideMethod, overrideType);
+                boundingRectObject.DimensionsDependency = new MethodDimensionsDependency(overrideMethod, overrideType);
 
             }
         }
-        public static void SetDimensionsDependency(this IDimensions2D dimensions, DimensionsOverrideFromMethod widthMethod, DimensionsOverrideFromMethod heightMethod)
+        public static void SetDimensionsDependency(this IBoundingRect boundingRectObject, DimensionsOverrideFromMethod widthMethod, DimensionsOverrideFromMethod heightMethod)
         {
-            if(dimensions.DimensionsDependency is DualMethodDimensionsDependency d)
+            if(boundingRectObject.DimensionsDependency is DualMethodDimensionsDependency d)
             {
                 d.WidthOverrideMethod = widthMethod;
                 d.HeightOverrideMethod = heightMethod;
@@ -154,7 +155,7 @@ namespace Velvet
 
             else
             {
-                dimensions.DimensionsDependency = new DualMethodDimensionsDependency(widthMethod, heightMethod);
+                boundingRectObject.DimensionsDependency = new DualMethodDimensionsDependency(widthMethod, heightMethod);
             }
 
         }
@@ -218,9 +219,6 @@ namespace Velvet
                 movable.PositionDependency = new DualMovablePositionDependency(xDependency, yDependency);
             }
         }
-        #endregion
-
-
         /// <summary>
         /// Creates a <see cref="SplitTypeDualPositionDependency"/> for the target <see cref="IMovable"/> object.  If either the xDependency or yDependency parameters are null, the existing <see cref="PositionDependency"/> will be utilized instead for that parameter.
         /// </summary>
@@ -232,17 +230,17 @@ namespace Velvet
             PositionDependency x = xDependency;
             PositionDependency y = yDependency;
 
-            if(xDependency == null)
+            if (xDependency == null)
             {
                 x = movable.PositionDependency;
             }
 
-            if(yDependency == null)
+            if (yDependency == null)
             {
                 y = movable.PositionDependency;
             }
 
-            if(xDependency == null && yDependency == null)
+            if (xDependency == null && yDependency == null)
             {
                 throw new ArgumentNullException("At least one PositionDependency must be supplied");
             }
@@ -250,9 +248,13 @@ namespace Velvet
             SplitTypeDualPositionDependency dep = new SplitTypeDualPositionDependency(x, y);
 
             movable.PositionDependency = dep;
-            
+
 
         }
+        #endregion
+
+
+
 
         #region//Tether Methods
 
@@ -270,34 +272,23 @@ namespace Velvet
 
         #region//AnchorMethods
 
-        public static void AnchorTo(this IBoundingRect rect, IBoundingRect target, ReferencePoint refPoint, RectRelativity relativity, float offset = 0, PositionOverrideType coordinateOverride = PositionOverrideType.FullOverride)
+        public static void AnchorTo(this IBoundingRect rect, IBoundingRect target, Alignment alignment, RectRelativity relativity, Dimensions2D offset, PositionOverrideType coordinateOverride = PositionOverrideType.FullOverride)
         {
             var dep = new MovablePositionDependency(target);        
 
-            var differential = GetAnchorDifferential(rect.BoundingRect, target.BoundingRect, relativity, refPoint, offset);
+            var differential = GetAnchorDifferential(rect.BoundingRect, target.BoundingRect, relativity, alignment, offset);
 
-            Vector2 constantDifferential(IMovable _target)
-            {
-                return target.BoundingRect.GetRectCorner(refPoint) - differential;
-            }
-            
-            dep.OverrideMethod = constantDifferential;
+            dep.OverrideMethod = (IMovable _target) => (target.BoundingRect.GetRectCorner(alignment) - differential);
             dep.OverrideType = coordinateOverride;
-
             rect.PositionDependency = dep;
         }
 
-        public static void AnchorTo(this IBoundingRect rect, BoundingRect target, ReferencePoint refPoint, RectRelativity relativity, float offset = 0, PositionOverrideType coordinateOverride = PositionOverrideType.FullOverride)
+        public static void AnchorTo(this IBoundingRect rect, BoundingRect target, Alignment alignment, RectRelativity relativity, Dimensions2D offset, PositionOverrideType coordinateOverride = PositionOverrideType.FullOverride)
         {            
 
-            var differential = GetAnchorDifferential(rect.BoundingRect, target, relativity, refPoint, offset);
+            var differential = GetAnchorDifferential(rect.BoundingRect, target, relativity, alignment, offset);
 
-            Vector2 constantDifferential()
-            {
-                return target.GetRectCorner(refPoint) - differential;
-            }
-
-            var dep = new MethodPositionDependency(constantDifferential);
+            var dep = new MethodPositionDependency(() => (target.GetRectCorner(alignment) - differential));
             dep.OverrideType = coordinateOverride;
 
             rect.PositionDependency = dep;
@@ -307,28 +298,16 @@ namespace Velvet
         {
             var differential = target.Position - rect.Position;
 
-            Vector2 currentDifferential()
-            {
-                return target.Position - differential;
-            }
-
-            MethodPositionDependency dep = new MethodPositionDependency(currentDifferential);
-
+            MethodPositionDependency dep = new MethodPositionDependency(() => target.Position - differential);
             rect.PositionDependency = dep;
 
         }
 
         public static void AnchorToCurrentDifferential(this IBoundingRect rect, BoundingRect target)
         {
-            var differential = target.Position - rect.Position;
+            var differential = target.CenterPosition - rect.Position;
 
-            Vector2 currentDifferential()
-            {
-                return target.Position - differential;
-            }
-
-            MethodPositionDependency dep = new MethodPositionDependency(currentDifferential);
-
+            MethodPositionDependency dep = new MethodPositionDependency(() => (target.CenterPosition - differential));
             rect.PositionDependency = dep;
 
         }
@@ -336,57 +315,53 @@ namespace Velvet
         public static void AnchorToCurrentDifferential(this IBoundingRect rect, PositionOverrideFromMethod method)
         {
             var differential = method.Invoke() - rect.Position;
-
-            Vector2 currentDifferential()
-            {
-                return method.Invoke() - differential;
-            }
-
-            rect.PositionDependency = new MethodPositionDependency(currentDifferential);
+            rect.PositionDependency = new MethodPositionDependency(() => (method.Invoke() - differential));
 
         }
 
-        private static Vector2 GetAnchorDifferential(BoundingRect rect, BoundingRect target, RectRelativity relativity, ReferencePoint refPoint, float offset)
+        private static Vector2 GetAnchorDifferential(BoundingRect rect, BoundingRect target, RectRelativity relativity, Alignment alignment, Dimensions2D offset)
         {
             Vector2 value = default;
 
             float x = 0;
             float y = 0;
+            float xOffset = offset.Width;
+            float yOffset = offset.Height;
 
-            Vector2 targetPosition = target.GetRectCorner(refPoint);
+            Vector2 targetPosition = target.GetRectCorner(alignment);
 
             if(relativity == RectRelativity.Outside)
             {
-                switch (refPoint.X)
+                switch (alignment.X)
                 {
-                    case XReference.Left:   x = targetPosition.X + ((rect.Dimensions.HorizontalCenter) + offset); break;
-                    case XReference.Right:  x = targetPosition.X - ((rect.Dimensions.HorizontalCenter) + offset); break;
-                    case XReference.Center: x = targetPosition.X; break;
+                    case HorizontalAlignment.Left:   x = targetPosition.X + ((rect.Dimensions.HorizontalCenter) + xOffset); break;
+                    case HorizontalAlignment.Right:  x = targetPosition.X - ((rect.Dimensions.HorizontalCenter) + xOffset); break;
+                    case HorizontalAlignment.Center: x = targetPosition.X; break;
                 }
 
-                switch (refPoint.Y)
+                switch (alignment.Y)
                 {
-                    case YReference.Top: y = targetPosition.Y - ((rect.Dimensions.VerticalCenter) + offset); break;
-                    case YReference.Bottom: y = targetPosition.Y + ((rect.Dimensions.VerticalCenter) + offset); break;
-                    case YReference.Center: y = targetPosition.Y; break;
+                    case VerticalAlignment.Top: y = targetPosition.Y - ((rect.Dimensions.VerticalCenter) + yOffset); break;
+                    case VerticalAlignment.Bottom: y = targetPosition.Y + ((rect.Dimensions.VerticalCenter) + yOffset); break;
+                    case VerticalAlignment.Center: y = targetPosition.Y; break;
                 }
 
             }
 
             else
             {
-                switch (refPoint.X)
+                switch (alignment.X)
                 {
-                    case XReference.Left: x = targetPosition.X + ((rect.Dimensions.HorizontalCenter) + offset); break;
-                    case XReference.Right: x = targetPosition.X - ((rect.Dimensions.HorizontalCenter) + offset); break;
-                    case XReference.Center: x = targetPosition.X; break;
+                    case HorizontalAlignment.Left: x = targetPosition.X + ((rect.Dimensions.HorizontalCenter) + xOffset); break;
+                    case HorizontalAlignment.Right: x = targetPosition.X - ((rect.Dimensions.HorizontalCenter) + xOffset); break;
+                    case HorizontalAlignment.Center: x = targetPosition.X; break;
                 }
 
-                switch (refPoint.Y)
+                switch (alignment.Y)
                 {
-                    case YReference.Top: y = targetPosition.Y + ((rect.Dimensions.VerticalCenter) + offset); break;
-                    case YReference.Bottom: y = targetPosition.Y - ((rect.Dimensions.VerticalCenter) + offset); break;
-                    case YReference.Center: y = targetPosition.Y; break;
+                    case VerticalAlignment.Top: y = targetPosition.Y + ((rect.Dimensions.VerticalCenter) + yOffset); break;
+                    case VerticalAlignment.Bottom: y = targetPosition.Y - ((rect.Dimensions.VerticalCenter) + yOffset); break;
+                    case VerticalAlignment.Center: y = targetPosition.Y; break;
                 }
             }
 
@@ -402,7 +377,7 @@ namespace Velvet
         #endregion
 
         #region//Move Methods
-        public static void Move(this IMovable movable, Direction dir, float speed)
+        public static void Move(this IMovable movable, Direction dir, float speedInPixelsPerSecond, GameTime gameTime)
         {
 
         }
@@ -424,13 +399,13 @@ namespace Velvet
         #endregion
 
         #region/BoundingRect
-        public static Vector2 GetOrigin(this BoundingRect rect, ReferencePoint refPoint)
+        public static Vector2 GetOrigin(this BoundingRect rect, Alignment alignment)
         {
             Vector2 value = default;
 
             var dict = OriginReferencePairs(rect);
 
-            if (dict.TryGetValue(refPoint, out value))
+            if (dict.TryGetValue(alignment, out value))
             {
                 return value;
             }
@@ -440,52 +415,52 @@ namespace Velvet
             return value;
         }
 
-        public static float GetRectSide(this BoundingRect rect, XReference xRef)
+        public static float GetRectSide(this BoundingRect rect, HorizontalAlignment xRef)
         {
             float value = 0;
 
             switch (xRef)
             {
-                case XReference.Left: value = rect.Left; break;
-                case XReference.Center: value = rect.Position.X; break;
-                case XReference.Right: value = rect.Right; break;
+                case HorizontalAlignment.Left: value = rect.Left; break;
+                case HorizontalAlignment.Center: value = rect.CenterPosition.X; break;
+                case HorizontalAlignment.Right: value = rect.Right; break;
             }
 
             return value;
         }
 
-        public static float GetRectSide(this BoundingRect rect, YReference yRef)
+        public static float GetRectSide(this BoundingRect rect, VerticalAlignment yRef)
         {
             float value = 0;
 
             switch (yRef)
             {
-                case YReference.Top: value = rect.Top; break;
-                case YReference.Center: value = rect.Position.Y; break;
-                case YReference.Bottom: value = rect.Bottom; break;
+                case VerticalAlignment.Top: value = rect.Top; break;
+                case VerticalAlignment.Center: value = rect.CenterPosition.Y; break;
+                case VerticalAlignment.Bottom: value = rect.Bottom; break;
             }
 
             return value;
         }
 
-        public static Vector2 GetRectCorner(this BoundingRect rect, ReferencePoint refPoint)
+        public static Vector2 GetRectCorner(this BoundingRect rect, Alignment alignment)
         {
-            return new Vector2(rect.GetRectSide(refPoint.X), rect.GetRectSide(refPoint.Y));
+            return new Vector2(rect.GetRectSide(alignment.X), rect.GetRectSide(alignment.Y));
         }
 
-        public static Dictionary<ReferencePoint, Vector2> OriginReferencePairs(BoundingRect rect)
+        public static Dictionary<Alignment, Vector2> OriginReferencePairs(BoundingRect rect)
         {
-            Dictionary<ReferencePoint, Vector2> returnDict = new Dictionary<ReferencePoint, Vector2>();
+            Dictionary<Alignment, Vector2> returnDict = new Dictionary<Alignment, Vector2>();
 
-            returnDict.Add(ReferencePoint.Centered,                 new Vector2(rect.Dimensions.HorizontalCenter, rect.Dimensions.VerticalCenter));
-            returnDict.Add(ReferencePoint.TopCentered,              new Vector2(rect.Dimensions.HorizontalCenter, 0));
-            returnDict.Add(ReferencePoint.BottomCentered,           new Vector2(rect.Dimensions.HorizontalCenter, rect.Dimensions.Height));
-            returnDict.Add(ReferencePoint.LeftCentered,             new Vector2(0, rect.Dimensions.VerticalCenter));
-            returnDict.Add(ReferencePoint.RightCentered,            new Vector2(rect.Dimensions.Width, rect.Dimensions.VerticalCenter));
-            returnDict.Add(ReferencePoint.TopLeft,                  Vector2.Zero);
-            returnDict.Add(ReferencePoint.TopRight,                 new Vector2(rect.Dimensions.Width, 0));
-            returnDict.Add(ReferencePoint.BottomLeft,               new Vector2(0, rect.Dimensions.Height));
-            returnDict.Add(ReferencePoint.BottomRight,              new Vector2(rect.Dimensions.Width, rect.Dimensions.Height));
+            returnDict.Add(Alignment.Centered,                 new Vector2(rect.Dimensions.HorizontalCenter, rect.Dimensions.VerticalCenter));
+            returnDict.Add(Alignment.TopCentered,              new Vector2(rect.Dimensions.HorizontalCenter, 0));
+            returnDict.Add(Alignment.BottomCentered,           new Vector2(rect.Dimensions.HorizontalCenter, rect.Dimensions.Height));
+            returnDict.Add(Alignment.LeftCentered,             new Vector2(0, rect.Dimensions.VerticalCenter));
+            returnDict.Add(Alignment.RightCentered,            new Vector2(rect.Dimensions.Width, rect.Dimensions.VerticalCenter));
+            returnDict.Add(Alignment.TopLeft,                  Vector2.Zero);
+            returnDict.Add(Alignment.TopRight,                 new Vector2(rect.Dimensions.Width, 0));
+            returnDict.Add(Alignment.BottomLeft,               new Vector2(0, rect.Dimensions.Height));
+            returnDict.Add(Alignment.BottomRight,              new Vector2(rect.Dimensions.Width, rect.Dimensions.Height));
 
             return returnDict;
         }
@@ -619,6 +594,10 @@ namespace Velvet
         public static Rectangle ToRectangle(this Dimensions2D dimensions)
         {
             return new Rectangle(0, 0, (int)dimensions.Width, (int)dimensions.Height);
+        }
+        public static Dimensions2D ToDimensions2D(this Rectangle rect)
+        {
+            return new Dimensions2D(rect.Width, rect.Height);
         }
 
     }

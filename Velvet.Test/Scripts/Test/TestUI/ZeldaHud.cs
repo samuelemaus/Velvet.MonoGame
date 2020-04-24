@@ -35,10 +35,10 @@ namespace Velvet
         {
             font = UIController.Renderer.DefaultFont;
 
-            Background = new RectImage(UIController.Renderer.Bounds)
+            Background = new RectImage(new BoundingRect(new Vector2(UIController.Renderer.Bounds.CenterPosition.X, 0), new Dimensions2D(UIController.Renderer.Bounds.Dimensions.Width, UIController.Renderer.Bounds.Dimensions.Height / 4)))
             {
                 Color = Color.DarkBlue,
-                Alpha = 0.725f
+                Alpha = 0.85f
             };
         }
 
@@ -62,9 +62,10 @@ namespace Velvet
 
         public void DrawTileInfo(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font, $"RgnIdx: {scene.RegionIndex} | Tile: {scene.Tile}", new Vector2(5, 5), Color.DeepPink);
-            spriteBatch.DrawString(font, $"Camera: {scene.Camera}", new Vector2(5, 15), Color.DeepPink);
-            spriteBatch.DrawString(font, scene.Camera.DisplayRanges + " | " + scene.Camera.DisplayBounds + " | " + scene.Camera.ViewableArea, new Vector2(5, 25), Color.DeepPink);
+            spriteBatch.DrawString(font, $"Link: {scene.Link.Image.BoundingRect.Bottom} | Circle: {scene.CirclePosition}", new Vector2(5, 5), Color.DeepPink);
+            spriteBatch.DrawString(font, $"Triangle: {scene.RightAngle}", new Vector2(5, 15), Color.DeepPink);
+            spriteBatch.DrawString(font, scene.World.Camera.DisplayRanges + " | " + scene.World.Camera.DisplayBounds + " | " + scene.World.Camera.ViewableArea, new Vector2(5, 25), Color.DeepPink);
+            spriteBatch.DrawString(font, $"sampler: {SceneController.Renderer.SamplerState}, blend: {SceneController.Renderer.BlendState}, rasterizer: {SceneController.Renderer.RasterizerState}, sort mode: {SceneController.Renderer.SpriteSortMode}", new Vector2(5,35),Color.Teal);
         }
 
     }

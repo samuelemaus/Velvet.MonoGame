@@ -121,26 +121,27 @@ namespace Velvet
         {
             if (Text != null)
             {
-                Dimensions = (Font.MeasureString(CasedText) * Scale);
+                boundingRect.Dimensions = (Font.MeasureString(CasedText) * Scale);
             }
 
             else
             {
-                Dimensions = (Dimensions2D.Empty * Scale);
+                boundingRect.Dimensions = (Dimensions2D.Empty);
             }
 
             
             InitializeOrigin();
+            
 
         }
         protected override void InitializeOrigin()
         {
             float x = 0;
-            float y = Dimensions.VerticalCenter;
+            float y = BoundingRect.Dimensions.VerticalCenter;
             switch (Alignment)
             {
                 case TextAlignment.Center:
-                    x = Dimensions.HorizontalCenter;
+                    x = BoundingRect.Dimensions.HorizontalCenter;
 
                     break;
 
@@ -152,7 +153,7 @@ namespace Velvet
 
                 case TextAlignment.Right:
 
-                    x = Dimensions.Width;
+                    x = BoundingRect.Dimensions.Width;
 
                     break;
             }

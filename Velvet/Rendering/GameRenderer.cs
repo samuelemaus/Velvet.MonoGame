@@ -35,9 +35,6 @@ namespace Velvet
                 }
 
 
-
-
-
                 return returnList;
             }
         }
@@ -65,6 +62,7 @@ namespace Velvet
             foreach (var r in Renderers)
             {
                 r.SpriteBatch = new SpriteBatch(GraphicsDevice);
+                
             }
 
             Game.Window.ClientSizeChanged += OnClientSizeChanged;
@@ -150,15 +148,15 @@ namespace Velvet
             foreach (var renderer in Renderers)
             {
                 GraphicsDevice.SetRenderTarget(renderer.RenderTarget);
-                GraphicsDevice.Clear(Color.Black);
+                GraphicsDevice.Clear(Color.Transparent);
                 renderer.DrawSpriteBatch();
                 GraphicsDevice.SetRenderTarget(null);
             }
 
             foreach(var renderer in Renderers)
             {
-                spriteBatch.Begin(SpriteSortMode.Immediate, renderer.BlendState, SamplerState.PointWrap, null, null, null, null);
-                spriteBatch.Draw(renderer.RenderTarget, renderer.RenderPosition, null, Color.White, 0, Vector2.Zero, renderer.TargetScale, SpriteEffects.None, 0);
+                spriteBatch.Begin(renderer.SpriteSortMode, renderer.BlendState, renderer.SamplerState, null, null, null, null);
+                spriteBatch.Draw(renderer.RenderTarget, renderer.RenderPosition, null, Color.White,0, Vector2.Zero, renderer.TargetScale, SpriteEffects.None, 0);
                 spriteBatch.End();
             }
         }
