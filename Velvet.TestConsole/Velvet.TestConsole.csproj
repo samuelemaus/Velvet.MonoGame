@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Velvet.DataIO\Velvet.DataIO.csproj" />
-    <ProjectReference Include="..\Velvet.GameSystems\Velvet.GameSystems.csproj" />
     <ProjectReference Include="..\Velvet.UI\Velvet.UI.csproj" />
     <ProjectReference Include="..\Velvet\Velvet.csproj" />
   </ItemGroup>

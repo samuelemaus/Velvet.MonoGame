@@ -9,7 +9,7 @@ namespace Velvet
 {
     public interface IRenderer2D
     {        
-        RenderTarget2D RenderTarget { get; }
+        RenderTarget2D RenderTarget { get; set; }
         SpriteBatch SpriteBatch { get; set; }
         BlendState BlendState { get; set; }
         SamplerState SamplerState { get; set; }
@@ -22,6 +22,9 @@ namespace Velvet
         void LoadContent();
         void UnloadContent();
         void DrawSpriteBatch();
+        void DrawToRenderTarget(GraphicsDevice graphicsDevice);
+
+        void OnInternalResolutionChanged(object sender, EventArgs e);
 
     }
 }

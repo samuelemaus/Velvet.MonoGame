@@ -27,7 +27,7 @@ namespace Velvet.UI
         
         protected override void InitializeImages()
         {
-            TextImage = new TextImage(DisplayedValue.ToString(), UIController.Renderer.DefaultFont);
+            TextImage = new TextImage(DisplayedValue.ToString(), UIController.Instance.Renderer.DefaultFont);
         }
     }
 }

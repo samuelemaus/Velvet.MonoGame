@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Content;
 namespace Velvet.UI
 {
 
-    public class UIRenderer : IRenderer2D
+    public class UIRenderer : Renderer2D
     {
         public UIRenderer()
         {
@@ -23,81 +23,31 @@ namespace Velvet.UI
             Content = content;
             RenderTarget = renderTarget;
 
+            DrawMethod = DrawCurrentMenu;
+
             if(position == default)
             {
                 RenderPosition = Vector2.Zero;
             }
 
             RenderPosition = position;
-
-            Rectangle bounds = new Rectangle((int)position.X, (int)position.Y, renderTarget.Bounds.Width, renderTarget.Bounds.Height);
-            Bounds = new BoundingRect(bounds);
-
             RendererInitialized = true;
 
+            GameRenderer.Instance.AddRenderer(this);
+
         }
-
-        public bool RendererInitialized { get; private set; }
-
 
         #region//Content
         public ContentManager Content { get; private set; }
-        public RenderTarget2D RenderTarget { get; private set; }
-        public SpriteBatch SpriteBatch { get; set; }
         public SpriteFont DefaultFont { get; private set; }
-        public BlendState BlendState { get; set; } = BlendState.NonPremultiplied;
-        private RasterizerState rasterizerState = RasterizerState.CullNone;
-        public RasterizerState RasterizerState
-        {
-            get
-            {
-                return rasterizerState;
-            }
-
-            set
-            {
-                rasterizerState = value;
-            }
-        }
-        private SamplerState samplerState = SamplerState.PointWrap;
-        public SamplerState SamplerState
-        {
-            get
-            {
-                //if (Camera.ZoomIsInt && Camera.RotationIsNinetyDegreeInterval)
-                //{
-                //    return SamplerState.PointWrap;
-                //}
-
-                //else
-                //{
-                //    return SamplerState.PointClamp;
-                //}
-
-                return samplerState;
-            }
-
-            set
-            {
-                samplerState = value;
-            }
-        }
-
-        public SpriteSortMode SpriteSortMode { get; set; }
-
-        public Vector2 RenderPosition { get; set; } = Vector2.Zero;
-        public BoundingRect Bounds { get; private set; }
-        public Dimensions2D TargetDimensions => new Dimensions2D(RenderTarget.Width, RenderTarget.Height);
-        public float TargetScale => GameRenderer.ScreenResolution.Width / TargetDimensions.Width;
-
         #endregion
 
-        public void LoadContent()
+        public override void LoadContent()
         {
             DefaultFont = UIResources.DefaultFont;
         }
 
-        public void UnloadContent()
+        public override void UnloadContent()
         {
             Content.Unload();
         }
@@ -108,15 +58,18 @@ namespace Velvet.UI
             
         }
 
-
-
-        public void DrawSpriteBatch()
+        public void DrawCurrentMenu()
         {
-            SpriteBatch.Begin(SpriteSortMode, BlendState, SamplerState, null, RasterizerState, null, null);   
-            UIController.CurrentMenu.Draw(SpriteBatch);
+            SpriteBatch.Begin(SpriteSortMode, BlendState, SamplerState, null, RasterizerState, null, null);
+            UIController.Instance.CurrentMenu.Draw(SpriteBatch);
             SpriteBatch.End();
         }
 
+        public override void OnInternalResolutionChanged(object sender, EventArgs e)
+        {
+/*            base.OnInternalResolutionChanged(sender, e);
+*/
+        }
 
         public override string ToString()
         {

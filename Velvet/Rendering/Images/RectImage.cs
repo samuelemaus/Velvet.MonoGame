@@ -183,11 +183,6 @@ namespace Velvet
 
         #region//XNA Methods
 
-        public override void Update(GameTime gameTime)
-        {
-            
-        }
-
 
         protected void DrawRect(SpriteBatch spriteBatch)
         {

@@ -99,6 +99,10 @@ namespace Velvet
         {
             return first.Equals(second) == false;
         }
+
+
+
+
         #endregion
 
         #region//Public Methods
@@ -149,6 +153,11 @@ namespace Velvet
         public static implicit operator Dimensions2D(Vector2 vector2)
         {
             return new Dimensions2D(vector2.X, vector2.Y);
+        }
+
+        public static implicit operator Dimensions2D(int num)
+        {
+            return new Dimensions2D(num, num);
         }
         
 

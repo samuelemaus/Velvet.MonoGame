@@ -107,7 +107,7 @@ namespace Velvet
         #endregion
 
 
-        #region//Draw & Update
+        #region//Draw
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             DrawMethod.Invoke(spriteBatch);
@@ -115,12 +115,6 @@ namespace Velvet
 
         protected abstract DrawDelegate DrawMethod { get; set; }
 
-        
-
-        public virtual void Update(GameTime gameTime)
-        {
-            
-        }
 
         public void Dispose()
         {

@@ -17,12 +17,12 @@ namespace Velvet
 
         #region//Notifying Properties
         private string name;
-        public string Name { get => name; set => SetField(ref name, value); }
+        public string Name { get => name; set => SetFieldAndNotify(ref name, value); }
 
         private int hp;
         public int HP { get => hp; set
             {
-                SetField(ref hp, (int)ValueRange.Enforce(value, HPRange));
+                SetFieldAndNotify(ref hp, (int)ValueRange.Enforce(value, HPRange));
             }
         }
 
@@ -48,11 +48,11 @@ namespace Velvet
                     isDead = false;
                 }
 
-                SetField(ref isDead, isDead);
+                SetFieldAndNotify(ref isDead, isDead);
             }
         }
         private bool wearsGlasses;
-        public bool WearsGlasses { get => wearsGlasses; set => SetField(ref wearsGlasses, value); }
+        public bool WearsGlasses { get => wearsGlasses; set => SetFieldAndNotify(ref wearsGlasses, value); }
 
         
 

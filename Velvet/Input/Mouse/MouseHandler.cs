@@ -58,7 +58,7 @@ namespace Velvet.Input
 
         public Vector2 GetMousePosition()
         {
-            return (CurrentMouseState.Position / 4).Round();
+            return (CurrentMouseState.Position / 2).Round();
             //return CurrentMouseState.CenterPosition;
         }
 

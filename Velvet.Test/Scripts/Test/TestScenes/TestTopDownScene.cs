@@ -57,7 +57,7 @@
 
 //            if (Input.Keyboard.KeyPressed(Keys.B))
 //            {
-//                GameRenderer.ToggleFullScreen();
+//                GameRenderer.Instance.ToggleFullScreen();
 //            }
 
 //            if (Input.Keyboard.KeyPressed(Keys.D))
@@ -168,7 +168,7 @@
 
 //        public Vector2 GetTranslatedMousePosition()
 //        {
-//            Vector2 rounded = (Input.Mouse.CurrentMouseState.CenterPosition / SceneController.Renderer.TargetScale).Round();
+//            Vector2 rounded = (Input.Mouse.CurrentMouseState.CenterPosition / SceneController.Instance.Renderer.TargetScale).Round();
 //            return Camera.Center + Vector2.Transform(rounded, Matrix.Invert(MouseTransform));
 //        }
 
@@ -199,17 +199,17 @@
 //            Beach.Origin = Vector2.Zero;
 //            Beach.CenterPosition = Vector2.Zero;
             
-//            Lucas.CenterPosition = SceneController.Renderer.TargetDimensions.Center;
+//            Lucas.CenterPosition = SceneController.Instance.Renderer.TargetDimensions.Center;
 //            Ocean.CenterPosition = new Vector2(170, 0);
 
 //            LucasDependency = new MovablePositionDependency(Lucas);
 //            MouseDependency = new MethodPositionDependency(GetCreatedRectPosition);
 
-//            /*Camera = new OrthoCamera(SceneController.Renderer.Viewport);*/
+//            /*Camera = new OrthoCamera(SceneController.Instance.Renderer.Viewport);*/
 
 //            Camera.SetPositionDependencyWithInterrupt(LucasDependency, false);
 //            Camera.WorldBounds = new BoundingRect(Beach.BoundingRect.Dimensions.Center, Beach.BoundingRect.Dimensions);
-//            UIController.ChangeMenu(SceneMenu);
+//            UIController.Instance.ChangeMenu(SceneMenu);
 
 //        }
 

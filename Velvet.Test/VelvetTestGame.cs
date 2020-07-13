@@ -55,11 +55,10 @@ namespace Velvet
             int hudWidth = internalWidth * 2;
             int hudHeight = internalHeight * 2;
 
-            UIController.Initialize(Services, Content.RootDirectory, new RenderTarget2D(GraphicsDevice, hudWidth, hudHeight), Vector2.Zero);
-            SceneController.Initialize(Services, "Content/Scenes", new RenderTarget2D(GraphicsDevice, internalWidth, internalHeight), Vector2.Zero);
-            TileSetManager.Initialize(SceneController.Content, "Content/Scenes/Tilesets");
-            GameRenderer.Initialize(this, graphics, new Dimensions2D(internalWidth, internalHeight), new List<IRenderer2D>() { SceneController.Renderer, UIController.Renderer});
-            GameRenderer.SetResolution(GameRenderer.DisplayResolution / 2f);
+            UIController.Instance.Initialize(Services, Content.RootDirectory, new RenderTarget2D(GraphicsDevice, hudWidth, hudHeight), Vector2.Zero);
+            SceneController.Instance.Initialize(Services, "Content/Scenes", new RenderTarget2D(GraphicsDevice, internalWidth, internalHeight), Vector2.Zero);
+            TileSetManager.Initialize(SceneController.Instance.Content, "Content/Scenes/Tilesets");
+            GameRenderer.Instance.SetResolution(GameRenderer.Instance.DisplayResolution / 2f);
 
 
             base.Initialize();
@@ -74,21 +73,19 @@ namespace Velvet
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            GameRenderer.LoadContent();
-            UIController.LoadContent();
+            GameRenderer.Instance.LoadContent();
+            UIController.Instance.LoadContent();
 
-            var DefaultScene = new ZeldaTestScene();
+            GameScene DefaultScene = null;
             //var ZeldaScene = new ZeldaTestScene();
 
 
-            SceneController.LoadContent(DefaultScene);
-            SceneController.GameScenes.Add(DefaultScene);
-            if(DefaultScene is ZeldaTestScene z)
-            {
-                z.GameSettingsMenu = new GameSettingsMenu(this);
-            }
-            
-
+            SceneController.Instance.LoadContent(DefaultScene);
+            SceneController.Instance.GameScenes.Add(DefaultScene);
+            //if(DefaultScene is ZeldaTestScene z)
+            //{
+            //    z.GameSettingsMenu = new GameSettingsMenu(this);
+            //}
             
         }
 
@@ -111,10 +108,8 @@ namespace Velvet
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            UIController.Update(gameTime);
-            SceneController.Update(gameTime);
-            
-
+            UIController.Instance.Update(gameTime);
+            SceneController.Instance.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -124,10 +119,7 @@ namespace Velvet
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-
-            GameRenderer.Draw(spriteBatch);
-
-            base.Draw(gameTime);
+            GameRenderer.Instance.Draw(spriteBatch);
         }
     }
 

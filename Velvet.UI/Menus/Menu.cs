@@ -48,7 +48,7 @@ namespace Velvet.UI
 
         protected void InitializeContent()
         {
-            Content = new ContentManager(UIController.Content.ServiceProvider, RootDirectory);
+            Content = new ContentManager(UIController.Instance.Content.ServiceProvider, RootDirectory);
         }
 
         //protected void ArrangeAsList(IBoundingRect[] boundingRects, IBoundingRect target, Alignment alignment, TextAlignment alignment = TextAlignment.Left)

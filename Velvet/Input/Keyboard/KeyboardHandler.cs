@@ -9,9 +9,6 @@ namespace Velvet.Input
     public class KeyboardHandler : IKeyboardHandler
     {
 
-
-
-
         public KeyboardState CurrentKeyState { get; private set; }
         public KeyboardState PrevKeyState { get; private set; }
 
@@ -19,43 +16,36 @@ namespace Velvet.Input
 
         public bool KeyPressed(Keys key)
         {
-            bool value = false;
-
             if (CurrentKeyState.IsKeyDown(key) && PrevKeyState.IsKeyUp(key))
             {
-                value = true;
+                return true;
             }
 
-            return value;
-
-
+            return false;
         }
         public bool KeyDown(Keys key)
         {
-            bool value = false;
-
             if (CurrentKeyState.IsKeyDown(key))
             {
-                value = true;
+                return true;
             }
 
-            return value;
+            return false;
         }
         public bool KeyReleased(Keys key)
         {
-            bool value = false;
-
             if (CurrentKeyState.IsKeyUp(key) && PrevKeyState.IsKeyDown(key))
             {
-                value = true;
+                return true;
             }
 
-            return value;
-
-
+            return false;
         }
 
+        //public bool KeyHeld(Keys key, double secondsHeld)
+        //{
 
+        //}
 
         #endregion
 

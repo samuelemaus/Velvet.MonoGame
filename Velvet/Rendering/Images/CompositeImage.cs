@@ -107,13 +107,13 @@ namespace Velvet
 
 
 
-        public override void Update(GameTime gameTime)
-        {
-            foreach(var img in Images)
-            {
-                img.Update(gameTime);
-            }
-        }
+        //public override void Update(GameTime gameTime)
+        //{
+        //    foreach(var img in Images)
+        //    {
+        //        img.Update(gameTime);
+        //    }
+        //}
 
         protected virtual void DrawImages(SpriteBatch spriteBatch)
         {

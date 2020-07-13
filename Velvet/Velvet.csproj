@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Folder Include="Audio\" />
+    <Folder Include="Rendering\Animation\" />
   </ItemGroup>
 
 </Project>

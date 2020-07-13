@@ -15,16 +15,16 @@ namespace Velvet.UI
         public static void LoadContent(ContentManager _content)
         {
             content = _content;
-            DefaultFont = content.Load<SpriteFont>("Fonts/Monaco");
-            SmallFont = content.Load<SpriteFont>("Fonts/SpecialMessage");
-            LargeFont = content.Load<SpriteFont>("Fonts/MonacoLarge");
+            //DefaultFont = content.Load<SpriteFont>("Fonts/Monaco");
+            //SmallFont = content.Load<SpriteFont>("Fonts/SpecialMessage");
+            //LargeFont = content.Load<SpriteFont>("Fonts/MonacoLarge");
             
 
-            InitializeWindowTextures();
-            InitializeSmallControlTextures();
+            //InitializeWindowTextures();
+            //InitializeSmallControlTextures();
 
 
-            Effect = content.Load<Effect>("Images/Effects/HighlightEffect");
+            //Effect = content.Load<Effect>("Images/Effects/HighlightEffect");
 
         }
 
@@ -33,6 +33,7 @@ namespace Velvet.UI
         public static SpriteFont DefaultFont;
         public static SpriteFont SmallFont;
         public static SpriteFont LargeFont;
+        public static SpriteFont DialogueFont;
 
         #region//UI Textures
 

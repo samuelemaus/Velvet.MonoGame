@@ -11,9 +11,6 @@ namespace Velvet
 
     public interface IBindingSource
     {
-        PropertyInfo[] GetProperties();
-        PropertyInfo IdentifyProperty(string propertyName);
-
         event SendValuePropertyChangedEventHandler PropertyChanged;
         void OnPropertySetByControl(object sender, object value, PropertyChangedEventArgs e);
 

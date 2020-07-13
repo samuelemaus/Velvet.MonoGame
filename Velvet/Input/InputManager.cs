@@ -4,12 +4,13 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Linq;
+using Velvet.GameSystems;
 
 namespace Velvet.Input
 {
     public delegate bool KeyHoldDelegate(Keys key);
 
-    public class InputManager : IInputManager
+    public class InputManager : SceneComponent, IInputManager
     {
 
         #region//Factory
@@ -60,7 +61,7 @@ namespace Velvet.Input
         public IInputHandler[] InputHandlers { get; protected set; }
 
         #region//Public Methods
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             foreach(var handler in InputHandlers)
             {

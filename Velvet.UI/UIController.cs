@@ -10,14 +10,16 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Velvet.UI
 {
-    public static class UIController
+    public class UIController
     {
-        #region//Content
-        public static ContentManager Content { get; private set; }
-        public static UIRenderer Renderer { get; private set; }
 
-        private static Menu currentMenu;
-        public static Menu CurrentMenu { get { return currentMenu; }
+
+        #region//Content
+        public ContentManager Content { get; private set; }
+        public UIRenderer Renderer { get; private set; }
+
+        private Menu currentMenu;
+        public Menu CurrentMenu { get { return currentMenu; }
             set
             {
                 currentMenu = value;
@@ -25,14 +27,31 @@ namespace Velvet.UI
             }
         }
 
-        public static List<Menu> Menus = new List<Menu>();
+        public List<Menu> Menus = new List<Menu>();
 
-        
+        #region//Singleton
+
+        private static UIController instance;
+
+        public static UIController Instance
+        {
+            get
+            {
+                if(instance == null)
+                {
+                    instance = new UIController();
+                }
+
+                return instance;
+            }
+        }
+
+        #endregion
 
         #endregion
 
         #region//Public Methods
-        public static void Initialize(IServiceProvider serviceProvider, string rootDirectory, RenderTarget2D renderTarget, Vector2 position = default)
+        public void Initialize(IServiceProvider serviceProvider, string rootDirectory, RenderTarget2D renderTarget, Vector2 position = default)
         {
             Content = new ContentManager(serviceProvider, rootDirectory);
 
@@ -40,7 +59,7 @@ namespace Velvet.UI
 
         }
 
-        public static void ChangeMenu(Menu next)
+        public void ChangeMenu(Menu next)
         {
             if(next != currentMenu)
             {
@@ -54,7 +73,7 @@ namespace Velvet.UI
             }            
         }
 
-        public static void LoadContent()
+        public void LoadContent()
         {
             UIResources.LoadContent(Content);
 
@@ -62,7 +81,7 @@ namespace Velvet.UI
 
         }
 
-        public static void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             CurrentMenu.Update(gameTime);
         }

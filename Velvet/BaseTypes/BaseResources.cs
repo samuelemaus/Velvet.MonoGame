@@ -15,12 +15,12 @@ namespace Velvet
             RectImage.DefaultRectImageTexture = content.Load<Texture2D>(RectImage.DefaultPath);
 
 
-            ParticleEffect = content.Load<Effect>("Images/Effects/ParticleEffect");
-            GaussianBlur = content.Load<Effect>("Images/Effects/GaussianBlur");
-            Clouds = content.Load<Effect>("Images/Effects/Clouds");
-            BloomExtract = content.Load<Effect>("Images/Effects/BloomExtract");
-            BloomCombine = content.Load<Effect>("Images/Effects/BloomCombine");
-            HighlightEffect = content.Load<Effect>("Images/Effects/HighlightEffect");
+            //ParticleEffect = content.Load<Effect>("Images/Effects/ParticleEffect");
+            //GaussianBlur = content.Load<Effect>("Images/Effects/GaussianBlur");
+            //Clouds = content.Load<Effect>("Images/Effects/Clouds");
+            //BloomExtract = content.Load<Effect>("Images/Effects/BloomExtract");
+            //BloomCombine = content.Load<Effect>("Images/Effects/BloomCombine");
+            //HighlightEffect = content.Load<Effect>("Images/Effects/HighlightEffect");
 
 
 

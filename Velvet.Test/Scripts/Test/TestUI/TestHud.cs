@@ -179,7 +179,7 @@
 //            {
 //                resToggle = !resToggle;
 
-//                GameRenderer.SetResolution(toggledRes);
+//                GameRenderer.Instance.SetResolution(toggledRes);
 //            }
 
             
@@ -199,7 +199,7 @@
 
 //                else
 //                {
-//                    return GameRenderer.DisplayResolution;
+//                    return GameRenderer.Instance.DisplayResolution;
 //                }
 //            }
 //        }
@@ -212,7 +212,7 @@
 //                Thread.Sleep(10);
 //            }
 
-//            Camera = SceneController.Renderer.Camera;
+//            Camera = SceneController.Instance.Renderer.Camera;
 
 //            TemporaryImages = new List<IDrawableObject>();
 
@@ -220,11 +220,11 @@
 
 //            PeopleTextImages = new TextImage[People.Length];
 
-//            font = UIController.Renderer.DefaultFont;
+//            font = UIController.Instance.Renderer.DefaultFont;
 //            smallFont = UIResources.SmallFont;
 //            largeFont = UIResources.LargeFont;
 
-//            Background = new RectImage(UIController.Renderer.Bounds)
+//            Background = new RectImage(UIController.Instance.Renderer.Bounds)
 //            {
 //                Color = Color.DarkBlue,
 //                Alpha = 0.5f
@@ -239,7 +239,7 @@
 //                Alignment = alignment
 //            };
 
-//            PeopleTextImages[0].AnchorTo(UIController.Renderer.Bounds, Alignment.TopRight, RectRelativity.Inside, 5);
+//            PeopleTextImages[0].AnchorTo(UIController.Instance.Renderer.Bounds, Alignment.TopRight, RectRelativity.Inside, 5);
             
 
 //            for (int i = 1; i < People.Length; i++)
@@ -266,7 +266,7 @@
 //            Person1TextView = new TextView();
 
 //            Person1TextView.BindTo(People[0], People[0].HP, nameof(TestPerson.HP));
-//            Person1TextView.Image.CenterPosition = UIController.Renderer.TargetDimensions.Center;
+//            Person1TextView.Image.CenterPosition = UIController.Instance.Renderer.TargetDimensions.Center;
 
 //            TextImage t = Person1TextView.Image as TextImage;
 
@@ -333,7 +333,7 @@
 //                spriteBatch.DrawString(font, $"TargReached: {Camera.ScrollTool.TargetReached}, Scrolling: {Camera.ScrollTool.Scrolling}", new Vector2(0, 20), randomColors[0]);
 //                spriteBatch.DrawString(font, $"PosDep: {Camera.PositionDependency}, Active: {Camera.PositionDependency.DependencyActive}", new Vector2(0, 35), randomColors[0]);
 //                spriteBatch.DrawString(font, $"ViewableArea: {Camera.ViewableArea}, WorldBounds: {Camera.WorldBounds}", new Vector2(0, 50), randomColors[5]);
-//                spriteBatch.DrawString(font, $"GraphicsDevice: {GameRenderer.GraphicsDevice.Adapter.Description}, GD Viewport: {GameRenderer.GraphicsDevice.Viewport}", new Vector2(0, 65), randomColors[5]);
+//                spriteBatch.DrawString(font, $"GraphicsDevice: {GameRenderer.Instance.GraphicsDevice.Adapter.Description}, GD Viewport: {GameRenderer.Instance.GraphicsDevice.Viewport}", new Vector2(0, 65), randomColors[5]);
 //            }
 //        }
 
@@ -356,11 +356,11 @@
 //        }
 //        private void DrawResolutions(SpriteBatch spriteBatch)
 //        {
-//            spriteBatch.DrawString(font, $"{GameRenderer.ScreenResolution}", new Vector2(5, 5), randomColors[3]);
+//            spriteBatch.DrawString(font, $"{GameRenderer.Instance.ScreenResolution}", new Vector2(5, 5), randomColors[3]);
 
-//            for (int i = 0; i < GameRenderer.AvailableScreenResolutions.Count; i++)
+//            for (int i = 0; i < GameRenderer.Instance.AvailableScreenResolutions.Count; i++)
 //            {
-//                spriteBatch.DrawString(font, $"{GameRenderer.AvailableScreenResolutions[i].ToString()}", new Vector2(5, (i+2)*15), randomColors[3]);
+//                spriteBatch.DrawString(font, $"{GameRenderer.Instance.AvailableScreenResolutions[i].ToString()}", new Vector2(5, (i+2)*15), randomColors[3]);
 //            }
 //        }
 //        private void DrawTextView(SpriteBatch spriteBatch)

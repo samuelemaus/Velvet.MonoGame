@@ -10,7 +10,7 @@ namespace Velvet.Rendering
     {
         Matrix Transform { get; }
         Viewport Viewport { get; }
-        Vector2 Center { get; }
+        Vector2 InitialCenterPoint { get; }
         float Zoom { get; }
         ValueRange ZoomRange { get; }
 

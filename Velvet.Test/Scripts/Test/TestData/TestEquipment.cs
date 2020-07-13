@@ -11,13 +11,13 @@ namespace Velvet
     public class TestEquipment : GameData
     {
         private string eqpname;
-        public string EquipmentName { get => eqpname; set => SetField(ref eqpname, value); }
+        public string EquipmentName { get => eqpname; set => SetFieldAndNotify(ref eqpname, value); }
 
         private int cost;
-        public int Cost { get => cost; set => SetField(ref cost, value); }
+        public int Cost { get => cost; set => SetFieldAndNotify(ref cost, value); }
 
         private int str;
-        public int Strength { get => str; set => SetField(ref str, value); }
+        public int Strength { get => str; set => SetFieldAndNotify(ref str, value); }
 
 
     }

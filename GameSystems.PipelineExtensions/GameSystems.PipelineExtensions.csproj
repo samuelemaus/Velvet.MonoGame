@@ -51,10 +51,6 @@
     <Compile Include="Tileset\TSXTypeWriter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Velvet.GameSystems\Velvet.GameSystems.csproj">
-      <Project>{3e972935-d7db-4cde-be5c-7fbc019328d1}</Project>
-      <Name>Velvet.GameSystems</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Velvet\Velvet.csproj">
       <Project>{27bb17a7-5735-4a4e-aa68-01e5ee52dfcd}</Project>
       <Name>Velvet</Name>
