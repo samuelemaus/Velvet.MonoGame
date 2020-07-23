@@ -23,6 +23,17 @@ namespace Velvet
         {
             return s.Substring(s.LastIndexOf('.'));
         }
+
+        public static string GetRoot(this Assembly assembly)
+        {
+            return assembly.Location.Substring(0, assembly.Location.LastIndexOf("\\"));
+        }
+
+        public static string GetFullPath(string path)
+        {
+            return (Assembly.GetExecutingAssembly().GetRoot() + "\\" + path).Replace("/", "\\");
+        }
+
         public static List<string> DebugMemberInfoList<T>(this T obj) where T : class
         {
             var returnList = new List<string>();
@@ -98,7 +109,7 @@ namespace Velvet
             return (int)(Math.Ceiling((Math.Log(n) / Math.Log(2)))) == (int)(Math.Floor(((Math.Log(n) / Math.Log(2)))));
         }
 
-        public static ValueRange RotationRange = new ValueRange(0, (float)6.283184);
+        public static ValueRange RotationRange = new ValueRange(0, 6.283184f);
 
         private static float maxRotation = (float)(Math.PI * 2);
 

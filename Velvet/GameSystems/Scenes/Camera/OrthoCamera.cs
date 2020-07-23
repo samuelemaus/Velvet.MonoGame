@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Velvet.Rendering;
+using Velvet.EntityComponentSystem;
 
 namespace Velvet.GameSystems
 {
@@ -246,18 +247,18 @@ namespace Velvet.GameSystems
 
         #region//PositionDependencyMethods
 
-        float highestPosition =>      (WorldBounds.Top + ViewableArea.Dimensions.VerticalCenter);
-        float lowestPosition =>       (WorldBounds.Bottom - ViewableArea.Dimensions.VerticalCenter);
-        float leftMostPosition =>     (WorldBounds.Left + ViewableArea.Dimensions.HorizontalCenter);
-        float rightMostPosition =>    (WorldBounds.Right - ViewableArea.Dimensions.HorizontalCenter);
+        int highestPosition =>      (int)(WorldBounds.Top + ViewableArea.Dimensions.VerticalCenter);
+        int lowestPosition =>       (int)(WorldBounds.Bottom - ViewableArea.Dimensions.VerticalCenter);
+        int leftMostPosition =>     (int)(WorldBounds.Left + ViewableArea.Dimensions.HorizontalCenter);
+        int rightMostPosition =>    (int)(WorldBounds.Right - ViewableArea.Dimensions.HorizontalCenter);
 
         public ValueRange HorizontalRange => new ValueRange(leftMostPosition, rightMostPosition);
         public ValueRange VerticalRange => new ValueRange(highestPosition, lowestPosition);
 
         private void GetCameraPositionOverride(ref Vector2 position, ValueRange horizontalBoundary, ValueRange verticalBoundary)
         {
-            float x = ValueRange.Enforce(PositionDependency.PositionOverride.X, horizontalBoundary);
-            float y = ValueRange.Enforce(PositionDependency.PositionOverride.Y, verticalBoundary);
+            float x = ValueRange.Enforce(/*(int)*/PositionDependency.PositionOverride.X, horizontalBoundary);
+            float y = ValueRange.Enforce(/*(int)*/PositionDependency.PositionOverride.Y, verticalBoundary);
 
             switch (PositionDependency.OverrideType)
             {
@@ -279,7 +280,7 @@ namespace Velvet.GameSystems
 
         public override string ToString()
         {
-            return $"Pos: {Position}, Bounds: (({WorldBounds})), VP: (({Viewport}))";
+            return $"Z: {Zoom}, Pos: {Position}, Bounds: (({WorldBounds})), VP: (({Viewport}))";
         }
 
         public string DisplayRanges => $"HR(({HorizontalRange})) | VR(({VerticalRange}))";

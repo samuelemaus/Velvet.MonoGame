@@ -13,6 +13,13 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Fonts/ds_bios.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/ds_bios.spritefont
+
 #begin Fonts/gba-fe-dialogue.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

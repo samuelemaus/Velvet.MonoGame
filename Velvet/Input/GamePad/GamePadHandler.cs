@@ -20,6 +20,8 @@ namespace Velvet.Input
         public GamePadState PrevGamePadState { get; protected set; }
         public GamePadState CurrentGamePadState { get; protected set; }
 
+        public uint UpdateInterval { get; set; } = 1;
+
         private void UpdateTimeInactive(double delta)
         {
 

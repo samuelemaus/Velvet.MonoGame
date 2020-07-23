@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Velvet.EntityComponentSystem;
 
 namespace Velvet.GameSystems
 {
-    public abstract class CameraEffect : IUpdate
+    public abstract class CameraEffect : UpdateableComponent
     {
         public OrthoCamera Camera { get; protected set; }
-        public abstract void Update(GameTime gameTime);
 
         private bool effectActive;
         public bool EffectActive

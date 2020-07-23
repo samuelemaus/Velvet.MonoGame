@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Velvet.GameSystems
 {
-    public class SceneTransition
+    public class SceneTransition : SceneComponent
     {
         #region//Content
         public virtual float TransitionSpeedMilliseconds { get; set; } = 650f;

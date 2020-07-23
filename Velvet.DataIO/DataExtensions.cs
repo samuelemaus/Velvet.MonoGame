@@ -14,6 +14,7 @@ namespace Velvet.DataIO
     {
         public static ConsoleLogger Logger = new ConsoleLogger();
 
+
         public static Type GetUnderlyingType(this MemberInfo member)
         {
             switch (member.MemberType)
@@ -54,8 +55,6 @@ namespace Velvet.DataIO
         public static void SetMemberValue(this MemberInfo info, object target, object value)
         {
             MemberTypes type = info.MemberType;
-
-
 
             if(type == MemberTypes.Property)
             {

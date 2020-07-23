@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 namespace Velvet
 {
 
-
-
-
     //Text
     public enum InfoDensity { Default, Cozy, Spacious, SetByValue }
 

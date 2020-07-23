@@ -25,7 +25,7 @@ namespace Velvet.DataIO
 
         public ILogger Logger = new ConsoleLogger();
         public DataReader Reader { get; set; } = new DataReader();
-        public DataConverter Converter { get; set; } = new DataConverter();
+        public DataConverter Converter { get; set; }
 
         public T[] LoadObjects<T>(string path) where T : class, new()
         {
@@ -52,8 +52,11 @@ namespace Velvet.DataIO
 
         public static string GetFullPath(string entry)
         {
-            
-            return FullDirectoryPath + entry;
+            string reformattedEntry = entry.Replace("/", "\\");
+
+            string asmPath = Assembly.GetExecutingAssembly().Location; 
+
+            return FullDirectoryPath + reformattedEntry;
         }
 
         public static List<string> FileExtensions()

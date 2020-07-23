@@ -159,6 +159,11 @@ namespace Velvet
         {
             return new Dimensions2D(num, num);
         }
+
+        public static implicit operator Dimensions2D(Rectangle rectangle)
+        {
+            return new Dimensions2D(rectangle.Width, rectangle.Height);
+        }
         
 
         

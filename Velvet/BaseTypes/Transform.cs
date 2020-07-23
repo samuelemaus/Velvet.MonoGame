@@ -5,10 +5,8 @@ using System.Text;
 
 namespace Velvet
 {
-    public interface IMovable
+    public class TransformDependency
     {
-        Vector2 Position { get; set; }
-        PositionDependency PositionDependency { get; set; }
 
     }
 }

@@ -53,6 +53,9 @@ namespace Velvet.Input
         public bool HandlerActive => TimeInactive >= ActiveThreshold;
         public double TimeInactive { get; protected set; }
         public double ActiveThreshold { get; set; } = 10000d;
+
+        public uint UpdateInterval => throw new NotImplementedException();
+
         private void UpdateTimeInactive(double delta)
         {
 

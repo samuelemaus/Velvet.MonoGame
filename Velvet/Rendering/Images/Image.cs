@@ -106,7 +106,6 @@ namespace Velvet
 
         #endregion
 
-
         #region//Draw
         public virtual void Draw(SpriteBatch spriteBatch)
         {

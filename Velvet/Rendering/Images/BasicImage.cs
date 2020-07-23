@@ -16,7 +16,7 @@ namespace Velvet
         public BasicImage()
         {
             DrawMethod = DrawTexture;
-            Alpha = 1f;
+            Alpha = 1;
             Color = Color.White;
             
         }

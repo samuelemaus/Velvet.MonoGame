@@ -11,7 +11,7 @@ namespace Velvet
         public virtual RenderTarget2D RenderTarget { get; set; }
         public virtual SpriteBatch SpriteBatch { get; set; }
         public virtual BlendState BlendState { get; set; } = BlendState.AlphaBlend;
-        public virtual SamplerState SamplerState { get; set; } = SamplerState.PointWrap;
+        public virtual SamplerState SamplerState { get; set; } = SamplerState.PointClamp;
         public virtual RasterizerState RasterizerState { get; set; }
         public virtual SpriteSortMode SpriteSortMode { get; set; }
 

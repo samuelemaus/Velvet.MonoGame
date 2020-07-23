@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Input;
 using Velvet.Input;
 using System.Xml.Linq;
+using Velvet.EntityComponentSystem;
 
 namespace Velvet.GameSystems
 {
@@ -89,14 +90,6 @@ namespace Velvet.GameSystems
         protected virtual void InitializeCamera()
         {
             Camera = new OrthoCamera(SceneController.Instance.Renderer.Viewport);
-        }
-
-        protected virtual List<GameObject> GameObjects { get; set; } = new List<GameObject>();
-        protected virtual List<SceneComponent> SceneComponents { get; set; } = new List<SceneComponent>();
-
-        public virtual void AddSceneComponent<T>(T sceneComponent) where T : SceneComponent
-        {
-            this.SceneComponents.Add(sceneComponent);
         }
 
         

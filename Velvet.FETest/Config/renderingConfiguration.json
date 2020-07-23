@@ -1,0 +1,13 @@
+{
+    "renderingConfiguration":{
+
+        "defaultInternalResolution":{
+            "width":864,
+            "height":486 
+        },
+        "synchronizeWithVerticalRetrace":true,
+        "preferMultiSampling":false,
+        "defaultWindowedResolution":"halfDisplay"
+
+    }
+}

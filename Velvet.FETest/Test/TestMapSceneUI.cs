@@ -32,6 +32,7 @@ namespace Velvet.FETest
         SpriteFont general;
         SpriteFont dialogue;
         SpriteFont monaco;
+        SpriteFont ds;
 
         SpriteFont drawFont;
         Color FontColor = Color.White;
@@ -135,7 +136,7 @@ namespace Velvet.FETest
 
         private string GetMouseInfo()
         {
-            return $"transform: {SceneData.Input.Mouse.GetMousePosition()} | raw: {SceneData.Input.Mouse.CurrentMouseState.Position}";
+            return $"transform: {SceneData.GetTranslatedMousePosition()} | raw: {SceneData.Input.Mouse.CurrentMouseState.Position}";
         }
 
         private string GetMouseInfo2()
@@ -183,7 +184,7 @@ namespace Velvet.FETest
         }
         private List<String> GetDefaultList()
         {
-            return new List<string>() {GetMouseInfo(), GetMouseInfo2(), GetCameraInfo(), GetTilesViewable(), GetResolutionInfo() };
+            return new List<string>() {GetMouseInfo(), GetMouseInfo2(), GetCameraInfo(), $"div: {SceneData.ScreenToWorld / SceneData.Camera.Position}", GetTileMapInfo(), GetTilesViewable(), GetResolutionInfo() };
         }
 
         private List<String> activeList;
@@ -208,13 +209,14 @@ namespace Velvet.FETest
             general = UIController.Instance.Content.Load<SpriteFont>("Fonts/gba-fe-general");
             dialogue = UIController.Instance.Content.Load<SpriteFont>("Fonts/gba-fe-dialogue");
             monaco = UIController.Instance.Content.Load<SpriteFont>("Fonts/Monaco");
+            ds = UIController.Instance.Content.Load<SpriteFont>("Fonts/ds_bios");
             InitializeBackground();
             GameRenderer.Instance.InternalResolutionChanged += this.OnInternalResolutionChanged;
 
             Background.SetOriginByReferencePoint(Alignment.TopCentered);
 
             activeList = new List<string>();
-            drawFont = monaco;
+            drawFont = ds;
             resolutionMultiplier = GetInitialMultiplier(GameRenderer.Instance.InternalResolution);
 
         }

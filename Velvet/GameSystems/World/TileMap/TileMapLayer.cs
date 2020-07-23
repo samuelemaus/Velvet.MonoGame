@@ -14,16 +14,19 @@ namespace Velvet.GameSystems
     {
         protected TileMap parentMap;
         protected Texture2D sourceTexture;
+        public RenderTarget2D renderedStaticTiles { get; protected set; }
         public int ID { get; protected set; }
         public string Name { get; protected set; }
-        public int Width { get; protected set; }
-        public int Height { get; protected set; }
+        public int WidthInTiles { get; protected set; }
+        public int HeightInTiles { get; protected set; }
+
+        public int LayerWidth { get; protected set; }
+        public int LayerHeight { get; protected set; }
 
         //TODO: Other TileLayerFormats
         public TileLayerFormat TileLayerFormat { get; private set; } = TileLayerFormat.CSV;
 
-        public int TileCount => Width * Height;
-
+        public int TileCount => WidthInTiles * HeightInTiles;
 
         #region//IDrawableComposite
 
@@ -37,13 +40,17 @@ namespace Velvet.GameSystems
 
         }
 
-        TileImage[] tiles;
+        TileImageRect[] tiles;
 
         public TileMapLayer(TileMap parent, XElement layerData)
         {
             parentMap = parent;
-            Width = int.Parse(layerData.Attribute(widthKey).Value);
-            Height = int.Parse(layerData.Attribute(heightKey).Value);
+            WidthInTiles = int.Parse(layerData.Attribute(widthKey).Value);
+            HeightInTiles = int.Parse(layerData.Attribute(heightKey).Value);
+
+            LayerWidth = WidthInTiles * parentMap.TileWidth;
+            LayerHeight = HeightInTiles * parentMap.TileHeight;
+            
             Name = layerData.Attribute(nameKey).Value;
             ID = int.Parse(layerData.Attribute(idKey).Value);
             
@@ -53,7 +60,7 @@ namespace Velvet.GameSystems
             Position = Vector2.Zero;
             Origin = Vector2.Zero;
 
-            boundingRect = new BoundingRect(0, 0, Width * parentMap.TileWidth, Height * parentMap.TileHeight);
+            boundingRect = new BoundingRect(0, 0, WidthInTiles * parentMap.TileWidth, HeightInTiles * parentMap.TileHeight);
 
             //images = new BasicImage[TileCount];
             //InitializeImages(tileIndexes);
@@ -94,7 +101,7 @@ namespace Velvet.GameSystems
             for (int i = 1; i < images.Length; i++)
             {
                 images[i].Position = GetPositionFromIndex(rowIndex, columnIndex); 
-                if(columnIndex < (Width - 1))
+                if(columnIndex < (WidthInTiles - 1))
                 {
                     columnIndex++;
                 }
@@ -112,7 +119,7 @@ namespace Velvet.GameSystems
 
         protected void InitializeTiles(int[] tileIndexes)
         {
-            tiles = new TileImage[tileIndexes.Length];
+            tiles = new TileImageRect[tileIndexes.Length];
             TextureAtlas textureAtlas = parentMap.Tileset.TextureAtlas;
             sourceTexture = textureAtlas.SourceTexture;
 
@@ -121,10 +128,10 @@ namespace Velvet.GameSystems
 
             for (int i = 0; i < tiles.Length; i++)
             {
-                tiles[i] = new TileImage(tileIndexes[i], rowIndex, columnIndex, GetPositionFromIndex(rowIndex, columnIndex), textureAtlas[tileIndexes[i] - 1].SourceRect);
+                tiles[i] = new TileImageRect(tileIndexes[i], rowIndex, columnIndex, GetDestinationRectFromIndex(rowIndex, columnIndex), textureAtlas[tileIndexes[i] - 1].SourceRect);
                 
 
-                if (columnIndex < (Width - 1))
+                if (columnIndex < (WidthInTiles - 1))
                 {
                     columnIndex++;
                 }
@@ -135,6 +142,8 @@ namespace Velvet.GameSystems
                     rowIndex++;
                 }
             }
+
+            renderedStaticTiles = DrawStaticTilesToRenderTarget();
         }
 
 
@@ -146,12 +155,41 @@ namespace Velvet.GameSystems
             return new Vector2(x, y);
         }
 
+        protected Rectangle GetDestinationRectFromIndex(int row, int column)
+        {
+            int x = column * parentMap.TileWidth;
+            int y = row * parentMap.TileHeight;
+
+            return new Rectangle(x, y, parentMap.TileWidth, parentMap.TileHeight);
+
+        }
+
         public void DrawTiles(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < tiles.Length; i++)
             {
-                spriteBatch.Draw(sourceTexture, tiles[i].Position.Round(), tiles[i].SourceRect, Color * Alpha, Rotation, Vector2.Zero, Scale, SpriteEffect, LayerDepth);
+                //spriteBatch.Draw(sourceTexture, tiles[i].Position/*.Round()*/, tiles[i].SourceRect, Color * Alpha, Rotation, Vector2.Zero, Scale, SpriteEffect, LayerDepth);
+                spriteBatch.Draw(sourceTexture, tiles[i].DestinationRect, tiles[i].SourceRect, Color * Alpha, Rotation, Vector2.Zero, SpriteEffect, LayerDepth);
             }
+        }
+
+        public void DrawRenderTarget(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(renderedStaticTiles, renderedStaticTiles.Bounds, null, Color, Rotation, Vector2.Zero, SpriteEffect, LayerDepth);
+        }
+
+        private RenderTarget2D DrawStaticTilesToRenderTarget()
+        {
+            SpriteBatch spriteBatch = new SpriteBatch(GameRenderer.Instance.GraphicsDevice);
+
+            RenderTarget2D renderTarget = new RenderTarget2D(GameRenderer.Instance.GraphicsDevice, LayerWidth, LayerHeight);
+
+            GameRenderer.Instance.GraphicsDevice.SetRenderTarget(renderTarget);
+            spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.PointClamp, null, RasterizerState.CullNone, null, null);
+            DrawTiles(spriteBatch);
+            spriteBatch.End();
+
+            return renderTarget;
         }
 
         public void LoadContent()

@@ -6,10 +6,12 @@ using System.Reflection;
 using System.Linq;
 using System.IO;
 using System.Runtime.InteropServices;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Velvet.DataIO
 {
-    public class DataConverter
+    public abstract class DataConverter
     {
 
 
@@ -88,7 +90,6 @@ namespace Velvet.DataIO
 
 
             return objects;
-
         }
         public T CreateObjectFromData<T>(RawFileData data, int lineIndex) where T : class, new()
         {
@@ -118,6 +119,10 @@ namespace Velvet.DataIO
 
             return value;
         }
+
+        public abstract T CreateObject<T>(string filePath);
+        public abstract void WriteToFile(string outputFilePath);
+
         private Type[] GetObjectTypeMap<T>(DataInfoIndex<T> index, RawFileData data) where T : class
         {
             Type[] types = new Type[data.NumMembers];

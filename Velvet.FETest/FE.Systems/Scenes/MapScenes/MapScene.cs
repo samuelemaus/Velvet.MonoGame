@@ -9,6 +9,7 @@ using Velvet.GameSystems;
 using Microsoft.Xna.Framework.Input;
 using C3.XNA;
 using System.IO;
+using Velvet.EntityComponentSystem;
 
 namespace Velvet.FETest.FE.Systems.Scenes
 {
@@ -46,8 +47,13 @@ namespace Velvet.FETest.FE.Systems.Scenes
 
         public Vector2 GetTranslatedMousePosition()
         {
-            Vector2 rounded = (Input.Mouse.CurrentMouseState.Position / SceneController.Instance.Renderer.TargetScale).Round();
-            return Camera.InitialCenterPoint + Vector2.Transform(rounded, Matrix.Invert(MouseTransform));
+            Vector2 rounded = ((Input.Mouse.CurrentMouseState.Position - (SceneController.Instance.Renderer.RenderPosition * 2)) / SceneController.Instance.Renderer.TargetScale).Round();
+
+            Vector2 transform = Vector2.Transform(rounded, Matrix.Invert(MouseTransform));
+
+            Vector2 value = Camera.Position + transform;
+
+            return value;
         }
 
         public Matrix MouseTransform
@@ -74,7 +80,7 @@ namespace Velvet.FETest.FE.Systems.Scenes
         {
             get
             {
-                return Camera.ScreenToWorld(Input.Mouse.CurrentMouseState.Position);
+                return Camera.ScreenToWorld(Camera.Position);
             }
         }
 
@@ -198,10 +204,7 @@ namespace Velvet.FETest.FE.Systems.Scenes
             GoodGuyRectImage.Draw(spriteBatch);
             EnemyRectImage.Draw(spriteBatch);
             DrawCross(Camera.Position, 16, Color.HotPink, spriteBatch);
-            DrawCross(GetTranslatedMousePosition(), 16, Color.Turquoise, spriteBatch);
-            DrawCross(Camera.ScreenToWorld(Input.Mouse.CurrentMouseState.Position) / SceneController.Instance.Renderer.TargetScale, 16, Color.Gold, spriteBatch);
-            DrawCross(Camera.ScreenToWorld(Input.Mouse.CurrentMouseState.Position) / SceneController.Instance.Renderer.TargetScale, 16, Color.Black, spriteBatch);
-
+            DrawCross(GetTranslatedMousePosition(), 12, Color.Turquoise, spriteBatch);
         }
 
         public override void Update(GameTime gameTime)
@@ -237,6 +240,12 @@ namespace Velvet.FETest.FE.Systems.Scenes
             string gameRendererPath = $"{basePath}\\{nameof(GameRenderer)}{ext}";
 
             GameRenderer.Instance.BaseRenderTarget.SaveAsPng(new FileStream(gameRendererPath, FileMode.Create), GameRenderer.Instance.BaseRenderTarget.Width, GameRenderer.Instance.BaseRenderTarget.Height);
+
+            string tileLayerPath = $"{basePath}\\{nameof(FETileMapLayer)}{ext}";
+
+            Texture2D layerTexture = Map.TileMap.tileMapLayers[0].renderedStaticTiles;
+
+            layerTexture.SaveAsPng(new FileStream(tileLayerPath, FileMode.Create), layerTexture.Width, layerTexture.Height);
 
         }
 

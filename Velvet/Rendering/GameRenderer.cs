@@ -51,6 +51,7 @@ namespace Velvet
 
         #region//Resolutions
         public Dimensions2D OutputResolution => new Dimensions2D(Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight);
+        private Dimensions2D bufferedWindowSize;
         public Dimensions2D DisplayResolution => new Dimensions2D(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
         private Dimensions2D internalResolution;
         public Dimensions2D InternalResolution
@@ -117,6 +118,7 @@ namespace Velvet
         {
             DefaultInternalResolution = internalResolution;
             DefaultAspectRatio = InternalAspectRatio;
+
         }
         private void InitializeRenderers()
         {
@@ -142,14 +144,17 @@ namespace Velvet
 
         public void ToggleFullScreen()
         {
-            //bool buffer = ConstrainToAspectRatio;
-            //ConstrainToAspectRatio = false;
+            if (!Graphics.IsFullScreen)
+            {
+                bufferedWindowSize = Game.Window.ClientBounds;
+            }
+
             Graphics.ToggleFullScreen();
-            //ConstrainToAspectRatio = buffer;
 
         }
-        public void SetResolution(Dimensions2D dimensions)
+        public void SetOutputResolution(Dimensions2D dimensions)
         {
+
             Graphics.PreferredBackBufferWidth = (int)dimensions.Width;
             Graphics.PreferredBackBufferHeight = (int)dimensions.Height;
             BaseRenderTarget = new RenderTarget2D(GraphicsDevice, (int)dimensions.Width, (int)dimensions.Height);
@@ -183,14 +188,14 @@ namespace Velvet
                 {
                     float width = Game.Window.ClientBounds.Height * InternalAspectRatio;
 
-                    SetResolution(new Dimensions2D(width, Game.Window.ClientBounds.Height));
+                    SetOutputResolution(new Dimensions2D(width, Game.Window.ClientBounds.Height));
                 }
 
                 else
                 {
                     float height = Game.Window.ClientBounds.Width * (InternalResolution.Height / InternalResolution.Width);
 
-                    SetResolution(new Dimensions2D(Game.Window.ClientBounds.Width, height));
+                    SetOutputResolution(new Dimensions2D(Game.Window.ClientBounds.Width, height));
 
                     
                 }
@@ -200,6 +205,18 @@ namespace Velvet
                     RenderPosition = GetFullScreenRenderPosition();
                 }
 
+            }
+
+            else
+            {
+                Dimensions2D resolution = Game.Window.ClientBounds;
+
+                if (!Graphics.IsFullScreen)
+                {
+                    resolution = bufferedWindowSize;
+                }
+
+                SetOutputResolution(resolution);
             }
 
         }
@@ -260,7 +277,7 @@ namespace Velvet
         {
 
             //Draw to individual Renderer's RenderTargets
-            for (int i = 0; i < Renderers.Count; i++)
+            for (int i = 0, len = Renderers.Count; i < len; i++)
             {
                 Renderers[i].DrawToRenderTarget(GraphicsDevice);
             }
@@ -270,7 +287,7 @@ namespace Velvet
             GraphicsDevice.Clear(Color.Transparent);
 
             //Draw contents of individual Renderer's RenderTargets to BaseRenderTarget
-            for (int i = 0; i < Renderers.Count; i++)
+            for (int i = 0, len = Renderers.Count; i < len; i++)
             {
                 spriteBatch.Begin(Renderers[i].SpriteSortMode, Renderers[i].BlendState, Renderers[i].SamplerState, null, null, null, null);
                 spriteBatch.Draw(Renderers[i].RenderTarget, Renderers[i].RenderPosition, null, Color.White, 0, Vector2.Zero, Renderers[i].TargetScale, SpriteEffects.None, 0);
@@ -279,7 +296,7 @@ namespace Velvet
 
             //Draw BaseRenderTarget
             GraphicsDevice.SetRenderTarget(null);
-            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, RasterizerState.CullNone, null, null);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, null, RasterizerState.CullNone, null, null);
             spriteBatch.Draw(BaseRenderTarget, RenderPosition, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
             spriteBatch.End();
 

@@ -35,4 +35,35 @@ namespace Velvet.GameSystems
 
         }
     }
+
+    public struct TileImageRect
+    {
+
+        private int id;
+        private int x;
+        private int y;
+        private Rectangle destinationRect;
+        private Rectangle sourceRect;
+        private Dimensions2D dimensions;
+
+        public int ID => id;
+        public int X => x;
+        public int Y => y;
+        public Rectangle DestinationRect => destinationRect;
+        public Rectangle SourceRect => sourceRect;
+        public Dimensions2D Dimensions => dimensions;
+
+
+        public TileImageRect(int _id, int _x, int _y, Rectangle _destinationRect, Rectangle _sourceRect)
+        {
+            id = _id;
+            x = _x;
+            y = _y;
+            destinationRect = _destinationRect;
+            sourceRect = _sourceRect;
+            dimensions = sourceRect.ToDimensions2D();
+
+
+        }
+    }
 }

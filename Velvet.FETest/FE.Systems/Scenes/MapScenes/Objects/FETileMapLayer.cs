@@ -23,8 +23,10 @@ namespace Velvet.FETest
         public FETileMapLayer(FETileMap parent, XElement layerData)
         {
             parentMap = parent;
-            Width = int.Parse(layerData.Attribute(widthKey).Value);
-            Height = int.Parse(layerData.Attribute(heightKey).Value);
+            WidthInTiles = int.Parse(layerData.Attribute(widthKey).Value);
+            HeightInTiles = int.Parse(layerData.Attribute(heightKey).Value);
+            LayerWidth = WidthInTiles * parentMap.TileWidth;
+            LayerHeight = HeightInTiles * parentMap.TileHeight;
             Name = layerData.Attribute(nameKey).Value;
 
             XElement dataElement = layerData.Element(dataKey);
@@ -40,8 +42,8 @@ namespace Velvet.FETest
             Position = Vector2.Zero;
             Origin = Vector2.Zero;
 
-            boundingRect = new BoundingRect(0, 0, Width * parentMap.TileWidth, Height * parentMap.TileHeight);
-            DrawMethod = DrawTiles;
+            boundingRect = new BoundingRect(0, 0, WidthInTiles * parentMap.TileWidth, HeightInTiles * parentMap.TileHeight);
+            DrawMethod = DrawRenderTarget;
             InitializeTiles(tileIndexes);
 
         }

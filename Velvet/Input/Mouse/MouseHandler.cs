@@ -49,6 +49,8 @@ namespace Velvet.Input
         public float ScrollWheelMovementVertical => CurrentMouseState.ScrollWheelValue - PrevMouseState.ScrollWheelValue;
         public float ScrollWheelMovementHorizontal => CurrentMouseState.HorizontalScrollWheelValue - PrevMouseState.HorizontalScrollWheelValue;
 
+        public uint UpdateInterval => throw new NotImplementedException();
+
         private bool pointerMainButtonDown()
         {
             return this.BtnDown(MouseButtons.Left);

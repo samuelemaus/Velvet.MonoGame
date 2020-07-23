@@ -154,6 +154,7 @@ namespace Velvet
             }
         }
 
+
         public static int Enforce(int _value, int minValue, int maxValue, bool rollOver = false)
         {
             if (_value < minValue)

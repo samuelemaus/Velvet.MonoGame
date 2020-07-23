@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Velvet.GameSystems
+namespace Velvet.Rendering.Images
 {
-    public class ComponentList
+    public class DrawableComponent
     {
+
 
     }
 }

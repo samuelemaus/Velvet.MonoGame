@@ -7,6 +7,7 @@ namespace Velvet
 {
     public interface IUpdate
     {
+        uint UpdateInterval { get; }
         void Update(GameTime gameTime);
     }
 }

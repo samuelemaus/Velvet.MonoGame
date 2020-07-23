@@ -15,7 +15,7 @@ namespace Velvet.GameSystems
     public class TileMap
     {
         public Tileset Tileset { get; protected set; }
-        protected TileMapLayer[] tileMapLayers;
+        public TileMapLayer[] tileMapLayers;
         public BoundingRect BoundingRect { get; protected set; }
         public string Name { get; set; }
         public int Width { get; protected set; }
@@ -39,13 +39,8 @@ namespace Velvet.GameSystems
 
         public void LoadContent()
         {
-            //foreach(var layer in tileMapLayers)
-            //{
-            //    layer.LoadContent();
-            //}
             LoadTileMapData(GetTileMapFile(FilePath));
             BoundingRect = new BoundingRect(0, 0, Width * TileWidth, Height * TileHeight);
-
         }
 
         public void UnloadContent()
